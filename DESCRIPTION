@@ -1,0 +1,16 @@
+Package: distortr
+Title: What the Package Does (one line, title case)
+Version: 0.0.0.9000
+Authors@R: person("Monica", "Alexander", email = "monicaalexander@berkeley.edu", role = c("aut", "cre"))
+Description: Functions to simulate distortions based on ARMA, P-Spline and Gaussian processes.
+Depends:
+    R (>= 3.3.1),
+    splines,
+    ggplot2,
+    MASS
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Suggests:
+    tidyverse
+RoxygenNote: 5.0.1

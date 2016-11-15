@@ -14,7 +14,13 @@ simulateFluctuations(nyears, prop.sample = 1, method, params, obs.err = T,
 
 \item{method}{string to indicate type of method from which to simulate. Options are: "ar", "arma", "splines", "gp".}
 
-\item{params}{list of parameters needed to simulate from method specified}
+\item{params}{list of parameters needed to simulate from method specified. Each method takes different parameter arguments. See documentation for each process for more information.
+\itemize{
+\item{AR: specify nyears, rho, sigma}
+\item{ARMA: specify nyears, phi, theta, sigma.ar}
+\item{Splines: specify x.i, degree}
+\item{GP: specify nyears, tau, l}
+}}
 
 \item{obs.err}{whether or not to include observational error. Default is TRUE.}
 

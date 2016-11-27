@@ -7,7 +7,9 @@ Depends:
     R (>= 3.3.1),
     splines,
     ggplot2,
-    MASS
+    MASS,
+    R2jags,
+    rjags
 License: MIT
 Encoding: UTF-8
 LazyData: true

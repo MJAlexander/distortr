@@ -78,7 +78,7 @@ simulateFluctuations <- function(
     x.t <- 1:nyears
     res <- GetSplines(x.t)
     K <- length(res$knots.k)
-    mu.t <- GetPSplines(res$B.ik, K, sigma.alpha, order, seed)
+    mu.t <- GetPSplines(res$B.ik, sigma.alpha, order, seed)
     set.seed(seed+3)
     if(obs.err){
       y.t <- mu.t + rnorm(nyears, 0, sigma.y)

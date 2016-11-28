@@ -4,10 +4,12 @@
 \alias{plotResults}
 \title{Plot results from MCMC estimation}
 \usage{
-plotResults(res.df, method, order = NULL, save.plot = F,
+plotResults(data.df, res.df, method, order = NULL, save.plot = F,
   save.file.path = "output")
 }
 \arguments{
+\item{data.df}{A data frame of x values and data values}
+
 \item{res.df}{A data frame of x values, estimates and uncertainty intervals}
 
 \item{method}{The method of smoothing to implement (choices: ar, arma, splines, gp)}
@@ -25,8 +27,17 @@ A plot of time series data and estimates.
 Plot results from MCMC estimation
 }
 \examples{
+#' nyears <- 100
+prop.sample <- 0.7
+obs.err <- T
+sigma.y <- 0.5
+seed <- 123
+method <- 'splines'
+params <- list(sigma.alpha = 1, order = 1)
+res <- simulateFluctuations(nyears, prop.sample, method, params, obs.err, sigma.y)
+mod <- runMCMC(df = res, nyears = 100, method = "splines", order = 1, nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
 df.mu <- getResults(mod, method = "splines")
-plotResults(df.mu, method = "splines", order = 1)
+plotResults(res, df.mu, method = "splines", order = 1)
 }
 \seealso{
 \code{\link{runMCMC, getResults}}

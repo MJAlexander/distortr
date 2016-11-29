@@ -27,19 +27,20 @@ A plot of time series data and estimates.
 Plot results from MCMC estimation
 }
 \examples{
-#' nyears <- 100
+nyears <- 100
 prop.sample <- 0.7
-obs.err <- T
+obs.err <- TRUE
 sigma.y <- 0.5
 seed <- 123
 method <- 'splines'
 params <- list(sigma.alpha = 1, order = 1)
 res <- simulateFluctuations(nyears, prop.sample, method, params, obs.err, sigma.y)
-mod <- runMCMC(df = res, nyears = 100, method = "splines", order = 1, nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
+mod <- runMCMC(df = res, nyears = 100, method = "splines", order = 1,
+nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
 df.mu <- getResults(mod, method = "splines")
 plotResults(res, df.mu, method = "splines", order = 1)
 }
 \seealso{
-\code{\link{runMCMC, getResults}}
+\code{\link{runMCMC}, \link{getResults}}
 }
 

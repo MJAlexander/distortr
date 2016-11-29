@@ -4,7 +4,7 @@
 \alias{getResults}
 \title{Get results from MCMC estimation}
 \usage{
-getResults(mod, method, order = NULL, alpha = 0.05)
+getResults(mod, method, order = NULL, alpha.level = 0.05)
 }
 \arguments{
 \item{mod}{A JAGS model object}
@@ -13,7 +13,7 @@ getResults(mod, method, order = NULL, alpha = 0.05)
 
 \item{order}{The order of splines penalization (either 1 or 2)}
 
-\item{alpha}{Significance level. Default is 5\%.}
+\item{alpha.level}{Significance level. Default is 5\%.}
 }
 \value{
 A data frame of x values, estimates and uncertainty intervals.
@@ -21,12 +21,7 @@ A data frame of x values, estimates and uncertainty intervals.
 \description{
 Get results from MCMC estimation
 }
-\examples{
-mod <- runMCMC(df = res, nyears = 100, method = "splines", order = 1,
-nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
-df.mu <- getResults(mod, method = "splines")
-}
 \seealso{
-\code{\link{runMCMC, plotResults}}
+\code{\link{runMCMC}, \link{plotResults}}
 }
 

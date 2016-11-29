@@ -13,7 +13,7 @@
 #' @param model.file.path Text file which contains the model to be fitted. If \code{NULL}, the text file is drawn from the \code{models} folder.
 #' @export
 #' @return A JAGS model object
-#' @seealso \code{\link{getResults}, \link{plotResults}}
+#' @seealso \code{\link{getdfults}, \link{plotdfults}}
 #' @examples
 #' nyears <- 100
 #' prop.sample <- 0.7
@@ -22,8 +22,8 @@
 #' seed <- 123
 #' method <- 'splines'
 #' params <- list(sigma.alpha = 1, order = 1)
-#' res <- simulateFluctuations(nyears, prop.sample, method, params, obs.err, sigma.y)
-#' mod <- runMCMC(df = res, nyears = 100, method = "splines", order = 1,
+#' df <- simulateFluctuations(nyears, prop.sample, method, params, obs.err, sigma.y)
+#' mod <- runMCMC(df = df, nyears = 100, method = "splines", order = 1,
 #' nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
 
 runMCMC <- function(df,
@@ -40,7 +40,7 @@ runMCMC <- function(df,
     if(is.null(model.file.path)){
       model.file.path <- "R/models/model_ar.txt"
     }
-    jags.data <- list(y.i = res$y, gett.i = res$t, nyears=nyears, n = length(res$t))
+    jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t))
     parnames <- c("sigma", "rho", "sigma.y", "mu.t")
   }
 
@@ -48,7 +48,7 @@ runMCMC <- function(df,
     if(is.null(model.file.path)){
       model.file.path <- "R/models/model_arma.txt"
     }
-    jags.data <- list(y.i = res$y, gett.i = res$t, nyears=nyears, n = length(res$t))
+    jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t))
     parnames <- c("sigma.ar", "phi", "theta", "sigma.y", "mu.t")
   }
 
@@ -70,7 +70,7 @@ runMCMC <- function(df,
     sp <- GetSplines(x.t)
     K <- length(sp$knots.k)
     B.tk <- sp$B.ik
-    jags.data <- list(y.i = res$y, gett.i = res$t, nyears=nyears, n = length(res$t), K = K, B.tk = B.tk)
+    jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t), K = K, B.tk = B.tk)
     parnames <- c("alpha.k", "sigma.alpha", "sigma.y", "mu.t")
   }
 
@@ -82,7 +82,7 @@ runMCMC <- function(df,
     Dist <- rdist(1:nyears)
     ## currently using the reparameterized version
     parnames <- c("beta0","sigma.y","sigma.g","p","mu.y", "G")
-    jags.data <- list(y.i = res$y, gett.i = res$t, nyears=nyears, n = length(res$t),kappa=2, Dist = Dist)
+    jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t),kappa=2, Dist = Dist)
   }
 
   ## run the model

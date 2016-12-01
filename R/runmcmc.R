@@ -2,7 +2,7 @@
 #'
 #' Run MCMC estimation of time series using JAGS.
 #'
-#' @param df A dataframe of x and y observations
+#' @param df A dataframe of x and y observations, and standard errors around ys
 #' @param nyears number of years of observations
 #' @param method The method of smoothing to implement (choices: ar, arma, splines, gp)
 #' @param order The order of splines penalization (either 1 or 2)
@@ -23,6 +23,7 @@
 #' method <- 'splines'
 #' params <- list(sigma.alpha = 1, order = 1)
 #' df <- simulateFluctuations(nyears, prop.sample, method, params, obs.err, sigma.y)
+#' df$se <- 1
 #' mod <- runMCMC(df = df, nyears = 100, method = "splines", order = 1,
 #' nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
 
@@ -40,7 +41,7 @@ runMCMC <- function(df,
     if(is.null(model.file.path)){
       model.file.path <- "R/models/model_ar.txt"
     }
-    jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t))
+    jags.data <- list(y.i = df$y, gett.i = df$t, tau.y = 1/(df$se)^2, nyears=nyears, n = length(df$t))
     parnames <- c("sigma", "rho", "sigma.y", "mu.t")
   }
 
@@ -48,7 +49,7 @@ runMCMC <- function(df,
     if(is.null(model.file.path)){
       model.file.path <- "R/models/model_arma.txt"
     }
-    jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t))
+    jags.data <- list(y.i = df$y, gett.i = df$t, tau.y = 1/(df$se)^2,nyears=nyears, n = length(df$t))
     parnames <- c("sigma.ar", "phi", "theta", "sigma.y", "mu.t")
   }
 
@@ -63,7 +64,7 @@ runMCMC <- function(df,
     sp <- GetSplines(x.t)
     K <- length(sp$knots.k)
     B.tk <- sp$B.ik
-    jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t), K = K, B.tk = B.tk)
+    jags.data <- list(y.i = df$y, gett.i = df$t, tau.y = 1/(df$se)^2, nyears=nyears, n = length(df$t), K = K, B.tk = B.tk)
     parnames <- c("alpha.k", "sigma.alpha", "sigma.y", "mu.t")
   }
 
@@ -75,7 +76,7 @@ runMCMC <- function(df,
     Dist <- rdist(1:nyears)
     ## currently using the reparameterized version
     parnames <- c("beta0","sigma.y","sigma.g","p","mu.y", "G")
-    jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t),kappa=2, Dist = Dist)
+    jags.data <- list(y.i = df$y, gett.i = df$t, tau.y = 1/(df$se)^2, nyears=nyears, n = length(df$t),kappa=2, Dist = Dist)
   }
 
   ## run the model

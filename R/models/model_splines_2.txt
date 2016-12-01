@@ -1,4 +1,4 @@
-model{ 
+model{
 
 for(t in 1:nyears){
 mu.t[t] <- inprod(alpha.k, B.tk[t,])
@@ -6,14 +6,14 @@ mu.t[t] <- inprod(alpha.k, B.tk[t,])
 
 # data
 for (i in 1:n){
- y.i[i]~dnorm(mu.t[gett.i[i]],tau.y)
+ y.i[i]~dnorm(mu.t[gett.i[i]],tau.y[i])
 }
 
-tau.y <- pow(sigma.y, -2)
-sigma.y ~ dunif(0,3)
+#tau.y <- pow(sigma.y, -2)
+#sigma.y ~ dunif(0,3)
 alpha.k[1] ~ dnorm(0, 0.01)
 alpha.k[2] ~ dnorm(0, 0.01)
-for (k in 3:K){ 
+for (k in 3:K){
   alpha.k[k] ~ dnorm(2*alpha.k[k-1] - alpha.k[k-2], tau.alpha)
 }
 tau.alpha <- pow(sigma.alpha, -2)

@@ -109,7 +109,8 @@ runModelValidation <- function(df,
     coverage.s <- c(coverage.s, mean(in.ui))
     intscores.s <- c(intscores.s, mean(int.scores))
   }
-  return(list(rmse= rmse.s, coverage = coverage.s, int.score = intscores.s))
+  if(leave.out.method == "random") return(list(rmse= rmse.s, coverage = coverage.s, int.score = intscores.s))
+  if(leave.out.method == "recent") return(list(rmse= rmse.s, coverage = coverage.s, int.score = intscores.s, df.res = df.mu.lo, df.res.full = df.mu.full))
 }
 
 

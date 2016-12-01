@@ -40,8 +40,8 @@ sigma.y <- 0.5
 seed <- 123
 method <- 'splines'
 params <- list(sigma.alpha = 1, order = 1)
-res <- simulateFluctuations(nyears, prop.sample, method, params, obs.err, sigma.y)
-mod <- runMCMC(df = res, nyears = 100, method = "splines", order = 1,
+df <- simulateFluctuations(nyears, prop.sample, method, params, obs.err, sigma.y)
+mod <- runMCMC(df = df, nyears = 100, method = "splines", order = 1,
 nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
 }
 \seealso{

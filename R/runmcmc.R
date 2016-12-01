@@ -13,7 +13,7 @@
 #' @param model.file.path Text file which contains the model to be fitted. If \code{NULL}, the text file is drawn from the \code{models} folder.
 #' @export
 #' @return A JAGS model object
-#' @seealso \code{\link{getdfults}, \link{plotdfults}}
+#' @seealso \code{\link{getResults}, \link{plotResults}}
 #' @examples
 #' nyears <- 100
 #' prop.sample <- 0.7

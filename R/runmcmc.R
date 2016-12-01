@@ -70,7 +70,7 @@ runMCMC <- function(df,
 
   if(method=="gp"){
     if(is.null(model.file.path)){
-      model.file.path <- "R/models/model_gp_4.txt"
+      model.file.path <- "R/models/model_gp.txt"
     }
     ## need to calculate distance matrix
     Dist <- rdist(1:nyears)

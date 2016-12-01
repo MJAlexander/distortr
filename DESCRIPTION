@@ -9,7 +9,8 @@ Depends:
     ggplot2,
     MASS,
     R2jags,
-    rjags
+    rjags,
+    fields
 License: MIT
 Encoding: UTF-8
 LazyData: true

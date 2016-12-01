@@ -2,6 +2,7 @@
 #'
 #' @param data.df A data frame of x values and data values, with standard errors
 #' @param res.df A data frame of x values, estimates and uncertainty intervals
+#' @param res2.df A data frame of x values, estimates and uncertainty intervals. Default is NULL
 #' @param method The method of smoothing to implement (choices: ar, arma, splines, gp)
 #' @param order The order of splines penalization (either 1 or 2)
 #' @param maintitle Title of plot
@@ -25,7 +26,7 @@
 #' df.mu <- getResults(mod, method = "splines")
 #' plotResults(res, df.mu, method = "splines", order = 1)
 
-plotResults <- function(data.df, res.df,
+plotResults <- function(data.df, res.df, res2.df = NULL,
                         method,
                         order = NULL,
                         maintitle = NULL,
@@ -42,6 +43,10 @@ plotResults <- function(data.df, res.df,
     geom_line(data = res.df, aes(x = time, y = median), color = "red")+
     geom_ribbon(data=res.df,aes(x=time,y=NULL,ymin=lower, ymax=upper), alpha = 0.2, fill = "red")+
     ggtitle(maintitle)
+  if(!is.null(res2.df)){
+    p <- p + geom_line(data = res2.df, aes(x = time, y = median), color = "blue")+
+      geom_ribbon(data=res2.df,aes(x=time,y=NULL,ymin=lower, ymax=upper), alpha = 0.2, fill = "blue")
+  }
   print(p)
   if(save.plot==T){
     cat("Saving plot.\n ")

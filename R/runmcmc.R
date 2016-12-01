@@ -56,15 +56,8 @@ runMCMC <- function(df,
     if(is.null(order)){
       stop("Order of penalization must be specified.")
     }
-    if(order==1){
-      if(is.null(model.file.path)){
-        model.file.path <- "R/models/model_splines_1.txt"
-      }
-    }
-    if(order==2){
-      if(is.null(model.file.path)){
-        model.file.path <- "R/models/model_splines_2.txt"
-      }
+    if(is.null(model.file.path)){
+      model.file.path <- paste0("R/models/model_splines_", order,".txt")
     }
     x.t <- 1:nyears
     sp <- GetSplines(x.t)

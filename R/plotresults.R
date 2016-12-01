@@ -4,6 +4,7 @@
 #' @param res.df A data frame of x values, estimates and uncertainty intervals
 #' @param method The method of smoothing to implement (choices: ar, arma, splines, gp)
 #' @param order The order of splines penalization (either 1 or 2)
+#' @param maintitle Title of plot
 #' @param save.plot Whether or not to save plot. Default is \code{FALSE}
 #' @param save.file.path Directory to save file
 #' @export
@@ -26,13 +27,15 @@
 plotResults <- function(data.df, res.df,
                         method,
                         order = NULL,
-                        save.plot = F,
+                        maintitle = NULL,
+                        save.plot = T,
                         save.file.path = "output"){
   if(method=="splines" & is.null(order)) stop("Order of penalization must be specified.")
   # plot results
   p <- ggplot(data = data.df, aes(x = t, y = y)) + geom_point() + theme_bw()+
-    geom_line(data = df.mu, aes(x = time, y = median), color = "red")+
-    geom_ribbon(data=df.mu,aes(x=time,y=NULL,ymin=lower, ymax=upper), alpha = 0.2, fill = "red")
+    geom_line(data = res.df, aes(x = time, y = median), color = "red")+
+    geom_ribbon(data=res.df,aes(x=time,y=NULL,ymin=lower, ymax=upper), alpha = 0.2, fill = "red")+
+    ggtitle(maintitle)
   print(p)
   if(save.plot==T){
     cat("Saving plot.\n ")

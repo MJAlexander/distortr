@@ -31,6 +31,15 @@ If the most recent observations are left-out, the results are also returned, whi
 An example workflow:
 
 ```R
+# install
+library(tidyverse)
+devtools::install_github("MJAlexander/distortr")
+library(distortr)
+
+# check out help files
+?simulateFluctuations
+?GetAR
+
 # Simulate AR(1) process over 100 years, with 80% of sample observed
 # Set the parameters 
 nyears <- 100

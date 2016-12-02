@@ -1,6 +1,16 @@
 # distortr
 This package contains functions to simulate time series of distortions, and fit and validate models. Both the simulation and model fits can be based on one or a combination of ARMA, P-splines and Gaussian processes. 
 
+## How to install
+In R:
+```R
+# install
+library(tidyverse)
+devtools::install_github("MJAlexander/distortr")
+library(distortr)
+```
+
+
 ## Simulation
 
 Simulated time series of data can be created following one of these processes:
@@ -31,11 +41,6 @@ If the most recent observations are left-out, the results are also returned, whi
 An example workflow:
 
 ```R
-# install
-library(tidyverse)
-devtools::install_github("MJAlexander/distortr")
-library(distortr)
-
 # check out help files
 ?simulateFluctuations
 ?GetAR

@@ -3,8 +3,6 @@
 #' @param data.df A data frame of x values and data values, with standard errors
 #' @param res.df A data frame of x values, estimates and uncertainty intervals
 #' @param res2.df A data frame of x values, estimates and uncertainty intervals. Default is NULL
-#' @param method The method of smoothing to implement (choices: ar, arma, splines, gp)
-#' @param order The order of splines penalization (either 1 or 2)
 #' @param maintitle Title of plot
 #' @param plot.se Whether or not to plot standard errors
 #' @param save.plot Whether or not to save plot. Default is \code{FALSE}
@@ -32,8 +30,7 @@ plotResults <- function(data.df, res.df, res2.df = NULL,
                         maintitle = NULL,
                         plot.se = T,
                         save.plot = T,
-                        save.file.name = paste0("output/plots/", method, order,".pdf")){
-  if(method=="splines" & is.null(order)) stop("Order of penalization must be specified.")
+                        save.file.name = "output/plots/myplot.pdf"){
   # plot results
   p <- ggplot(data = data.df, aes(x = t, y = y))
   if(plot.se==T){
@@ -53,4 +50,5 @@ plotResults <- function(data.df, res.df, res2.df = NULL,
     dir.create(file.path("output/plots/"), showWarnings = FALSE)
     ggsave(filename = save.file.name, plot = p)
   }
+  return(p)
 }

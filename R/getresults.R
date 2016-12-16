@@ -2,7 +2,6 @@
 #'
 #' @param mod A JAGS model object
 #' @param method The method of smoothing to implement (choices: ar, arma, splines, gp)
-#' @param order The order of splines penalization (either 1 or 2)
 #' @param alpha.level Significance level. Default is 5\%.
 #' @export
 #' @return A data frame of x values, estimates and uncertainty intervals.
@@ -10,7 +9,6 @@
 
 getResults <- function(mod,
                        method,
-                       order = NULL,
                        alpha.level = 0.05){
   # get out the mu estimates
   if(method %in% c("ar", "arma", "splines")){

@@ -41,7 +41,7 @@ runMCMC <- function(df,
     if(is.null(model.file.path)){
       model.file.path <- "R/models/model_ar.txt"
     }
-    jags.data <- list(y.i = df$y, gett.i = df$t, tau.y = 1/(df$se)^2, nyears=nyears, n = length(df$t))
+    jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t), tau.y = 1/(df$se)^2)
     parnames <- c("sigma", "rho", "sigma.y", "mu.t")
   }
 

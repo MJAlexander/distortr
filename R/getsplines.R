@@ -77,6 +77,11 @@ GetPSplines <- function(B.ik,
   alpha.k <- rep(NA, K)
   set.seed(seed)
   alpha.k[1] <- rnorm(1, 0, sigma.alpha)
+  if(order==0){
+    for(k in 2:K){
+      alpha.k[k] <- rnorm(1, 0, sigma.alpha)
+    }
+  }
   if(order==1){
     for(k in 2:K){
       alpha.k[k] <- rnorm(1, alpha.k[k-1], sigma.alpha)

@@ -10,12 +10,13 @@
 #' \item{GP: specify nyears, tau, l}
 #' }
 #' @param nyears length of period to visualize covariance structure
+#' @param return.values return values instead of plot; default is set to F
 #' @export
 #' @return A plot of covariance between points. Covariance is calculated relative to x = 0 and standardised so that variance = 1 (so should be called correlation!).
 #' @examples
 #' plotCovariance(method = "splines", params = list(sigma = 0.5, sigma.alpha = 0.5, order = 1))
 
-plotCovariance <- function(method, params, nyears = 10){
+plotCovariance <- function(method, params, nyears = 10, return.values = F){
   for (i in 1:length(params)){
     assign(names(params)[i], params[[i]])
   }
@@ -81,5 +82,12 @@ plotCovariance <- function(method, params, nyears = 10){
       geom_line() + theme_bw() + xlab("x") + ylab("covariance") + ggtitle(paste0("Covariance between points for ", method))
 
   }
-  return(pt)
+  if(return.values==T){
+    res.df = data.frame(x = seq(-nyears,nyears, by = 0.1), y = y)
+    return(res.df)
+  }
+  else{
+    return(pt)
+  }
+
 }

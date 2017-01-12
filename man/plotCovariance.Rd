@@ -4,7 +4,7 @@
 \alias{plotCovariance}
 \title{Plot covariance}
 \usage{
-plotCovariance(method, params, nyears = 10)
+plotCovariance(method, params, nyears = 10, return.values = F)
 }
 \arguments{
 \item{method}{string to indicate type of method from which to simulate. Options are: "ar", "arma", "splines", "gp".}
@@ -18,6 +18,8 @@ plotCovariance(method, params, nyears = 10)
 }}
 
 \item{nyears}{length of period to visualize covariance structure}
+
+\item{return.values}{return values instead of plot; default is set to F}
 }
 \value{
 A plot of covariance between points. Covariance is calculated relative to x = 0 and standardised so that variance = 1 (so should be called correlation!).

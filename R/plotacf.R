@@ -1,6 +1,6 @@
 #' Plot sample autocorrelation function of time series
 #'
-#' Plot sample ACF. Allows for missing values
+#' Plot sample ACF. The function is different to standard R function as it allows for missing values
 #' @param df A data frame of x values and data values, with standard errors
 #' @param nyears number of years of observation period
 #' @export

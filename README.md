@@ -63,6 +63,9 @@ df$se <- 1
 ggplot(data = df, aes(x = t, y = y)) + geom_point() + theme_bw()+ 
   geom_errorbar(data=df,aes(x=t,y=NULL,ymin=y-2*se, ymax=y+2*se), width=0.2) 
 
+# Plot sample ACF function
+plotACF(df, nyears)
+
 # Fit first-order penalized splines 
 mod <- runMCMC(df = df, nyears = 100, method = "splines", order = 1, 
               nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
@@ -70,6 +73,10 @@ mod <- runMCMC(df = df, nyears = 100, method = "splines", order = 1,
 df.mu <- getResults(mod, method = "splines")
 plotResults(df, df.mu, method = "splines", order = 1, 
             maintitle = "AR(1) data with splines fit", save.plot = F)
+
+# plot shape of covariance of fitted values 
+mod.params <- list(sigma.alpha = mod$BUGSoutput$summary[c("sigma.alpha"),1], sigma = 1, order = 1)
+plotCovariance(method = "splines", params = mod.params)
 
 # Run a validation, leaving out most recent 20% of data
 rs <- runModelValidation(df = df, nyears = 100, method = "splines", order = 1,

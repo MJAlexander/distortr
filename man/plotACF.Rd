@@ -15,7 +15,7 @@ plotACF(df, nyears)
 A plot of the sample autocorrelation function, with 95\% confidence intervals.
 }
 \description{
-Plot sample ACF. Allows for missing values
+Plot sample ACF. The function is different to standard R function as it allows for missing values
 }
 \examples{
 nyears <- 50

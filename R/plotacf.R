@@ -23,7 +23,12 @@ plotACF <- function(df, nyears){
 
   y.na <- rep(NA, nyears)
   for(i in 1:length(t.na)){
-    y.na[i] <- df$y[df$t==t.na[i]]
+    if(is.na(t.na[i])){
+      y.na[i] <- NA
+    }
+    else{
+      y.na[i] <- df$y[df$t==t.na[i]]
+    }
   }
 
   y.bar <- mean(y.na, na.rm=T)

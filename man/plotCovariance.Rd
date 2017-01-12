@@ -20,7 +20,7 @@ plotCovariance(method, params, nyears = 10)
 \item{nyears}{length of period to visualize covariance structure}
 }
 \value{
-A plot of covariance between points. Covariance is calculated relative to x = 0 and standardised so that variance = 1.
+A plot of covariance between points. Covariance is calculated relative to x = 0 and standardised so that variance = 1 (so should be called correlation!).
 }
 \description{
 Plot covariance between points given specified method

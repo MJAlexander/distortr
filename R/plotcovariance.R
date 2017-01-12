@@ -11,7 +11,7 @@
 #' }
 #' @param nyears length of period to visualize covariance structure
 #' @export
-#' @return A plot of covariance between points. Covariance is calculated relative to x = 0 and standardised so that variance = 1.
+#' @return A plot of covariance between points. Covariance is calculated relative to x = 0 and standardised so that variance = 1 (so should be called correlation!).
 #' @examples
 #' plotCovariance(method = "splines", params = list(sigma = 0.5, sigma.alpha = 0.5, order = 1))
 

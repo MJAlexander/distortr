@@ -20,7 +20,7 @@ Simulated time series of data can be created following one of these processes:
 * Splines regression (unpenalized, first-order penalized, second-order penalized)
 * Gaussian process regression
 
-The various parameters associated with each function can be specified, and then the time series are simulated using the `simulateFluctuations` function. This returns a dataframe with `x` and `y` values. 
+The various parameters associated with each function can be specified, and then the time series are simulated using the `simulateFluctuations` function. This returns a dataframe with `x` and `y` values. The sample autocorrelation function of the `y` values can be plotted using `plotACF`.
 
 ## Model fitting
 

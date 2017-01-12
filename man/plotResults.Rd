@@ -4,21 +4,24 @@
 \alias{plotResults}
 \title{Plot results from MCMC estimation}
 \usage{
-plotResults(data.df, res.df, method, order = NULL, save.plot = F,
-  save.file.path = "output")
+plotResults(data.df, res.df, res2.df = NULL, method, order = NULL,
+  maintitle = NULL, plot.se = T, save.plot = T,
+  save.file.name = "output/plots/myplot.pdf")
 }
 \arguments{
-\item{data.df}{A data frame of x values and data values}
+\item{data.df}{A data frame of x values and data values, with standard errors}
 
 \item{res.df}{A data frame of x values, estimates and uncertainty intervals}
 
-\item{method}{The method of smoothing to implement (choices: ar, arma, splines, gp)}
+\item{res2.df}{A data frame of x values, estimates and uncertainty intervals. Default is NULL}
 
-\item{order}{The order of splines penalization (either 1 or 2)}
+\item{maintitle}{Title of plot}
+
+\item{plot.se}{Whether or not to plot standard errors}
 
 \item{save.plot}{Whether or not to save plot. Default is \code{FALSE}}
 
-\item{save.file.path}{Directory to save file}
+\item{save.file.name}{Directory/file name where to save file}
 }
 \value{
 A plot of time series data and estimates.

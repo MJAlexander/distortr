@@ -1,4 +1,21 @@
-plotCovariance <- function(method, params, order = NULL, nyears = 10){
+#' Plot covariance
+#'
+#' Plot covariance between points given specified method
+#' @param method string to indicate type of method from which to simulate. Options are: "ar", "arma", "splines", "gp".
+#' @param params list of parameters needed to simulate from method specified. Each method takes different parameter arguments. See documentation for each process for more information.
+#' \itemize{
+#' \item{AR: specify nyears, rho, sigma}
+#' \item{ARMA: specify nyears, phi, theta, sigma.ar}
+#' \item{Splines: specify x.i, order}
+#' \item{GP: specify nyears, tau, l}
+#' }
+#' @param nyears length of period to visualize covariance structure
+#' @export
+#' @return A plot of covariance between points. Covariance is calculated relative to x = 0 and standardised so that variance = 1.
+#' @examples
+#' plotCovariance(method = "splines", params = list(sigma = 0.5, sigma.alpha = 0.5, order = 1))
+
+plotCovariance <- function(method, params, nyears = 10){
   for (i in 1:length(params)){
     assign(names(params)[i], params[[i]])
   }
@@ -29,9 +46,6 @@ plotCovariance <- function(method, params, order = NULL, nyears = 10){
   }
 
   if(method=="splines"){
-    if(is.null(order)){
-      stop("Order of penalization must be specified.")
-    }
     if(order==0){
       cov.fn <- function(nyears){
         x.i <- seq(-nyears,nyears, by = 0.1)

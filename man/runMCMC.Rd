@@ -8,7 +8,7 @@ runMCMC(df, nyears, method, order = NULL, nchains = 4, nburnin = 1000,
   niter = 1000 + 30000, nthin = 30, model.file.path = NULL)
 }
 \arguments{
-\item{df}{A dataframe of x and y observations}
+\item{df}{A dataframe of x and y observations, and standard errors around ys}
 
 \item{nyears}{number of years of observations}
 
@@ -41,6 +41,7 @@ seed <- 123
 method <- 'splines'
 params <- list(sigma.alpha = 1, order = 1)
 df <- simulateFluctuations(nyears, prop.sample, method, params, obs.err, sigma.y)
+df$se <- 1
 mod <- runMCMC(df = df, nyears = 100, method = "splines", order = 1,
 nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
 }

@@ -4,14 +4,12 @@
 \alias{getResults}
 \title{Get results from MCMC estimation}
 \usage{
-getResults(mod, method, order = NULL, alpha.level = 0.05)
+getResults(mod, method, alpha.level = 0.05)
 }
 \arguments{
 \item{mod}{A JAGS model object}
 
 \item{method}{The method of smoothing to implement (choices: ar, arma, splines, gp)}
-
-\item{order}{The order of splines penalization (either 1 or 2)}
 
 \item{alpha.level}{Significance level. Default is 5\%.}
 }

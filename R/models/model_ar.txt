@@ -6,11 +6,12 @@ for (t in 2:nyears){
  muhat.t[t] <- rho*mu.t[t-1]
 }
 for (i in 1:n){
-  y.i[i] ~ dnorm(mu.t[gett.i[i]], tau.y[i])
+  y.i[i] ~ dnorm(mu.t[gett.i[i]], tau.y+nu.i[i])
+
 }
+tau.y<-pow(sigma.y,-2)
+sigma.y ~ dunif(0,3)
 tau <- pow(sigma,-2)
 sigma ~ dunif(0,3)
-#tau.y <- pow(sigma.y,-2)
-#sigma.y ~ dunif(0,3)
 rho ~ dunif(-1,1)
 }

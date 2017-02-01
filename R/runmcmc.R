@@ -7,6 +7,7 @@
 #' @param method The method of smoothing to implement (choices: ar, arma, splines, gp)
 #' @param order The order of splines penalization (either 1 or 2)
 #' @param matern.cov Whether or not to use Matern covariance function. Default is \code{TRUE}.
+#' @param obs.err is TRUE if standard errors are observed
 #' @param nchains Number of MCMC chains
 #' @param nburnin Number of iterations to throw away as burn in.
 #' @param niter Number of total iterations.
@@ -33,17 +34,24 @@ runMCMC <- function(df,
                     method,
                     order = NULL,
                     matern.cov=TRUE,
+                    obs.err = FALSE,
                     nchains = 4,
                     nburnin = 1000,
                     niter = 1000+30000,
                     nthin =30,
                     model.file.path = NULL){
 
+  if(obs.err){
+    nu.i = 1/(df$se)^2
+  }
+  else{
+    nu.i <- rep(0,nrow(df))
+  }
   if(method=="ar"){
     if(is.null(model.file.path)){
       model.file.path <- "R/models/model_ar.txt"
     }
-    jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t), tau.y = 1/(df$se)^2)
+    jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t), nu.i = nu.i)
     parnames <- c("sigma", "rho", "sigma.y", "mu.t")
   }
 
@@ -51,7 +59,7 @@ runMCMC <- function(df,
     if(is.null(model.file.path)){
       model.file.path <- "R/models/model_arma.txt"
     }
-    jags.data <- list(y.i = df$y, gett.i = df$t, tau.y = 1/(df$se)^2,nyears=nyears, n = length(df$t))
+    jags.data <- list(y.i = df$y, gett.i = df$t,nyears=nyears, n = length(df$t),nu.i = nu.i)
     parnames <- c("sigma.ar", "phi", "theta", "sigma.y", "mu.t")
   }
 
@@ -66,7 +74,7 @@ runMCMC <- function(df,
     sp <- GetSplines(x.t)
     K <- length(sp$knots.k)
     B.tk <- sp$B.ik
-    jags.data <- list(y.i = df$y, gett.i = df$t, tau.y = 1/(df$se)^2, nyears=nyears, n = length(df$t), K = K, B.tk = B.tk)
+    jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t), K = K, B.tk = B.tk, nu.i = nu.i)
     parnames <- c("alpha.k", "sigma.alpha", "sigma.y", "mu.t")
   }
 
@@ -78,7 +86,7 @@ runMCMC <- function(df,
       ## can just calculate Sigma up to the amplitude here because in CODEm the parameters are set
       Sigma.corr <- calcSigma(1:nyears, 1:nyears, cov.method = "matern")
       parnames <- c("beta0","sigma.y","sigma.g","mu.y", "G")
-      jags.data <- list(y.i = df$y, gett.i = df$t, tau.y = 1/(df$se)^2, nyears=nyears, n = length(df$t), Sigma.corr = Sigma.corr)
+      jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t), Sigma.corr = Sigma.corr, nu.i = nu.i)
     }
     if(matern.cov==FALSE){
       if(is.null(model.file.path)){
@@ -88,7 +96,7 @@ runMCMC <- function(df,
       Dist <- rdist(1:nyears)
       ## currently using the reparameterized version
       parnames <- c("beta0","sigma.y","sigma.g","p","mu.y", "G")
-      jags.data <- list(y.i = df$y, gett.i = df$t, tau.y = 1/(df$se)^2, nyears=nyears, n = length(df$t),kappa=2, Dist = Dist)
+      jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t),kappa=2, Dist = Dist, nu.i = nu.i)
     }
   }
 

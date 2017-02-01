@@ -4,7 +4,7 @@
 #'
 #' @param X1 first vector of x values
 #' @param X2 second vector of x values
-#' @param method either \code{sqexp} (squared exponential) or \code{matern}
+#' @param cov.method either \code{sqexp} (squared exponential) or \code{matern}
 #' @param l the length scale parameter. Determines the 'wigglyness' of the fluctuations for squared exponential.
 #' @param tau the amplitude parameter. Determines the magnitude of fluctuations over time.
 #' @param range parameter for Matern function. Default is 10.
@@ -16,10 +16,10 @@
 #' calcSigma(1:5, 1:5, method = "sqexp", l = 1, tau = 1)
 
 calcSigma <- function(X1,X2,
-                      method,
+                      cov.method,
                       range = 10, smoothness = 2,
                       l=1, tau = 1) {
-  if(method=="sqexp"){
+  if(cov.method=="sqexp"){
     Sigma <- matrix(rep(0, length(X1)*length(X2)), nrow=length(X1))
     for (i in 1:nrow(Sigma)) {
       for (j in 1:ncol(Sigma)) {
@@ -27,7 +27,7 @@ calcSigma <- function(X1,X2,
       }
     }
   }
-  if(method=="matern"){
+  if(cov.method=="matern"){
     d=rdist(X1,X2)
     # calculate the covariance values
     Sigma=tau^2*Matern(d,smoothness=smoothness,range=range)

@@ -6,6 +6,7 @@
 #' @param nyears number of years of observations
 #' @param method The method of smoothing to implement (choices: ar, arma, splines, gp)
 #' @param order The order of splines penalization (either 1 or 2)
+#' @param matern.cov Whether or not to use Matern covariance function. Default is \code{TRUE}.
 #' @param nchains Number of MCMC chains
 #' @param nburnin Number of iterations to throw away as burn in.
 #' @param niter Number of total iterations.
@@ -31,6 +32,7 @@ runMCMC <- function(df,
                     nyears,
                     method,
                     order = NULL,
+                    matern.cov=TRUE,
                     nchains = 4,
                     nburnin = 1000,
                     niter = 1000+30000,
@@ -69,14 +71,25 @@ runMCMC <- function(df,
   }
 
   if(method=="gp"){
-    if(is.null(model.file.path)){
-      model.file.path <- "R/models/model_gp.txt"
+    if(matern.cov==TRUE){
+      if(is.null(model.file.path)){
+        model.file.path <- "R/models/model_gp_matern.txt"
+      }
+      ## can just calculate Sigma up to the amplitude here because in CODEm the parameters are set
+      Sigma.corr <- calcSigma(1:nyears, 1:nyears, cov.method = "matern")
+      parnames <- c("beta0","sigma.y","sigma.g","mu.y", "G")
+      jags.data <- list(y.i = df$y, gett.i = df$t, tau.y = 1/(df$se)^2, nyears=nyears, n = length(df$t), Sigma.corr = Sigma.corr)
     }
-    ## need to calculate distance matrix
-    Dist <- rdist(1:nyears)
-    ## currently using the reparameterized version
-    parnames <- c("beta0","sigma.y","sigma.g","p","mu.y", "G")
-    jags.data <- list(y.i = df$y, gett.i = df$t, tau.y = 1/(df$se)^2, nyears=nyears, n = length(df$t),kappa=2, Dist = Dist)
+    if(matern.cov==FALSE){
+      if(is.null(model.file.path)){
+        model.file.path <- "R/models/model_gp.txt"
+      }
+      ## need to calculate distance matrix
+      Dist <- rdist(1:nyears)
+      ## currently using the reparameterized version
+      parnames <- c("beta0","sigma.y","sigma.g","p","mu.y", "G")
+      jags.data <- list(y.i = df$y, gett.i = df$t, tau.y = 1/(df$se)^2, nyears=nyears, n = length(df$t),kappa=2, Dist = Dist)
+    }
   }
 
   ## run the model

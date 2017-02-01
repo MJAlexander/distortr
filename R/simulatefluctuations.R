@@ -93,7 +93,8 @@ simulateFluctuations <- function(
 
   ## GP
   if(method=="gp"){
-    res <- GetGP(nyears, l = l, tau = tau)
+    if(cov.method=="sqexp") res <- GetGP(nyears, cov.method = "sqexp", l = l, tau = tau)
+    if(cov.method=="matern") res <- GetGP(nyears, cov.method = "matern", smoothness = smoothness, range = range, tau=tau)
     x.t <- 1:nyears
     mu.t <- res$y
     set.seed(seed+4)

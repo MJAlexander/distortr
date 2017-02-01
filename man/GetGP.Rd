@@ -4,10 +4,17 @@
 \alias{GetGP}
 \title{Simulate time series of fluctuations based on a Gaussian Process}
 \usage{
-GetGP(nyears, tau = 1, l = 1, seed = 123)
+GetGP(nyears, method = "matern", range = 10, smoothness = 2, tau = 1,
+  l = 1, seed = 123)
 }
 \arguments{
 \item{nyears}{number of years of observation period}
+
+\item{method}{either \code{sqexp} (squared exponential) or \code{matern}}
+
+\item{range}{parameter for Matern function. Default is 10.}
+
+\item{smoothness}{parameter for Matern function. Default is 2.}
 
 \item{tau}{the amplitude parameter. Determines the magnitude of fluctuations over time.}
 
@@ -22,7 +29,7 @@ A data frame of observation points (x) and y-values
 Simulate time series of fluctuations based on a Gaussian Process, using a squared exponential covariance function.
 }
 \examples{
-res <- GetGP(50, tau = 1, l = 1)
+res <- GetGP(50, method = "sqexp",tau = 1, l = 1)
 ggplot(data = res, aes (x = x, y = y)) + geom_line() + geom_point() + theme_bw()
 }
 \seealso{

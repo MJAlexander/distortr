@@ -1,0 +1,17 @@
+model{
+
+for(t in 1:nyears){
+mu.t[t] <- inprod(alpha.k, B.tk[t,])
+}
+
+# data
+for (i in 1:n){
+ y.i[i]~dnorm(mu.t[gett.i[i]], 100000)
+}
+
+for (k in 1:K){
+  alpha.k[k] ~ dnorm(0, sigma.alpha)
+}
+tau.alpha <- pow(sigma.alpha, -2)
+sigma.alpha ~ dunif(0, 3)
+}

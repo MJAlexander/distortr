@@ -1,0 +1,26 @@
+model{
+G ~ dmnorm(mu.g,Sigma.inv) ## gaussian process
+Sigma.inv <- inverse(Sigma) ##Var-Covar Matrix
+
+for(t in 1:nyears){
+Sigma[t,t] <- pow(tau.g,-1) + 0.00001  ##avoids issue of non positive definite matrix
+mu.g[t] <- 0
+
+for(j in (t+1):nyears) {
+Sigma[t,j]<- pow(tau.g,-1)*Sigma.corr[t,j]
+Sigma[j,t] <- Sigma[t,j]
+} #End j loop
+} #End t loop
+
+for(i in 1:n)
+{
+y.i[i] ~ dnorm(mu.y[gett.i[i]], 100000)
+mu.y[gett.i[i]] <-beta0+G[gett.i[i]]
+} #End i loop
+
+##Priors
+#beta0 ~ dnorm(0.0,1.0E-6)
+beta0 <- 0
+tau.g<-pow(sigma.g,-2)
+sigma.g ~ dunif(0,3) ###For more informative prior use an inverse gamma
+}

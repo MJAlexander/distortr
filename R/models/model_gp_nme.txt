@@ -12,10 +12,10 @@ Sigma[j,t] <- Sigma[t,j]
 } #End j loop
 } #End t loop
 
-for(i in 1:n)
+for(t in 1:nyears)
 {
-y.i[i] ~dnorm(mu.y[gett.i[i]], 100000)
-mu.y[gett.i[i]] <-beta0+G[gett.i[i]]
+mu.t[t] ~dnorm(mu.y[t], 100000)
+mu.y[t] <-beta0+G[t]
 } #End i loop
 
 ##Priors

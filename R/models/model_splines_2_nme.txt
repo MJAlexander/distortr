@@ -1,12 +1,7 @@
 model{
 
 for(t in 1:nyears){
-mu.t[t] <- inprod(alpha.k, B.tk[t,])
-}
-
-# data
-for (i in 1:n){
- y.i[i]~dnorm(mu.t[gett.i[i]], 100000)
+mu.t[t] ~ dnorm(inprod(alpha.k, B.tk[t,]), 100000)
 }
 
 alpha.k[1] ~ dnorm(0, 0.01)

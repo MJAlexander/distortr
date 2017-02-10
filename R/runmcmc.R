@@ -49,15 +49,20 @@ runMCMC <- function(df,
   else{
     nu.i <- rep(0,nrow(df))
   }
+
+  # fill in missing years
+  df.full <- data.frame(t = 1:nyears, y = NA)
+  df.full$y <- sapply(1:nyears, function(i) if(df.full$t[i] %in% df$t){df$y[df$t==df.full$t[i]]} else{NA})
+
   if(method=="ar"){
     if(is.null(model.file.path)){
       ifelse(measurement.err, model.file.path <- "R/models/model_ar.txt",
              model.file.path <- "R/models/model_ar_nme.txt")
     }
-    jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t))
+    jags.data <- list(mu.t = df.full$y, nyears=nyears)
     parnames <- c("sigma", "rho", "mu.t")
     if(measurement.err==TRUE){
-      jags.data$nu.i <- nu.i
+      jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t), nu.i = nu.i)
       parnames <- c(parnames, "sigma.y")
     }
   }
@@ -67,10 +72,10 @@ runMCMC <- function(df,
       ifelse(measurement.err, model.file.path <- "R/models/model_arma.txt",
              model.file.path <- "R/models/model_arma_nme.txt")
     }
-    jags.data <- list(y.i = df$y, gett.i = df$t,nyears=nyears, n = length(df$t))
+    jags.data <- list(mu.t = df.full$y, nyears=nyears)
     parnames <- c("sigma.ar", "phi", "theta", "mu.t")
     if(measurement.err==TRUE){
-      jags.data$nu.i <- nu.i
+      jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t), nu.i = nu.i)
       parnames <- c(parnames, "sigma.y")
     }
   }
@@ -87,10 +92,12 @@ runMCMC <- function(df,
     sp <- GetSplines(x.t)
     K <- length(sp$knots.k)
     B.tk <- sp$B.ik
-    jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t), K = K, B.tk = B.tk)
+    df.full <- data.frame(t = 1:nyears, y = NA)
+    df.full$y <- sapply(1:nyears, function(i) if(df.full$t[i] %in% df$t){df$y[df$t==df.full$t[i]]} else{NA})
+    jags.data <- list(mu.t = df.full$y, nyears=nyears, K = K, B.tk = B.tk)
     parnames <- c("alpha.k", "sigma.alpha", "mu.t")
     if(measurement.err==TRUE){
-      jags.data$nu.i <- nu.i
+      jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t), K = K, B.tk = B.tk, nu.i = nu.i)
       parnames <- c(parnames, "sigma.y")
     }
   }
@@ -104,9 +111,11 @@ runMCMC <- function(df,
       ## can just calculate Sigma up to the amplitude here because in CODEm the parameters are set
       Sigma.corr <- calcSigma(1:nyears, 1:nyears, cov.method = "matern")
       parnames <- c("beta0","sigma.g","mu.y", "G")
-      jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t), Sigma.corr = Sigma.corr)
+      df.full <- data.frame(t = 1:nyears, y = NA)
+      df.full$y <- sapply(1:nyears, function(i) if(df.full$t[i] %in% df$t){df$y[df$t==df.full$t[i]]} else{NA})
+      jags.data <- list(mu.t = df.full$y, nyears=nyears, Sigma.corr = Sigma.corr)
       if(measurement.err==TRUE){
-        jags.data$nu.i <- nu.i
+        jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t), Sigma.corr = Sigma.corr, nu.i = nu.i)
         parnames <- c(parnames, "sigma.y")
       }
     }
@@ -119,9 +128,11 @@ runMCMC <- function(df,
       Dist <- rdist(1:nyears)
       ## currently using the reparameterized version
       parnames <- c("beta0","sigma.g","p","mu.y", "G")
-      jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t),kappa=2, Dist = Dist)
+      df.full <- data.frame(t = 1:nyears, y = NA)
+      df.full$y <- sapply(1:nyears, function(i) if(df.full$t[i] %in% df$t){df$y[df$t==df.full$t[i]]} else{NA})
+      jags.data <- list(mu.t = df.full$y, nyears=nyears, kappa=2, Dist = Dist)
       if(measurement.err==TRUE){
-        jags.data$nu.i <- nu.i
+        jags.data <- list(y.i = df$y, gett.i = df$t, nyears=nyears, n = length(df$t),kappa=2, Dist = Dist, nu.i = nu.i)
         parnames <- c(parnames, "sigma.y")
       }
     }

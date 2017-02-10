@@ -1,21 +1,18 @@
 model{
 # ARMA(1,1) process
 # in this block, we draw e.t[1] and mu.t[1] that are consistent with the arma(1,1) process
-arma1 ~ dnorm(0, 1/gamma0)
-mu.t[1] <- arma1 # mu.t
+# arma1 ~ dnorm(0, 1/gamma0)
+mu.t[1] ~ dnorm(0, 1/gamma0) # mu.t
 # e.t is the innovation
 e.t[1] ~ dnorm(sigma.ar^2/gamma0*mu.t[1], 1/(sigma.ar^2*(1-sigma.ar^2/gamma0)))
 
 #---
 for (t in 2:nyears){
-  e.t[t] ~ dnorm(0, tau.ar)
-  mu.t[t] <- phi*mu.t[t-1] - theta*e.t[t-1] + e.t[t]
+  #e.t[t] ~ dnorm(0, tau.ar)
+  mu.t[t] ~ dnorm(phi*mu.t[t-1] - theta*e.t[t-1], tau.ar)
+  e.t[t] <- mu.t[t] - (phi*mu.t[t-1] - theta*e.t[t-1])
 }
-#--
-for (i in 1:n){
-  y.i[i] ~ dnorm(mu.t[gett.i[i]], 100000)
 
-}
 #---
 theta ~ dunif(-1,0) # ma
 phi ~ dunif(0,1) # ar

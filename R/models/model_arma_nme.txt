@@ -14,10 +14,10 @@ for (t in 2:nyears){
 }
 
 #---
-theta ~ dunif(-1,0) # ma
+theta ~ dunif(-1,1) # ma
 phi ~ dunif(0,1) # ar
 gamma0 <- pow(sqrtgamma0,2) # stat variance
-sqrtgamma0 ~ dunif(0,3)
+sqrtgamma0 ~ dunif(0,40)
 # SD of each innovation e.t
 sigma.ar <- sqrt(gamma0 /((1-2*phi*theta + theta^2)/(1-phi^2)))
 tau.ar <- pow(sigma.ar, -2)

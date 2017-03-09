@@ -23,5 +23,5 @@ mu.y[t] <-beta0+G[t]
 beta0 <- 0
 p~dunif(0,1) ###Prior can change
 tau.g<-pow(sigma.g,-2)
-sigma.g ~ dunif(0,3) ###For more informative prior use an inverse gamma
+sigma.g ~ dunif(0,40) ###For more informative prior use an inverse gamma
 }

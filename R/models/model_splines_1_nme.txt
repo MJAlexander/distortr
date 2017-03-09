@@ -9,5 +9,5 @@ for (k in 2:K){
   alpha.k[k] ~ dnorm(alpha.k[k-1], tau.alpha)
 }
 tau.alpha <- pow(sigma.alpha, -2)
-sigma.alpha ~ dunif(0, 3)
+sigma.alpha ~ dunif(0, 40)
 }

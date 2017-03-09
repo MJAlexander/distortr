@@ -6,6 +6,6 @@ for (t in 2:nyears){
  muhat.t[t] <- rho*mu.t[t-1]
 }
 tau <- pow(sigma,-2)
-sigma ~ dunif(0,3)
+sigma ~ dunif(0,40)
 rho ~ dunif(-1,1)
 }

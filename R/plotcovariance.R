@@ -52,7 +52,7 @@ plotCovariance <- function(method, params, nyears = 10, return.values = F){
         x.i <- seq(-nyears,nyears, by = 0.1)
         sp <- GetSplines(x.i)
         #Ca<- sigma^2*solve(t(sp$B.ik)%*%sp$B.ik)
-        btb <- t(sp$B.ik)%*%(sp$B.ik)
+        #btb <- t(sp$B.ik)%*%(sp$B.ik)
         Ca<- sigma^2*solve(t(sp$B.ik)%*%sp$B.ik)%*%btb%*%solve(t(sp$B.ik)%*%sp$B.ik)
         out <- (sp$B.ik%*%Ca%*%t(sp$B.ik))[which(x.i==0),]
         return(out)

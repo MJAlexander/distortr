@@ -10,5 +10,5 @@ for (k in 3:K){
   alpha.k[k] ~ dnorm(2*alpha.k[k-1] - alpha.k[k-2], tau.alpha)
 }
 tau.alpha <- pow(sigma.alpha, -2)
-sigma.alpha ~ dunif(0, 3)
+sigma.alpha ~ dunif(0, 40)
 }

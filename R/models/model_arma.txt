@@ -17,8 +17,8 @@ for (i in 1:n){
 
 }
 #---
-theta ~ dunif(-1,1) # ma
-phi ~ dunif(0,1) # ar
+theta ~ dunif(0,1) # ma
+phi ~ dunif(-1,1) # ar
 gamma0 <- pow(sqrtgamma0,2) # stat variance
 sqrtgamma0 ~ dunif(0,40)
 # SD of each innovation e.t

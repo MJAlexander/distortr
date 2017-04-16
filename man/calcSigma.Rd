@@ -4,14 +4,15 @@
 \alias{calcSigma}
 \title{Calculate variance-covariance matrix}
 \usage{
-calcSigma(X1, X2, method, range = 10, smoothness = 2, l = 1, tau = 1)
+calcSigma(X1, X2, cov.method, range = 10, smoothness = 2, l = 1,
+  tau = 1)
 }
 \arguments{
 \item{X1}{first vector of x values}
 
 \item{X2}{second vector of x values}
 
-\item{method}{either \code{sqexp} (squared exponential) or \code{matern}}
+\item{cov.method}{either \code{sqexp} (squared exponential) or \code{matern}}
 
 \item{range}{parameter for Matern function. Default is 10.}
 

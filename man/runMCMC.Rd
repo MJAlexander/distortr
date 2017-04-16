@@ -4,9 +4,9 @@
 \alias{runMCMC}
 \title{Run MCMC estimation}
 \usage{
-runMCMC(df, nyears, method, order = NULL, matern.cov = TRUE, nchains = 4,
-  nburnin = 1000, niter = 1000 + 30000, nthin = 30,
-  model.file.path = NULL)
+runMCMC(df, nyears, method, order = NULL, matern.cov = TRUE,
+  obs.err = FALSE, measurement.err = FALSE, nchains = 4, nburnin = 1000,
+  niter = 1000 + 30000, nthin = 30, model.file.path = NULL)
 }
 \arguments{
 \item{df}{A dataframe of x and y observations, and standard errors around ys}
@@ -18,6 +18,10 @@ runMCMC(df, nyears, method, order = NULL, matern.cov = TRUE, nchains = 4,
 \item{order}{The order of splines penalization (either 1 or 2)}
 
 \item{matern.cov}{Whether or not to use Matern covariance function. Default is \code{TRUE}.}
+
+\item{obs.err}{is TRUE if standard errors are observed}
+
+\item{measurement.err}{is TRUE if there is assumed to be measurement error}
 
 \item{nchains}{Number of MCMC chains}
 

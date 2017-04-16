@@ -4,13 +4,13 @@
 \alias{GetGP}
 \title{Simulate time series of fluctuations based on a Gaussian Process}
 \usage{
-GetGP(nyears, method = "matern", range = 10, smoothness = 2, tau = 1,
-  l = 1, seed = 123)
+GetGP(nyears, cov.method = "matern", range = 10, smoothness = 2,
+  tau = 1, l = 1, seed = 123)
 }
 \arguments{
 \item{nyears}{number of years of observation period}
 
-\item{method}{either \code{sqexp} (squared exponential) or \code{matern}}
+\item{cov.method}{either \code{sqexp} (squared exponential) or \code{matern}}
 
 \item{range}{parameter for Matern function. Default is 10.}
 

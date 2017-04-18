@@ -1,6 +1,6 @@
-#' Write a JAGS model to fit first- and second-order penalized splines regression
+#' Write a JAGS model to fit penalized splines regression
 #'
-#' Simulate time series of fluctuations based on a Gaussian Process, using a squared exponential covariance function.
+#' Write a JAGS model to fit first- and second-order penalized splines regression
 #'
 #' @param order order of penalization (either 1 or 2).
 #' @param cs.smoothing whether smoothing paramter is country specific. If `FALSE`, smoothing parameter is global.

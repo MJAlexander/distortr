@@ -2,7 +2,7 @@
 % Please edit documentation in R/writemodelsplines.R
 \name{writeModelSplines}
 \alias{writeModelSplines}
-\title{Write a JAGS model to fit first- and second-order penalized splines regression}
+\title{Write a JAGS model to fit penalized splines regression}
 \usage{
 writeModelSplines(order = NULL, cs.smoothing = T, nserror.estimated = T,
   file.name = "model.txt")
@@ -20,7 +20,7 @@ writeModelSplines(order = NULL, cs.smoothing = T, nserror.estimated = T,
 A text file that contains a JAGS model
 }
 \description{
-Simulate time series of fluctuations based on a Gaussian Process, using a squared exponential covariance function.
+Write a JAGS model to fit first- and second-order penalized splines regression
 }
 \examples{
 order <- 1

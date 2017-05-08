@@ -44,7 +44,7 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
         for (i in 1:n.c[c]){
         y.ci[c,i] ~ dnorm(yhat.ci[c,i], nu.ci[c,i])
         yhat.ci[c,i] <- mu.ct[c,gett.ci[c,i]]
-        nu.ci[c,i] <- pow((se.ci[c,i]^2+sigma.y^2), -1)
+        nu.ci[c,i] <- pow((se.ci[c,i]^2+sigma.y[source.ci[c,i]]^2), -1)
         }
         ", file = file.path(file.name), fill = T, append = T)
   }
@@ -59,48 +59,40 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
       rho[c] ~ dnorm(mu.rho[region.c[c]], sigma.rho[region.c[c]])T(-1,1)
       tau[c] <- pow(sigma[c],-2)
       sigma[c] <- exp(logsigma[c])
-      logsigma[c] ~ dnorm(chi.sigma[region.c[c]], psi.sigma[region.c[c]])
+      logsigma[c] ~ dnorm(chi.sigma[region.c[c]], tau.sigma[region.c[c]])
       beta[c] ~ dnorm(mu.beta[region.c[c]],tau.beta[region.c[c]])
     } # end c
     for(r in 1:nregions){
       # hierarchy for betas
       mu.beta[r] ~ dnorm(mu.beta.global, tau.beta.global)
       tau.beta[r] <- pow(sigma.beta[r], -2)
-      sigma.beta[r] <- exp(logsigma.beta[r])
-      logsigma.beta[r] ~ dnorm(chi.beta, psi.beta)
+      sigma.beta[r] ~ dunif(0, 40)
 
       # hierarchy for rhos
       mu.rho[r] ~ dnorm(mu.rho.global, tau.rho.global)
       tau.rho[r] <- pow(sigma.rho[r], -2)
-      sigma.rho[r] <- exp(logsigma.rho[r])
-      logsigma.rho[r] ~ dnorm(chi.rho, psi.rho)
+      sigma.rho[r] ~ dunif(0, 40)
 
       # hierarchy for smoother
       chi.sigma[r] ~ dnorm(mu.chi.global, tau.chi.global)
-      psi.sigma[r] <- exp(logpsi.sigma[r])
-      logpsi.sigma[r] ~ dnorm(chi.psi, psi.psi)
+      tau.sigma[r] <- pow(sigma.sigma[r], -2)
+      sigma.sigma[r] ~ dunif(0, 40)
 
     } # end r
     mu.beta.global ~ dnorm(0, 0.01)
     tau.beta.global <- pow(sigma.beta.global, -2)
     sigma.beta.global ~ dunif(0, 40)
-    chi.beta ~ dnorm(0, 0.01)
-    sigma.psi.beta ~ dunif(0, 40)
-    psi.beta <- pow(sigma.psi.beta, -2)
+
 
     mu.rho.global ~ dnorm(0, 0.01)
     tau.rho.global <- pow(sigma.rho.global, -2)
     sigma.rho.global ~ dunif(0, 40)
-    chi.rho ~ dnorm(0, 0.01)
-    sigma.psi.rho ~ dunif(0, 40)
-    psi.rho <- pow(sigma.psi.rho, -2)
+
 
     mu.chi.global ~ dnorm(0, 0.01)
     tau.chi.global <- pow(sigma.chi.global, -2)
     sigma.chi.global ~ dunif(0, 40)
-    chi.psi ~ dnorm(0, 0.01)
-    sigma.psi.psi ~ dunif(0, 40)
-    psi.psi <- pow(sigma.psi.psi, -2)
+
         ", file = file.path(file.name), fill = T, append = T)
   }
   if(cs.rho&!cs.smoothing){
@@ -118,29 +110,21 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
       # hierarchy for betas
         mu.beta[r] ~ dnorm(mu.beta.global, tau.beta.global)
         tau.beta[r] <- pow(sigma.beta[r], -2)
-        sigma.beta[r] <- exp(logsigma.beta[r])
-        logsigma.beta[r] ~ dnorm(chi.beta, psi.beta)
+        sigma.beta[r] ~ dunif(0, 40)
 
         # hierarchy for rhos
         mu.rho[r] ~ dnorm(mu.rho.global, tau.rho.global)
         tau.rho[r] <- pow(sigma.rho[r], -2)
-        sigma.rho[r] <- exp(logsigma.rho[r])
-        logsigma.rho[r] ~ dnorm(chi.rho, psi.rho)
+        sigma.rho[r] ~ dunif(0, 40)
 
     } # end r
     mu.beta.global ~ dnorm(0, 0.01)
     tau.beta.global <- pow(sigma.beta.global, -2)
     sigma.beta.global ~ dunif(0, 40)
-    chi.beta ~ dnorm(0, 0.01)
-    sigma.psi.beta ~ dunif(0, 40)
-    psi.beta <- pow(sigma.psi.beta, -2)
 
     mu.rho.global ~ dnorm(0, 0.01)
     tau.rho.global <- pow(sigma.rho.global, -2)
     sigma.rho.global ~ dunif(0, 40)
-    chi.rho ~ dnorm(0, 0.01)
-    sigma.psi.rho ~ dunif(0, 40)
-    psi.rho <- pow(sigma.psi.rho, -2)
 
     tau <- pow(sigma, -2)
     sigma ~ dunif(0, 40)
@@ -148,7 +132,7 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
   }
   if(!cs.rho&cs.smoothing){
     cat("
-      mu.ct[c,1] ~ dnorm(beta[c], tau.stat[c])
+        mu.ct[c,1] ~ dnorm(beta[c], tau.stat[c])
         tau.stat[c] <- (1-pow(rho,2))/pow(sigma[c],2)
         for (t in 2:nyears.c[c]){
         mu.ct[c,t] ~ dnorm(muhat.ct[c,t], tau[c])
@@ -156,38 +140,30 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
         } # end t
         tau[c] <- pow(sigma[c],-2)
         sigma[c] <- exp(logsigma[c])
-        logsigma[c] ~ dnorm(chi, psi)
-        beta[c] ~ dnorm(mu.beta,tau.beta)
-      } # end c
-      for(r in 1:nregions){
-      # hierarchy for betas
+        logsigma[c] ~ dnorm(chi.sigma[region.c[c]], tau.sigma[region.c[c]])
+        beta[c] ~ dnorm(mu.beta[region.c[c]],tau.beta[region.c[c]])
+  } # end c
+        for(r in 1:nregions){
+        # hierarchy for betas
         mu.beta[r] ~ dnorm(mu.beta.global, tau.beta.global)
         tau.beta[r] <- pow(sigma.beta[r], -2)
-        sigma.beta[r] <- exp(logsigma.beta[r])
-        logsigma.beta[r] ~ dnorm(chi.beta, psi.beta)
+        sigma.beta[r] ~ dunif(0, 40)
 
         # hierarchy for smoother
         chi.sigma[r] ~ dnorm(mu.chi.global, tau.chi.global)
-        psi.sigma[r] <- exp(logpsi.sigma[r])
-        logpsi.sigma[r] ~ dnorm(chi.psi, psi.psi)
+        tau.sigma[r] <- pow(sigma.sigma[r], -2)
+        sigma.sigma[r] ~ dunif(0, 40)
 
-       } # end r
+        } # end r
         mu.beta.global ~ dnorm(0, 0.01)
         tau.beta.global <- pow(sigma.beta.global, -2)
         sigma.beta.global ~ dunif(0, 40)
-        chi.beta ~ dnorm(0, 0.01)
-        sigma.psi.beta ~ dunif(0, 40)
-        psi.beta <- pow(sigma.psi.beta, -2)
+
+        rho ~ dunif(-1,1)
 
         mu.chi.global ~ dnorm(0, 0.01)
         tau.chi.global <- pow(sigma.chi.global, -2)
         sigma.chi.global ~ dunif(0, 40)
-        chi.psi ~ dnorm(0, 0.01)
-        sigma.psi.psi ~ dunif(0, 40)
-        psi.psi <- pow(sigma.psi.psi, -2)
-
-        rho ~ dunif(-1,1)
-        chi ~ dnorm(0, 0.01)
         ", file = file.path(file.name), fill = T, append = T)
   }
   if(!cs.rho&!cs.smoothing){
@@ -217,15 +193,11 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
       # hierarchy for gammas
         mu.gamma[r] ~ dnorm(mu.gamma.global, tau.gamma.global)
         tau.gamma[r] <- pow(sigma.gamma[r], -2)
-        sigma.gamma[r] <- exp(logsigma.gamma[r])
-        logsigma.gamma[r] ~ dnorm(chi.gamma, psi.gamma)
+        sigma.gamma[r] ~ dunif(0, 40)
        } # end r
         mu.gamma.global ~ dnorm(0, 0.01)
         tau.gamma.global <- pow(sigma.gamma.global, -2)
         sigma.gamma.global ~ dunif(0, 40)
-        chi.gamma ~ dnorm(0, 0.01)
-        sigma.psi.gamma ~ dunif(0, 40)
-        psi.gamma <- pow(sigma.psi.gamma, -2)
         ", file = file.path(file.name), fill = T, append = T)
   }
   if(nserror.estimated){

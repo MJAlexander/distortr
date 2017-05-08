@@ -62,4 +62,3 @@ leave.out.method = "recent", leave.out.percent = 20)
 \seealso{
 \code{\link{runMCMC}, \link{simulateFluctuations}}
 }
-

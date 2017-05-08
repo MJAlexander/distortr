@@ -55,4 +55,3 @@ nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
 \seealso{
 \code{\link{getResults}, \link{plotResults}}
 }
-

@@ -16,4 +16,4 @@ Encoding: UTF-8
 LazyData: true
 Suggests:
     tidyverse
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

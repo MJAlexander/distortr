@@ -30,4 +30,3 @@ Plot covariance between points given specified method
 \examples{
 plotCovariance(method = "splines", params = list(sigma = 0.5, sigma.alpha = 0.5, order = 1))
 }
-

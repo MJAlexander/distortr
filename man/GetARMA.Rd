@@ -32,4 +32,3 @@ ggplot(data = NULL, aes(x = 1:50, y = y.arma)) + geom_line() + geom_point() + th
 \seealso{
 \code{\link{GetAR}}
 }
-

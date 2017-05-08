@@ -28,4 +28,3 @@ cs.smoothing <- T
 nserror.estimated <- T
 writeModelSplines(order = order, nserror.estimated = nserror.estimated, cs.smoothing = cs.smoothing)
 }
-

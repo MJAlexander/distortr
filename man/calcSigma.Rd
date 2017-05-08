@@ -34,4 +34,3 @@ calcSigma(1:5, 1:5, method = "sqexp", l = 1, tau = 1)
 \seealso{
 \code{\link{GetGP}}
 }
-

@@ -46,4 +46,3 @@ plotResults(res, df.mu, method = "splines", order = 1)
 \seealso{
 \code{\link{runMCMC}, \link{getResults}}
 }
-

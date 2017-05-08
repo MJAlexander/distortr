@@ -35,4 +35,3 @@ ggplot(data = res, aes (x = x, y = y)) + geom_line() + geom_point() + theme_bw()
 \seealso{
 \code{\link{calcSigma}}
 }
-

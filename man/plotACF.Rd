@@ -31,4 +31,3 @@ plotACF(df, nyears)
 \references{
 Cryer, J. D. 1986. Time series analysis. Boston: Duxbury Press.
 }
-

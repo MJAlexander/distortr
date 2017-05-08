@@ -36,4 +36,3 @@ for (k in 1:K){
 \seealso{
 \code{\link{GetPSplines}}
 }
-

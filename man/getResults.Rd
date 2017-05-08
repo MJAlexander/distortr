@@ -22,4 +22,3 @@ Get results from MCMC estimation
 \seealso{
 \code{\link{runMCMC}, \link{plotResults}}
 }
-

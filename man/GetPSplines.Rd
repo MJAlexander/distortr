@@ -32,4 +32,3 @@ ggplot(data = NULL, aes(x = x.i, y = y.i)) + geom_line() + geom_point() + theme_
 \seealso{
 \code{\link{GetSplines}}
 }
-

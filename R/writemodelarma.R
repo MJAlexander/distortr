@@ -108,19 +108,16 @@ writeModelARMA <- function( # Write JAGS model out as a .txt file
         }
   if(cs.arma&!cs.smoothing){
     cat("
-        mu.ct[c,1] ~ dnorm(beta[c], 1/eta[c])
-        e.ct[c,1] ~ dnorm(sigma.ar[c]^2/eta[c]*mu.ct[c,1], 1/(sigma.ar[c]^2*(1-sigma.ar[c]^2/eta[c])))
+        mu.ct[c,1] ~ dnorm(beta[c], 1/eta)
+        e.ct[c,1] ~ dnorm(sigma.ar[c]^2/eta*mu.ct[c,1], 1/(sigma.ar[c]^2*(1-sigma.ar[c]^2/eta)))
         for (t in 2:nyears.c[c]){
         e.ct[c,t] ~ dnorm(0, tau.ar[c])
         mu.ct[c,t] <- rho[c]*mu.ct[c,t-1] - theta[c]*e.ct[c,t-1] + e.ct[c,t]
         } # end t
         rho[c] ~ dnorm(mu.rho[region.c[c]], tau.rho[region.c[c]])T(0,1)
         theta[c] ~ dnorm(mu.theta[region.c[c]], tau.theta[region.c[c]])T(-1,0)
-        eta[c] <- pow(sqrteta[c],2)
-        sqrteta[c] <- exp(logsqrteta[c])
-        logsqrteta[c] ~ dnorm(mu.chi.global, tau.chi.global)
         beta[c] ~ dnorm(mu.beta[region.c[c]],tau.beta[region.c[c]])
-        sigma.ar[c] <- sqrt(eta[c] /((1-2*rho[c]*theta[c] + theta[c]^2)/(1-rho[c]^2)))
+        sigma.ar[c] <- sqrt(eta/((1-2*rho[c]*theta[c] + theta[c]^2)/(1-rho[c]^2)))
         tau.ar[c] <- pow(sigma.ar[c], -2)
   } # end c
         for(r in 1:nregions){
@@ -152,9 +149,8 @@ writeModelARMA <- function( # Write JAGS model out as a .txt file
         tau.theta.global <- pow(sigma.theta.global, -2)
         sigma.theta.global ~ dunif(0, 40)
 
-        mu.chi.global ~ dnorm(0, 0.01)
-        tau.chi.global <- pow(sigma.chi.global, -2)
-        sigma.chi.global ~ dunif(0, 40)
+        eta <- pow(sqrteta, 2)
+        sqrteta ~ dunif(0, 40)
         ", file = file.path(file.name), fill = T, append = T)
   }
   if(!cs.arma&cs.smoothing){
@@ -201,19 +197,16 @@ writeModelARMA <- function( # Write JAGS model out as a .txt file
 }
   if(!cs.arma&!cs.smoothing){
     cat("
-        mu.ct[c,1] ~ dnorm(beta[c], 1/eta[c])
-        e.ct[c,1] ~ dnorm(sigma.ar[c]^2/eta[c]*mu.ct[c,1], 1/(sigma.ar[c]^2*(1-sigma.ar[c]^2/eta[c])))
+        mu.ct[c,1] ~ dnorm(beta[c], 1/eta)
+        e.ct[c,1] ~ dnorm(sigma.ar[c]^2/eta*mu.ct[c,1], 1/(sigma.ar[c]^2*(1-sigma.ar[c]^2/eta)))
         for (t in 2:nyears.c[c]){
         e.ct[c,t] ~ dnorm(0, tau.ar[c])
         mu.ct[c,t] <- rho[c]*mu.ct[c,t-1] - theta[c]*e.ct[c,t-1] + e.ct[c,t]
         } # end t
         rho[c] ~ dnorm(mu.rho.global, tau.rho.global)T(0,1)
         theta[c] ~ dnorm(mu.theta.global, tau.theta.global)T(-1,0)
-        eta[c] <- pow(sqrteta[c],2)
-        sqrteta[c] <- exp(logsqrteta[c])
-        logsqrteta[c] ~ dnorm(mu.chi.global, tau.chi.global)
         beta[c] ~ dnorm(mu.beta.global,tau.beta.global)
-        sigma.ar[c] <- sqrt(eta[c] /((1-2*rho[c]*theta[c] + theta[c]^2)/(1-rho[c]^2)))
+        sigma.ar[c] <- sqrt(eta /((1-2*rho[c]*theta[c] + theta[c]^2)/(1-rho[c]^2)))
         tau.ar[c] <- pow(sigma.ar[c], -2)
   } # end c
         mu.beta.global ~ dnorm(0, 0.01)
@@ -228,9 +221,8 @@ writeModelARMA <- function( # Write JAGS model out as a .txt file
         tau.theta.global <- pow(sigma.theta.global, -2)
         sigma.theta.global ~ dunif(0, 40)
 
-        mu.chi.global ~ dnorm(0, 0.01)
-        tau.chi.global <- pow(sigma.chi.global, -2)
-        sigma.chi.global ~ dunif(0, 40)
+        eta <- pow(sqrteta, 2)
+        sqrteta ~ dunif(0, 40)
         ", file = file.path(file.name), fill = T, append = T)
     }
   if(time.trend){

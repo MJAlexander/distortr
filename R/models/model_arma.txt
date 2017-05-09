@@ -24,7 +24,4 @@ sqrtgamma0 ~ dunif(0,40)
 # SD of each innovation e.t
 sigma.ar <- sqrt(gamma0 /((1-2*phi*theta + theta^2)/(1-phi^2)))
 tau.ar <- pow(sigma.ar, -2)
-# SD of observations
-#tau.y <- pow(sigma.y,-2)
-#sigma.y ~ dunif(0,3)
 }

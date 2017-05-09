@@ -8,7 +8,6 @@ e.t[1] ~ dnorm(sigma.ar^2/gamma0*mu.t[1], 1/(sigma.ar^2*(1-sigma.ar^2/gamma0)))
 
 #---
 for (t in 2:nyears){
-  #e.t[t] ~ dnorm(0, tau.ar)
   mu.t[t] ~ dnorm(phi*mu.t[t-1] - theta*e.t[t-1], tau.ar)
   e.t[t] <- mu.t[t] - (phi*mu.t[t-1] - theta*e.t[t-1])
 }

@@ -19,10 +19,7 @@ mu.y[gett.i[i]] <-beta0+G[gett.i[i]]
 } #End i loop
 
 ##Priors
-#beta0 ~ dnorm(0.0,1.0E-6)
 beta0 <- 0
 tau.g<-pow(sigma.g,-2)
 sigma.g ~ dunif(0,40) ###For more informative prior use an inverse gamma
-#tau.y <- pow(sigma.y,-2)
-#sigma.y ~ dunif(0,3)
 }

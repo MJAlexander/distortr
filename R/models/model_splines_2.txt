@@ -16,6 +16,4 @@ for (k in 3:K){
 }
 tau.alpha <- pow(sigma.alpha, -2)
 sigma.alpha ~ dunif(0, 40)
-#tau.y <- pow(sigma.y,-2)
-#sigma.y ~ dunif(0,3)
 }

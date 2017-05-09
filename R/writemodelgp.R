@@ -2,6 +2,7 @@
 #'
 #' Write a JAGS model to fit Gaussian Process model, with either exponential or Matern covariance function, with or without time trend
 #'
+#' @param cov.fun either squared exponential ("exp") or matern ("matern")
 #' @param cs.smoothing whether smoothing paramter is country specific. If `FALSE`, smoothing parameter is global.
 #' @param time.trend if `TRUE` a linear time trend is estimated.
 #' @param nserror.estimated whether to estimate non-sampling error. IF `FALSE`, fixed sampling error is inputted.
@@ -9,12 +10,14 @@
 #' @export
 #' @return A text file that contains a JAGS model
 #' @examples
+#' cov.fun <- "exp"
 #' cs.smoothing <- T
 #' time.trend <- T
 #' nserror.estimated <- T
-#' writeModelGP(cs.smoothing = cs.smoothing, time.trend = time.trend, nserror.estimated = nserror.estimated)
+#' writeModelGP(cov.fun = cov.fun, cs.smoothing = cs.smoothing, time.trend = time.trend, nserror.estimated = nserror.estimated)
 
 writeModelGP <- function( # Write JAGS model out as a .txt file
+  cov.fun = "exp",
   cs.smoothing = T,
   time.trend =T,
   nserror.estimated = T,
@@ -39,43 +42,79 @@ writeModelGP <- function( # Write JAGS model out as a .txt file
         for(t in 1:nyears.c[c]){
           Sigma[t,t,c] <- pow(tau.g[c],-1) + 0.00001  ##avoids issue of non positive definite matrix
          ", file = file.path(file.name), fill = T, append = T)
-    cat("
+    if(cov.fun == "matern"){
+      cat("
+        for(j in (t+1):nyears.c[c]) {
+            Sigma[t,j,c]<- pow(tau.g[c],-1)*Sigma.corr[t,j,c]
+            Sigma[j,t,c] <- Sigma[t,j,c]
+          } #End j loop
+          } #End t loop
+            tau.g[c]<-pow(sigma.g[c],-2)
+            sigma.g[c] <- exp(logsigma.g[c])
+            logsigma.g[c] ~ dnorm(chi[region.c[c]], psi[region.c[c]])
+          } #end c
+          for(r in 1:nregions){
+            chi[r] ~ dnorm(chi.global, tau.chi.global)
+            psi[r] <- pow(sigma.psi[r],-2)
+            sigma.psi[r] ~ dunif(0,40)
+          }
+          chi.global ~ dnorm(0, 0.01)
+          tau.chi.global <- pow(sigma.chi.global, -2)
+          sigma.chi.global ~ dunif(0, 40)
+          ", file = file.path(file.name), fill = T, append = T)
+    }
+    if(cov.fun == "exp"){
+      cat("
         for(j in (t+1):nyears.c[c]) {
           Sigma[t,j,c]<- pow(tau.g[c],-1)*(pow(p[c],pow(Dist[t,j,c],kappa)))
           Sigma[j,t,c] <- Sigma[t,j,c]
         } #End j loop
-      } #End t loop
-      p[c]~dnorm(mu.p[region.c[c]],tau.p[region.c[c]])T(0,1)
-      tau.g[c]<-pow(sigma.g[c],-2)
-      sigma.g[c] <- exp(logsigma.g[c])
-      logsigma.g[c] ~ dnorm(chi[region.c[c]], psi[region.c[c]])
+        } #End t loop
+          p[c]~dnorm(mu.p[region.c[c]],tau.p[region.c[c]])T(0,1)
+          tau.g[c]<-pow(sigma.g[c],-2)
+          sigma.g[c] <- exp(logsigma.g[c])
+          logsigma.g[c] ~ dnorm(chi[region.c[c]], psi[region.c[c]])
         } #end c
-      for(r in 1:nregions){
-      mu.p[r] ~ dnorm(mu.p.global, tau.p.global)
-      tau.p[r] <- pow(sigma.p[r], -2)
-      sigma.p[r] ~ dunif(0, 40)
-      chi[r] ~ dnorm(chi.global, tau.chi.global)
-      psi[r] <- pow(sigma.psi[r],-2)
-      sigma.psi[r] ~ dunif(0,40)
+          for(r in 1:nregions){
+          mu.p[r] ~ dnorm(mu.p.global, tau.p.global)
+          tau.p[r] <- pow(sigma.p[r], -2)
+          sigma.p[r] ~ dunif(0, 40)
+          chi[r] ~ dnorm(chi.global, tau.chi.global)
+          psi[r] <- pow(sigma.psi[r],-2)
+          sigma.psi[r] ~ dunif(0,40)
+          }
+          mu.p.global ~ dnorm(0, 0.01)
+          tau.p.global <- pow(sigma.p.global, -2)
+          sigma.p.global ~ dunif(0, 40)
 
-      }
-      mu.p.global ~ dnorm(0, 0.01)
-      tau.p.global <- pow(sigma.p.global, -2)
-      sigma.p.global ~ dunif(0, 40)
-
-      chi.global ~ dnorm(0, 0.01)
-      tau.chi.global <- pow(sigma.chi.global, -2)
-      sigma.chi.global ~ dunif(0, 40)
-        ", file = file.path(file.name), fill = T, append = T)
+          chi.global ~ dnorm(0, 0.01)
+          tau.chi.global <- pow(sigma.chi.global, -2)
+          sigma.chi.global ~ dunif(0, 40)
+          ", file = file.path(file.name), fill = T, append = T)
+    }
   }
   if(!cs.smoothing){
     cat("
         for(t in 1:nyears.c[c]){
         Sigma[t,t,c] <- pow(tau.g,-1) + 0.00001  ##avoids issue of non positive definite matrix
+      ", file = file.path(file.name), fill = T, append = T)
+    if(cov.fun=="exp"){
+      cat("
         for(j in (t+1):nyears.c[c]) {
-        Sigma[t,j,c]<- pow(tau.g,-1)*(pow(p,pow(Dist[t,j,c],kappa))) #re-parameterized exponential covariance p =[0,1]
-        Sigma[j,t,c] <- Sigma[t,j,c]
-        } #End j loop
+          Sigma[t,j,c]<- pow(tau.g,-1)*(pow(p,pow(Dist[t,j,c],kappa)))
+          Sigma[j,t,c] <- Sigma[t,j,c]
+    } #End j loop
+          ", file = file.path(file.name), fill = T, append = T)
+    }
+    if(cov.fun=="matern"){
+      cat("
+        for(j in (t+1):nyears.c[c]) {
+          Sigma[t,j,c]<- pow(tau.g,-1)*Sigma.corr[t,j,c]
+          Sigma[j,t,c] <- Sigma[t,j,c]
+    } #End j loop
+          ", file = file.path(file.name), fill = T, append = T)
+    }
+    cat("
     } #End t loop
         } #end c
         tau.g <- pow(sigma.g, -2)

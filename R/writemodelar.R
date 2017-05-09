@@ -56,7 +56,7 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
         mu.ct[c,t] ~ dnorm(muhat.ct[c,t], tau[c])
         muhat.ct[c,t] <- rho[c]*mu.ct[c,t-1]
       } # end t
-      rho[c] ~ dnorm(mu.rho[region.c[c]], sigma.rho[region.c[c]])T(-1,1)
+      rho[c] ~ dnorm(mu.rho[region.c[c]], tau.rho[region.c[c]])T(-1,1)
       tau[c] <- pow(sigma[c],-2)
       sigma[c] <- exp(logsigma[c])
       logsigma[c] ~ dnorm(chi.sigma[region.c[c]], tau.sigma[region.c[c]])
@@ -103,7 +103,7 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
         mu.ct[c,t] ~ dnorm(muhat.ct[c,t], tau)
         muhat.ct[c,t] <- rho[c]*mu.ct[c,t-1]
       } # end t
-      rho[c] ~ dnorm(mu.rho[region.c[c]], sigma.rho[region.c[c]])T(-1,1)
+      rho[c] ~ dnorm(mu.rho[region.c[c]], tau.rho[region.c[c]])T(-1,1)
       beta[c] ~ dnorm(mu.beta[region.c[c]],tau.beta[region.c[c]])
     } # end c
     for(r in 1:nregions){

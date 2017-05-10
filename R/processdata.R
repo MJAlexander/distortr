@@ -1,3 +1,23 @@
+#' Process country data to run JAGS model
+#'
+#' Function to process a country data to run a hierarchical model in JAGS.
+#' The function takes a dataframe with country codes, region codes, observations, observation years, standard errors and data source
+#' and returns data in form for input into JAGS.
+#'
+#' @param d a dataframe that contains country codes/names, region codes/names, data column, observation years and standard error column
+#' @param iso.column string specifying name of column which contains country codes/names
+#' @param data.column string specifying name of column which contains observations
+#' @param se.column string specifying name of column which contains standard errors
+#' @param obsyear.column string specifying name of column which contains observation years
+#' @param region.column string specifying name of column which contains region codes/names. If \code{NULL}, the number of regions is 1 i.e. region is assumed to be the World.
+#' @param source.column string specifying name of column which contains data source. If \code{NULL}, the number of sources is assumed to be 1.
+#' @param end.year final year for which estimates are required. Default is 2015.
+#' @export
+#' @return A list which includes matrices of data, observation years, source type and standard errors of dimensions \code{c x i}
+#' where \code{c} is the number of countries and \code{i} is the maximum number of observations. The list also includes counts of countries, regions, source types, years by country
+#' and starting years of each country, which are required to run the JAGS model.
+
+
 processData <- function(d,
                         iso.column,
                         data.column,
@@ -9,7 +29,7 @@ processData <- function(d,
                         ){
 
   # number of observations per country
-  d <- d %>% group_by(eval(parse(text = iso.column))) %>% mutate(n_obs = n(), n_na = sum(is.na(eval(parse(text = data.column)))))
+  d <- d %>% group_by_(iso.column) %>% mutate(n_obs = n()) %>% mutate_(n_na = paste0("sum(is.na(", data.column, "))"))
   # check to see if there are any countries with no data
   if(sum(d$n_obs==d$n_na)) stop("Please remove countries with no data.\n ")
 

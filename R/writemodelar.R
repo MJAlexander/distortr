@@ -28,7 +28,7 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
   cat("model{  ", file = file.path(file.name), fill = T, append = FALSE)
   if(time.trend){
     cat("
-      for(c in 1:n.iso){
+      for(c in 1:niso){
         # data
         for (i in 1:n.c[c]){
         y.ci[c,i] ~ dnorm(yhat.ci[c,i], nu.ci[c,i])
@@ -39,7 +39,7 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
   }
   if(!time.trend){
     cat("
-        for(c in 1:n.iso){
+        for(c in 1:niso){
         # data
         for (i in 1:n.c[c]){
         y.ci[c,i] ~ dnorm(yhat.ci[c,i], nu.ci[c,i])
@@ -186,7 +186,7 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
   }
   if(time.trend){
     cat("
-        for(c in 1:n.iso){
+        for(c in 1:niso){
           gamma[c] ~ dnorm(mu.gamma[region.c[c]],tau.gamma[region.c[c]])
         }
       for(r in 1:nregions){

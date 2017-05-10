@@ -27,7 +27,7 @@ writeModelGP <- function( # Write JAGS model out as a .txt file
   # start txt-file:
   cat("model{  ", file = file.path(file.name), fill = T, append = FALSE)
   cat("
-      for(c in 1:n.iso){
+      for(c in 1:niso){
       # data
       for (i in 1:n.c[c]){
       y.i[c,i] ~ dmnorm(G[gett.ci[c,i],c],nu.ci[c,i])
@@ -134,7 +134,7 @@ writeModelGP <- function( # Write JAGS model out as a .txt file
       ", file = file.path(file.name), fill = T, append = T)
   if(time.trend){
     cat("
-        for(c in 1:n.iso){
+        for(c in 1:niso){
         gamma[c] ~ dnorm(mu.gamma[region.c[c]],tau.gamma[region.c[c]])
         for(t in 1:nyears.c[c]){
           mu.g[t,c] <- beta[c] + gamma[c]*t
@@ -153,7 +153,7 @@ writeModelGP <- function( # Write JAGS model out as a .txt file
   }
   if(!time.trend){
     cat("
-        for(c in 1:n.iso){
+        for(c in 1:niso){
         for(t in 1:nyears.c[c]){
         mu.g[t,c] <- beta[c]
         }

@@ -25,7 +25,7 @@ writeModelSplines <- function(
   # start txt-file:
   cat("model{  ", file = file.path(file.name), fill = T, append = FALSE)
   cat("
-      for(c in 1:n.iso){
+      for(c in 1:niso){
       # data
       for (i in 1:n.c[c]){
       y.ci[c,i] ~ dnorm(mu.ct[c,gett.ci[c,i]], nu.ci[c,i])

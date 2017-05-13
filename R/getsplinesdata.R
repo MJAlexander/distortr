@@ -3,11 +3,11 @@
 #' Function to get basis splines data to run country model in JAGS.
 #'
 #' @param nyears.c vector with number of years of observations for each country
-#' @param niso number of countriies
+#' @param niso number of countries
 #' @param order order of splines penalization; must be 1 or 2.
 #' @param I interval length between two knots during observation period. Default is 2.5 years.
 #' @export
-#' @return A list which includes matrix of basis splines for each country and other quantities needed to run P-splines model in JAGS.
+#' @return A list of data for input to JAGS, which includes matrix of basis splines for each country.
 
 
 getSplinesData <- function(nyears.c,

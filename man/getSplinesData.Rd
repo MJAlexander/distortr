@@ -9,14 +9,14 @@ getSplinesData(nyears.c, niso, order, I = 2.5)
 \arguments{
 \item{nyears.c}{vector with number of years of observations for each country}
 
-\item{niso}{number of countriies}
+\item{niso}{number of countries}
 
 \item{order}{order of splines penalization; must be 1 or 2.}
 
 \item{I}{interval length between two knots during observation period. Default is 2.5 years.}
 }
 \value{
-A list which includes matrix of basis splines for each country and other quantities needed to run P-splines model in JAGS.
+A list of data for input to JAGS, which includes matrix of basis splines for each country.
 }
 \description{
 Function to get basis splines data to run country model in JAGS.

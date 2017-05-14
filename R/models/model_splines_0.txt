@@ -6,7 +6,8 @@ mu.t[t] <- inprod(alpha.k, B.tk[t,])
 
 # data
 for (i in 1:n){
- y.i[i]~dnorm(mu.t[gett.i[i]],nu.i[i])
+ y.i[i]~dnorm(mu.t[gett.i[i]],eps.i[i])
+ eps.i[i] <- nu.i[i] + tau.y
 }
 
 for (k in 1:K){
@@ -14,4 +15,6 @@ for (k in 1:K){
 }
 tau.alpha <- pow(sigma.alpha, -2)
 sigma.alpha ~ dunif(0, 40)
+tau.y <- pow(sigma.y, -2)
+sigma.y ~ dunif(0, 40)
 }

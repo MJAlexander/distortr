@@ -13,8 +13,8 @@ for (t in 2:nyears){
 }
 #--
 for (i in 1:n){
-  y.i[i] ~ dnorm(mu.t[gett.i[i]], nu.i[i])
-
+  y.i[i] ~ dnorm(mu.t[gett.i[i]], eps.i[i])
+  eps.i[i] <- nu.i[i] + tau.y
 }
 #---
 theta ~ dunif(0,1) # ma
@@ -24,4 +24,6 @@ sqrtgamma0 ~ dunif(0,40)
 # SD of each innovation e.t
 sigma.ar <- sqrt(gamma0 /((1-2*phi*theta + theta^2)/(1-phi^2)))
 tau.ar <- pow(sigma.ar, -2)
+tau.y <- pow(sigma.y, -2)
+sigma.y ~ dunif(0, 40)
 }

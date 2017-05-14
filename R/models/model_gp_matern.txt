@@ -14,12 +14,15 @@ Sigma[j,t] <- Sigma[t,j]
 
 for(i in 1:n)
 {
-y.i[i] ~ dmnorm(mu.y[gett.i[i]],nu.i[i])  ##
+y.i[i] ~ dmnorm(mu.y[gett.i[i]],eps.i[i])  ##
 mu.y[gett.i[i]] <-beta0+G[gett.i[i]]
+eps.i[i] <- nu.i[i] + tau.y
 } #End i loop
 
 ##Priors
 beta0 <- 0
 tau.g<-pow(sigma.g,-2)
 sigma.g ~ dunif(0,40) ###For more informative prior use an inverse gamma
+tau.y <- pow(sigma.y, -2)
+sigma.y ~ dunif(0, 40)
 }

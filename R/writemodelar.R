@@ -173,15 +173,23 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
         mu.ct[c,t] ~ dnorm(muhat.ct[c,t], tau)
         muhat.ct[c,t] <- rho*mu.ct[c,t-1]
         } # end t
-        beta[c] ~ dnorm(mu.beta,tau.beta)
-  } # end c
-        mu.beta ~ dnorm(0, 0.01)
-        tau.beta <- pow(sigma.beta, -2)
-        sigma.beta ~ dunif(0, 40)
-        tau.stat <- (1-pow(rho,2))/pow(sigma,2)
-        rho ~ dunif(-1,1)
-        tau <- pow(sigma, -2)
-        sigma ~ dunif(0, 40)
+        beta[c] ~ dnorm(mu.beta[region.c[c]],tau.beta[region.c[c]])
+      } # end c
+      for(r in 1:nregions){
+          # hierarchy for betas
+            mu.beta[r] ~ dnorm(mu.beta.global[], tau.beta.global)
+            tau.beta[r] <- pow(sigma.beta[r], -2)
+            sigma.beta[r] ~ dunif(0, 40)
+
+      } # end r
+      mu.beta.global ~ dnorm(0, 0.01)
+      tau.beta.global <- pow(sigma.beta.global, -2)
+      sigma.beta.global ~ dunif(0, 40)
+
+      tau.stat <- (1-pow(rho,2))/pow(sigma,2)
+      rho ~ dunif(-1,1)
+      tau <- pow(sigma, -2)
+      sigma ~ dunif(0, 40)
         ", file = file.path(file.name), fill = T, append = T)
   }
   if(time.trend){

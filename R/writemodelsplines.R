@@ -54,15 +54,12 @@ writeModelSplines <- function(
         }
         for(r in 1:nregions){
           chi.delta[r] ~ dnorm(mu.chi.delta, tau.chi.delta)
-          logpsi.delta[r] ~ dnorm(mu.logpsi.delta, tau.logpsi.delta)
-          psi.delta[r]<- exp(logpsi.delta[r])
+          psi.delta[r] <- pow(sigma.psi.delta[r], -2)
+          sigma.psi.delta[r] ~ dunif(0,40)
         }
         mu.chi.delta ~ dnorm(0, 0.01)
         tau.chi.delta <- pow(sigma.chi.delta, -2)
         sigma.chi.delta ~ dunif(0, 40)
-        mu.logpsi.delta ~ dnorm(0, 0.01)
-        tau.logpsi.delta <- pow(sigma.logpsi.delta, -2)
-        sigma.logpsi.delta ~ dunif(0, 40)
           ", file = file.path(file.name), fill = T, append = T)
     }
     if(!cs.smoothing){
@@ -119,14 +116,12 @@ writeModelSplines <- function(
         for(r in 1:nregions){
           chi.delta[r] ~ dnorm(mu.chi.delta, tau.chi.delta)
           logpsi.delta[r] ~ dnorm(mu.logpsi.delta, tau.logpsi.delta)
-          psi.delta[r]<- exp(logpsi.delta[r])
+          psi.delta[r] <- pow(sigma.psi.delta[r], -2)
+          sigma.psi.delta[r] ~ dunif(0,40)
           }
           mu.chi.delta ~ dnorm(0, 0.01)
           tau.chi.delta <- pow(sigma.chi.delta, -2)
           sigma.chi.delta ~ dunif(0, 40)
-          mu.logpsi.delta ~ dnorm(0, 0.01)
-          tau.logpsi.delta <- pow(sigma.logpsi.delta, -2)
-          sigma.logpsi.delta ~ dunif(0, 40)
 
           ", file = file.path(file.name), fill = T, append = T)
 }

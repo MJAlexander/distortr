@@ -2,7 +2,7 @@
 #'
 #' Write a JAGS model to fit Gaussian Process model, with either exponential or Matern covariance function, with or without time trend
 #'
-#' @param cov.fun either squared exponential ("exp") or matern ("matern")
+#' @param cov.fun either squared exponential ("sqexp") or matern ("matern")
 #' @param cs.smoothing whether smoothing paramter is country specific. If `FALSE`, smoothing parameter is global.
 #' @param time.trend if `TRUE` a linear time trend is estimated.
 #' @param nserror.estimated whether to estimate non-sampling error. IF `FALSE`, fixed sampling error is inputted.
@@ -10,14 +10,14 @@
 #' @export
 #' @return A text file that contains a JAGS model
 #' @examples
-#' cov.fun <- "exp"
+#' cov.fun <- "sqexp"
 #' cs.smoothing <- T
 #' time.trend <- T
 #' nserror.estimated <- T
 #' writeModelGP(cov.fun = cov.fun, cs.smoothing = cs.smoothing, time.trend = time.trend, nserror.estimated = nserror.estimated)
 
 writeModelGP <- function( # Write JAGS model out as a .txt file
-  cov.fun = "exp",
+  cov.fun = "sqexp",
   cs.smoothing = T,
   time.trend =T,
   nserror.estimated = T,
@@ -63,7 +63,7 @@ writeModelGP <- function( # Write JAGS model out as a .txt file
           sigma.chi.global ~ dunif(0, 40)
           ", file = file.path(file.name), fill = T, append = T)
     }
-    if(cov.fun == "exp"){
+    if(cov.fun == "sqexp"){
       cat("
         for(j in (t+1):nyears.c[c]) {
           Sigma[t,j,c]<- pow(tau.g[c],-1)*(pow(p[c],pow(Dist[t,j,c],kappa)))
@@ -98,7 +98,7 @@ writeModelGP <- function( # Write JAGS model out as a .txt file
         for(t in 1:nyears.c[c]){
         Sigma[t,t,c] <- pow(tau.g,-1) + 0.00001  ##avoids issue of non positive definite matrix
       ", file = file.path(file.name), fill = T, append = T)
-    if(cov.fun=="exp"){
+    if(cov.fun=="sqexp"){
       cat("
         for(j in (t+1):nyears.c[c]) {
           Sigma[t,j,c]<- pow(tau.g,-1)*(pow(p,pow(Dist[t,j,c],kappa)))

@@ -4,11 +4,11 @@
 \alias{writeModelGP}
 \title{Write a JAGS model to fit a Gaussian Process model}
 \usage{
-writeModelGP(cov.fun = "exp", cs.smoothing = T, time.trend = T,
+writeModelGP(cov.fun = "sqexp", cs.smoothing = T, time.trend = T,
   nserror.estimated = T, file.name = "model.txt")
 }
 \arguments{
-\item{cov.fun}{either squared exponential ("exp") or matern ("matern")}
+\item{cov.fun}{either squared exponential ("sqexp") or matern ("matern")}
 
 \item{cs.smoothing}{whether smoothing paramter is country specific. If `FALSE`, smoothing parameter is global.}
 
@@ -25,7 +25,7 @@ A text file that contains a JAGS model
 Write a JAGS model to fit Gaussian Process model, with either exponential or Matern covariance function, with or without time trend
 }
 \examples{
-cov.fun <- "exp"
+cov.fun <- "sqexp"
 cs.smoothing <- T
 time.trend <- T
 nserror.estimated <- T

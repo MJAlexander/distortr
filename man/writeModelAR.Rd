@@ -4,11 +4,11 @@
 \alias{writeModelAR}
 \title{Write a JAGS model to fit AR(1) model}
 \usage{
-writeModelAR(cs.rho = T, cs.smoothing = T, time.trend = T,
+writeModelAR(cs.arma = T, cs.smoothing = T, time.trend = T,
   nserror.estimated = T, file.name = "model.txt")
 }
 \arguments{
-\item{cs.rho}{whether autocorrelation parameter is country specific. If `FALSE`, parameter is global.}
+\item{cs.arma}{whether AR parameter is country specific. If `FALSE`, parameter is global.}
 
 \item{cs.smoothing}{whether smoothing paramter is country specific. If `FALSE`, smoothing parameter is global.}
 
@@ -25,9 +25,9 @@ A text file that contains a JAGS model
 Write a JAGS model to fit AR(1) model, with or without time trend
 }
 \examples{
-cs.rho <- T
+cs.arma <- T
 cs.smoothing <- T
 time.trend <- T
 nserror.estimated <- T
-writeModelAR(cs.rho = cs.rho, cs.smoothing = cs.smoothing, time.trend = time.trend, nserror.estimated = nserror.estimated)
+writeModelAR(cs.arma = cs.arma, cs.smoothing = cs.smoothing, time.trend = time.trend, nserror.estimated = nserror.estimated)
 }

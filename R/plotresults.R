@@ -1,8 +1,8 @@
 #' Plot results from MCMC estimation
 #'
-#' @param data.df A data frame of x values and data values, with standard errors
-#' @param res.df A data frame of x values, estimates and uncertainty intervals
-#' @param res2.df A data frame of x values, estimates and uncertainty intervals. Default is NULL
+#' @param data.df A data frame of t values and data values, with standard errors
+#' @param res.df A data frame of t values, estimates and uncertainty intervals
+#' @param res2.df A data frame of t values, estimates and uncertainty intervals. Default is NULL
 #' @param maintitle Title of plot
 #' @param plot.se Whether or not to plot standard errors
 #' @param save.plot Whether or not to save plot. Default is \code{FALSE}
@@ -30,7 +30,7 @@ plotResults <- function(data.df, res.df, res2.df = NULL,
                         maintitle = NULL,
                         plot.se = T,
                         save.plot = T,
-                        save.file.name = "output/plots/myplot.pdf"){
+                        save.file.name = "output/plots/myplot.pdf", ...){
   # plot results
   p <- ggplot(data = data.df, aes(x = t, y = y))
   if(plot.se==T){
@@ -44,7 +44,6 @@ plotResults <- function(data.df, res.df, res2.df = NULL,
     p <- p + geom_line(data = res2.df, aes(x = time, y = median), color = "blue")+
       geom_ribbon(data=res2.df,aes(x=time,y=NULL,ymin=lower, ymax=upper), alpha = 0.2, fill = "blue")
   }
-  print(p)
   if(save.plot==T){
     cat("Saving plot.\n ")
     dir.create(file.path("output/plots/"), showWarnings = FALSE)

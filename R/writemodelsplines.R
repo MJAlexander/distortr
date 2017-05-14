@@ -70,7 +70,7 @@ writeModelSplines <- function(
           for(h in (H.c[c]+1):H){
           delta.hc[h,c] <- 0
           }
-            beta.d[c] ~ dnorm(mu.beta[region.c[c]], tau.beta)
+            beta.d[c] ~ dnorm(mu.beta[region.c[c]], tau.beta[region.c[c]])
           }
           tau.delta <- pow(sigma.delta, -2)
           sigma.delta ~ dunif(0, 40)
@@ -80,12 +80,8 @@ writeModelSplines <- function(
         for(r in 1:nregions){
           mu.beta[r] ~ dnorm(mu.beta.global, tau.mu.global)
           tau.beta[r] <- pow(sigma.beta[r], -2)
-          logsigma.beta[r] ~ dnorm(chi.beta, psi.beta)
-          sigma.beta[r]<- exp(logsigma.beta[r])
+          sigma.beta[r] ~ dunif(0, 40)
         }
-        chi.beta ~ dnorm(0, 0.001)
-        psi.beta <- pow(sigma.psi.beta, -2)
-        sigma.psi.beta ~ dunif(0, 40)
         mu.beta.global ~ dnorm(0, 0.01)
         tau.mu.global <- pow(sigma.mu.global, -2)
         sigma.mu.global ~ dunif(0, 40)
@@ -150,12 +146,8 @@ writeModelSplines <- function(
           for(r in 1:nregions){
             mu.beta[d, r] ~ dnorm(mu.beta.global[d], tau.mu.global[d])
             tau.beta[d,r] <- pow(sigma.beta[d,r], -2)
-            logsigma.beta[d,r] ~ dnorm(chi.beta[d], psi.beta[d])
-            sigma.beta[d,r]<- exp(logsigma.beta[d,r])
+            sigma.beta[d,r] ~ dunif(0, 40)
               }
-          chi.beta[d] ~ dnorm(0, 0.001)
-          psi.beta[d] <- pow(sigma.psi.beta[d], -2)
-          sigma.psi.beta[d] ~ dunif(0, 40)
           mu.beta.global[d] ~ dnorm(0, 0.01)
           tau.mu.global[d] <- pow(sigma.mu.global[d], -2)
           sigma.mu.global[d] ~ dunif(0, 40)

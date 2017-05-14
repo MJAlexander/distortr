@@ -7,10 +7,10 @@ runMCMCGlobal <- function(method,
                           cs.smoothing = TRUE,
                           time.trend = FALSE,
                           nserror.estimated = TRUE,
-                          nchains = 4,
+                          nchains = 3,
                           nburnin = 1000,
-                          niter = 1000+30000,
-                          nthin = 30,
+                          niter = 2000,
+                          nthin = 1,
                           model.file.path = NULL,
                           model.save.file.path = "R/model.txt"){
 
@@ -54,22 +54,42 @@ runMCMCGlobal <- function(method,
     }
   }
 
-  # if(method=="arma"){
-  # }
-  #
-  # if(method=="splines"){
-  #   if(is.null(order)){
-  #     stop("Order of penalization must be specified.")
-  #   }
-  # }
-  #
-  # if(method=="gp"){
-  #   if(matern.cov==TRUE){
-  #   }
-  #   if(matern.cov==FALSE){
-  #     }
-  #   }
-  # }
+  if(method=="arma"){
+    if(is.null(cs.arma)){
+      stop("Need to specify cs.arma.")
+    }
+    if(is.null(model.file.path)){
+      # write model based on desired parameters
+      writeModelARMA(cs.arma = cs.arma,
+                   cs.smoothing = cs.smoothing,
+                   time.trend = time.trend,
+                   nserror.estimated = nserror.estimated,
+                   file.name = model.save.file.path)
+    }
+
+    jags.data <- list(y.ci = y.ci, gett.ci = (gett.ci - startyear.c+1), niso = niso, n.c =n.c,
+                      nyears.c= nyears.c, se.ci = se.ci, sigma.y = sigma.y,
+                      source.ci = source.ci, nsources = nsources,
+                      region.c = region.c, nregions = nregions)
+
+    if(nserror.estimated){
+      jags.data[["sigma.y"]] <- NULL
+    }
+
+    parnames <- c("mu.ct", "beta", "eta", "rho", "theta", "sigma.y",
+                  "mu.beta", "sigma.beta", "mu.beta.global", "sigma.beta.global")
+
+    if(time.trend){
+      parnames <- c(parnames, "gamma", "mu.gamma", "sigma.gamma", "mu.gamma.global", "sigma.gamma.global")
+    }
+    if(cs.arma){
+      parnames <- c(parnames, "mu.rho", "sigma.rho", "mu.rho.global", "sigma.rho.global",
+                    "mu.theta", "sigma.theta", "mu.theta.global", "sigma.theta.global")
+    }
+    if(cs.smoothing){
+      parnames <- c(parnames, "mu.eta", "sigma.eta", "mu.eta.global", "sigma.eta.global")
+    }
+  }
 
   if(is.null(model.file.path)){
     model.path.to.run <- model.save.file.path
@@ -79,7 +99,7 @@ runMCMCGlobal <- function(method,
   }
   ## run the model
   cat("Running model.\n")
-  mod <- jags.parallel(data = jags.data,
+  mod <- jags(data = jags.data,
                        parameters.to.save= c(parnames),
                        n.chains = nchains,
                        n.burnin = nburnin,

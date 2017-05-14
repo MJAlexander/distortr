@@ -115,7 +115,6 @@ writeModelSplines <- function(
         }
         for(r in 1:nregions){
           chi.delta[r] ~ dnorm(mu.chi.delta, tau.chi.delta)
-          logpsi.delta[r] ~ dnorm(mu.logpsi.delta, tau.logpsi.delta)
           psi.delta[r] <- pow(sigma.psi.delta[r], -2)
           sigma.psi.delta[r] ~ dunif(0,40)
           }

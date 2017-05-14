@@ -60,7 +60,7 @@ writeModelARMA <- function( # Write JAGS model out as a .txt file
         theta[c] ~ dnorm(mu.theta[region.c[c]], tau.theta[region.c[c]])T(-1,0)
         eta[c] <- pow(sqrteta[c],2)
         sqrteta[c] <- exp(logsqrteta[c])
-        logsqrteta[c] ~ dnorm(chi.eta[region.c[c]], tau.eta[region.c[c]])
+        logsqrteta[c] ~ dnorm(mu.eta[region.c[c]], tau.eta[region.c[c]])
         beta[c] ~ dnorm(mu.beta[region.c[c]],tau.beta[region.c[c]])
         sigma.ar[c] <- sqrt(eta[c] /((1-2*rho[c]*theta[c] + theta[c]^2)/(1-rho[c]^2)))
         tau.ar[c] <- pow(sigma.ar[c], -2)
@@ -82,7 +82,7 @@ writeModelARMA <- function( # Write JAGS model out as a .txt file
         sigma.theta[r] ~ dunif(0, 40)
 
         # hierarchy for smoother
-        chi.eta[r] ~ dnorm(mu.chi.global, tau.chi.global)
+        mu.eta[r] ~ dnorm(mu.eta.global, tau.eta.global)
         tau.eta[r] <- pow(sigma.eta[r], -2)
         sigma.eta[r] ~ dunif(0, 40)
 
@@ -99,9 +99,9 @@ writeModelARMA <- function( # Write JAGS model out as a .txt file
         tau.theta.global <- pow(sigma.theta.global, -2)
         sigma.theta.global ~ dunif(0, 40)
 
-        mu.chi.global ~ dnorm(0, 0.01)
-        tau.chi.global <- pow(sigma.chi.global, -2)
-        sigma.chi.global ~ dunif(0, 40)
+        mu.eta.global ~ dnorm(0, 0.01)
+        tau.eta.global <- pow(sigma.eta.global, -2)
+        sigma.eta.global ~ dunif(0, 40)
 
 
         ", file = file.path(file.name), fill = T, append = T)
@@ -163,7 +163,7 @@ writeModelARMA <- function( # Write JAGS model out as a .txt file
         } # end t
         eta[c] <- pow(sqrteta[c],2)
         sqrteta[c] <- exp(logsqrteta[c])
-        logsqrteta[c] ~ dnorm(chi.eta[region.c[c]], tau.eta[region.c[c]])
+        logsqrteta[c] ~ dnorm(mu.eta[region.c[c]], tau.eta[region.c[c]])
         beta[c] ~ dnorm(mu.beta[region.c[c]],tau.beta[region.c[c]])
         sigma.ar[c] <- sqrt(eta[c] /((1-2*rho*theta + theta^2)/(1-rho^2)))
         tau.ar[c] <- pow(sigma.ar[c], -2)
@@ -175,7 +175,7 @@ writeModelARMA <- function( # Write JAGS model out as a .txt file
         sigma.beta[r] ~ dunif(0, 40)
 
         # hierarchy for smoother
-        chi.eta[r] ~ dnorm(mu.chi.global, tau.chi.global)
+        mu.eta[r] ~ dnorm(mu.eta.global, tau.eta.global)
         tau.eta[r] <- pow(sigma.eta[r], -2)
         sigma.eta[r] ~ dunif(0, 40)
 
@@ -184,9 +184,9 @@ writeModelARMA <- function( # Write JAGS model out as a .txt file
         tau.beta.global <- pow(sigma.beta.global, -2)
         sigma.beta.global ~ dunif(0, 40)
 
-        mu.chi.global ~ dnorm(0, 0.01)
-        tau.chi.global <- pow(sigma.chi.global, -2)
-        sigma.chi.global ~ dunif(0, 40)
+        mu.eta.global ~ dnorm(0, 0.01)
+        tau.eta.global <- pow(sigma.eta.global, -2)
+        sigma.eta.global ~ dunif(0, 40)
 
         ", file = file.path(file.name), fill = T, append = T)
 }

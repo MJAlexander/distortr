@@ -2,7 +2,7 @@
 #'
 #' Write a JAGS model to fit AR(1) model, with or without time trend
 #'
-#' @param cs.rho whether autocorrelation parameter is country specific. If `FALSE`, parameter is global.
+#' @param cs.arma whether AR parameter is country specific. If `FALSE`, parameter is global.
 #' @param cs.smoothing whether smoothing paramter is country specific. If `FALSE`, smoothing parameter is global.
 #' @param time.trend if `TRUE` a linear time trend is estimated.
 #' @param nserror.estimated whether to estimate non-sampling error. IF `FALSE`, fixed sampling error is inputted.
@@ -10,14 +10,14 @@
 #' @export
 #' @return A text file that contains a JAGS model
 #' @examples
-#' cs.rho <- T
+#' cs.arma <- T
 #' cs.smoothing <- T
 #' time.trend <- T
 #' nserror.estimated <- T
-#' writeModelAR(cs.rho = cs.rho, cs.smoothing = cs.smoothing, time.trend = time.trend, nserror.estimated = nserror.estimated)
+#' writeModelAR(cs.arma = cs.arma, cs.smoothing = cs.smoothing, time.trend = time.trend, nserror.estimated = nserror.estimated)
 
 writeModelAR <- function( # Write JAGS model out as a .txt file
-  cs.rho = T,
+  cs.arma = T,
   cs.smoothing = T,
   time.trend =T,
   nserror.estimated = T,
@@ -48,7 +48,7 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
         }
         ", file = file.path(file.name), fill = T, append = T)
   }
-  if(cs.rho&cs.smoothing){
+  if(cs.arma&cs.smoothing){
     cat("
       mu.ct[c,1] ~ dnorm(beta[c], tau.stat[c])
       tau.stat[c] <- (1-pow(rho[c],2))/pow(sigma[c],2)
@@ -95,7 +95,7 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
 
         ", file = file.path(file.name), fill = T, append = T)
   }
-  if(cs.rho&!cs.smoothing){
+  if(cs.arma&!cs.smoothing){
     cat("
       mu.ct[c,1] ~ dnorm(beta[c], tau.stat[c])
       tau.stat[c] <- (1-pow(rho[c],2))/pow(sigma,2)
@@ -130,7 +130,7 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
     sigma ~ dunif(0, 40)
         ", file = file.path(file.name), fill = T, append = T)
   }
-  if(!cs.rho&cs.smoothing){
+  if(!cs.arma&cs.smoothing){
     cat("
         mu.ct[c,1] ~ dnorm(beta[c], tau.stat[c])
         tau.stat[c] <- (1-pow(rho,2))/pow(sigma[c],2)
@@ -166,7 +166,7 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
         sigma.chi.global ~ dunif(0, 40)
         ", file = file.path(file.name), fill = T, append = T)
   }
-  if(!cs.rho&!cs.smoothing){
+  if(!cs.arma&!cs.smoothing){
     cat("
       mu.ct[c,1] ~ dnorm(beta[c], tau.stat)
         for (t in 2:nyears.c[c]){

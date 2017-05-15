@@ -59,6 +59,12 @@ runMCMCGlobal <- function(method,
     model.path.to.run <- model.file.path
   }
 
+  # base data. will be added to.
+  jags.data <- list(y.ci = y.ci, gett.ci = (gett.ci - startyear.c+1), niso = niso, n.c =n.c,
+                    nyears.c= nyears.c, se.ci = se.ci, sigma.y = sigma.y,
+                    source.ci = source.ci, nsources = nsources,
+                    region.c = region.c, nregions = nregions)
+
   if(method=="ar"){
     if(is.null(cs.arma)){
       stop("Need to specify cs.arma.")
@@ -71,11 +77,6 @@ runMCMCGlobal <- function(method,
                    nserror.estimated = nserror.estimated,
                    file.name = model.save.file.path)
     }
-
-    jags.data <- list(y.ci = y.ci, gett.ci = (gett.ci - startyear.c+1), niso = niso, n.c =n.c,
-                      nyears.c= nyears.c, se.ci = se.ci, sigma.y = sigma.y,
-                      source.ci = source.ci, nsources = nsources,
-                      region.c = region.c, nregions = nregions)
 
     parnames <- c("mu.ct", "beta", "sigma", "rho", "sigma.y",
                   "mu.beta", "sigma.beta", "mu.beta.global", "sigma.beta.global")
@@ -104,11 +105,6 @@ runMCMCGlobal <- function(method,
                      file.name = model.save.file.path)
     }
 
-    jags.data <- list(y.ci = y.ci, gett.ci = (gett.ci - startyear.c+1), niso = niso, n.c =n.c,
-                      nyears.c= nyears.c, se.ci = se.ci, sigma.y = sigma.y,
-                      source.ci = source.ci, nsources = nsources,
-                      region.c = region.c, nregions = nregions)
-
     parnames <- c("mu.ct", "beta", "eta", "rho", "theta", "sigma.y",
                   "mu.beta", "sigma.beta", "mu.beta.global", "sigma.beta.global")
 
@@ -136,18 +132,10 @@ runMCMCGlobal <- function(method,
                         file.name = model.save.file.path)
     }
     if(order==1){
-      jags.data <- list(y.ci = y.ci, gett.ci = (gett.ci - startyear.c+1), niso = niso, n.c =n.c,
-                        nyears.c= nyears.c, se.ci = se.ci, sigma.y = sigma.y,
-                        source.ci = source.ci, nsources = nsources,
-                        region.c = region.c, nregions = nregions,
-                        Z.tkc = Z.tkc, H.c = H.c, H = H)
+      jags.data <- c(jags.data, Z.tkc = Z.tkc, H.c = H.c, H = H)
     }
     if(order==2){
-      jags.data <- list(y.ci = y.ci, gett.ci = (gett.ci - startyear.c+1), niso = niso, n.c =n.c,
-                        nyears.c= nyears.c, se.ci = se.ci, sigma.y = sigma.y,
-                        source.ci = source.ci, nsources = nsources,
-                        region.c = region.c, nregions = nregions,
-                        Z.tkc = Z.tkc, BG.tdc = BG.tdc, H.c = H.c, H = H, D = 2)
+      jags.data <- c(jags.data, Z.tkc = Z.tkc, BG.tdc = BG.tdc, H.c = H.c, H = H, D = 2)
     }
     parnames <- c("mu.ct", "beta.d", "sigma.delta", "sigma.y",
                   "mu.beta", "sigma.beta", "chi.delta", "psi.delta",
@@ -169,10 +157,6 @@ runMCMCGlobal <- function(method,
                         file.name = model.save.file.path)
     }
 
-    jags.data <- list(y.ci = y.ci, gett.ci = (gett.ci - startyear.c+1), niso = niso, n.c =n.c,
-                      nyears.c= nyears.c, se.ci = se.ci, sigma.y = sigma.y,
-                      source.ci = source.ci, nsources = nsources,
-                      region.c = region.c, nregions = nregions)
     if(matern.cov==TRUE){
       jags.data$Sigma.corr <- Sigma.corr.c
     }

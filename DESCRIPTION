@@ -1,8 +1,8 @@
 Package: distortr
-Title: What the Package Does (one line, title case)
+Title: Temporal smoothing methods for demographic time series
 Version: 0.0.0.9000
 Authors@R: person("Monica", "Alexander", email = "monicaalexander@berkeley.edu", role = c("aut", "cre"))
-Description: Functions to simulate distortions based on ARMA, P-Spline and Gaussian processes.
+Description: Functions to simulate distortions based on ARMA, P-Spline and Gaussian processes, and to fit Bayesian hierarchical methods implementing one of these smoothing methods.
 Depends:
     R (>= 3.3.1),
     splines,

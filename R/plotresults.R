@@ -19,9 +19,9 @@
 #' method <- 'splines'
 #' params <- list(sigma.alpha = 1, order = 1)
 #' res <- simulateFluctuations(nyears, prop.sample, method, params, obs.err, sigma.y)
-#' mod <- runMCMC(df = res, nyears = 100, method = "splines", order = 1,
-#' nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
-#' df.mu <- getResults(mod, method = "splines")
+#' res$se <- 0.1
+#' mod <- runMCMC(df = res, nyears = 100, method = "splines", order = 1, nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
+#' df.mu <- getResults(mod, method = "splines", nyears = nyears)
 #' plotResults(res, df.mu, method = "splines", order = 1)
 
 plotResults <- function(data.df, res.df, res2.df = NULL,
@@ -32,14 +32,10 @@ plotResults <- function(data.df, res.df, res2.df = NULL,
                         save.plot = T,
                         save.file.name = "output/plots/myplot.pdf", ...){
   # plot results
-  p <- ggplot(data = data.df, aes(x = t, y = y))
-  if(plot.se==T){
-    p <- p+ geom_errorbar(data=data.df,aes(x=t,y=NULL,ymin=y-2*se, ymax=y+2*se), width=0.2, color = "grey")
-  }
-  p <- p + geom_point() + theme_bw()+
+  p <- plotData(data.df = data.df, maintitle = maintitle, plot.se = plot.se)
+  p <- p +
     geom_line(data = res.df, aes(x = time, y = median), color = "red")+
-    geom_ribbon(data=res.df,aes(x=time,y=NULL,ymin=lower, ymax=upper), alpha = 0.2, fill = "red")+
-    ggtitle(maintitle)
+    geom_ribbon(data=res.df,aes(x=time,y=NULL,ymin=lower, ymax=upper), alpha = 0.2, fill = "red")
   if(!is.null(res2.df)){
     p <- p + geom_line(data = res2.df, aes(x = time, y = median), color = "blue")+
       geom_ribbon(data=res2.df,aes(x=time,y=NULL,ymin=lower, ymax=upper), alpha = 0.2, fill = "blue")

@@ -21,13 +21,25 @@ plotData <- function(data.df,
                         maintitle = NULL,
                         plot.se = T,
                         ...){
+  if(!("t" %in% colnames(data.df))){
+    # assume column order is t, y, se, source
+    colnames(data.df) <- c("t", "y", "se", "source")
+  }
+
   # plot results
-  p <- ggplot(data = data.df, aes(x = t, y = y))
+  p <- ggplot(data = data.df, aes(x = t, y = y, color = source))
   if(plot.se==T){
     p <- p+ geom_errorbar(data=data.df,aes(x=t,y=NULL,ymin=y-2*se, ymax=y+2*se), width=0.2, color = "grey")
   }
   p <- p + geom_point()+
     ggtitle(maintitle)+
     theme_bw()
+  if(length(levels(data.df$source))>1){
+    myColors <- brewer.pal(length(levels(data.df$source)),"Set1")
+    names(myColors) <- levels(df.data$source)
+    colScale <- scale_colour_manual(name = "source", values = myColors)
+    p <- p+  colScale + guides(color=guide_legend("Data source"))
+  }
+
   return(p)
 }

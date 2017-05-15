@@ -32,6 +32,8 @@ cleanANCData <- function(file.path = "data/who_rhr_anc4_detailed_2017.csv",
   d$anc_prop[d$anc_prop==0] <- 0.0001
   # define observation
   d$obs_year <- floor((d$coverage_start_year+d$coverage_end_year)/2)
+  # source of data
+  d$source <- factor(d$source_type, levels = 1:3, labels = c("survey", "admin", "other"))
 
   # we will model on the logit sacle
   d$logit_prop <- logit(d$anc_prop)

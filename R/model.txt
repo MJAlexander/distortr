@@ -1,0 +1,66 @@
+model{  
+
+      for(c in 1:niso){
+      # data
+      for (i in 1:n.c[c]){
+      y.ci[c,i] ~ dnorm(yhat.ci[c,i], nu.ci[c,i])
+      yrep.ci[c,i] ~ dnorm(yhat.ci[c,i], nu.ci[c,i]) #for validation
+      loglike.ci[c,i] <- logdensity.norm(y.ci[c,i], yhat.ci[c,i], nu.ci[c,i]) #for WAIC
+      nu.ci[c,i] <- pow((se.ci[c,i]^2+sigma.y[source.ci[c,i]]^2), -1)
+
+      
+
+        yhat.ci[c,i] <- mu.ct[c,gett.ci[c,i]]
+        }
+        
+
+      mu.ct[c,1] ~ dnorm(beta[c], tau.stat[c])
+      tau.stat[c] <- (1-pow(rho[c],2))/pow(sigma[c],2)
+      for (t in 2:nyears.c[c]){
+        mu.ct[c,t] ~ dnorm(muhat.ct[c,t], tau[c])
+        muhat.ct[c,t] <- rho[c]*mu.ct[c,t-1]
+      } # end t
+      rho[c] ~ dnorm(mu.rho[region.c[c]], tau.rho[region.c[c]])T(-1,1)
+      tau[c] <- pow(sigma[c],-2)
+      sigma[c] <- exp(logsigma[c])
+      logsigma[c] ~ dnorm(mu.logsigma[region.c[c]], tau.logsigma[region.c[c]])
+      beta[c] ~ dnorm(mu.beta[region.c[c]],tau.beta[region.c[c]])
+    } # end c
+    for(r in 1:nregions){
+      # hierarchy for betas
+      mu.beta[r] ~ dnorm(mu.beta.global, tau.beta.global)
+      tau.beta[r] <- pow(sigma.beta[r], -2)
+      sigma.beta[r] ~ dunif(0, 40)
+
+      # hierarchy for rhos
+      mu.rho[r] ~ dnorm(mu.rho.global, tau.rho.global)
+      tau.rho[r] <- pow(sigma.rho[r], -2)
+      sigma.rho[r] ~ dunif(0, 40)
+
+      # hierarchy for smoother
+      mu.logsigma[r] ~ dnorm(mu.logsigma.global, tau.logsigma.global)
+      tau.logsigma[r] <- pow(sigma.logsigma[r], -2)
+      sigma.logsigma[r] ~ dunif(0, 40)
+
+    } # end r
+    mu.beta.global ~ dnorm(0, 0.01)
+    tau.beta.global <- pow(sigma.beta.global, -2)
+    sigma.beta.global ~ dunif(0, 40)
+
+
+    mu.rho.global ~ dnorm(0, 0.01)
+    tau.rho.global <- pow(sigma.rho.global, -2)
+    sigma.rho.global ~ dunif(0, 40)
+
+
+    mu.logsigma.global ~ dnorm(0, 0.01)
+    tau.logsigma.global <- pow(sigma.logsigma.global, -2)
+    sigma.logsigma.global ~ dunif(0, 40)
+
+        
+
+        for(s in 1:nsources){
+        sigma.y[s] ~ dunif(0,40)
+        }
+        
+} # end model 

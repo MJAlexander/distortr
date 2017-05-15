@@ -132,10 +132,16 @@ runMCMCGlobal <- function(method,
                         file.name = model.save.file.path)
     }
     if(order==1){
-      jags.data <- c(jags.data, Z.tkc = Z.tkc, H.c = H.c, H = H)
+      jags.data$Z.tkc <- Z.tkc
+      jags.data$H.c <- H.c
+      jags.data$H <- H
     }
     if(order==2){
-      jags.data <- c(jags.data, Z.tkc = Z.tkc, BG.tdc = BG.tdc, H.c = H.c, H = H, D = 2)
+      jags.data$Z.tkc <- Z.tkc
+      jags.data$BG.tdc <- BG.tdc
+      jags.data$H.c <- H.c
+      jags.data$H <- H
+      jags.data$D <- 2
     }
     parnames <- c("mu.ct",  "loglike.ci", "yrep.ci", "beta.d", "sigma.delta", "sigma.y",
                   "mu.beta", "sigma.beta", "chi.delta", "psi.delta",

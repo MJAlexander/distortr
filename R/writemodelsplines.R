@@ -29,6 +29,8 @@ writeModelSplines <- function(
       # data
       for (i in 1:n.c[c]){
       y.ci[c,i] ~ dnorm(mu.ct[c,gett.ci[c,i]], nu.ci[c,i])
+      yrep.ci[c,i] ~ dnorm(mu.ct[c,i], nu.ci[c,i]) #for validation
+      loglike.ci[c,i] <- logdensity.norm(y.ci[c,i], mu.ct[c,i], nu.ci[c,i]) #for WAIC
       nu.ci[c,i] <- pow((se.ci[c,i]^2+sigma.y[source.ci[c,i]]^2), -1)
       }
         ", file = file.path(file.name), fill = T, append = T)

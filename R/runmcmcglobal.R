@@ -78,7 +78,7 @@ runMCMCGlobal <- function(method,
                    file.name = model.save.file.path)
     }
 
-    parnames <- c("mu.ct", "beta", "sigma", "rho", "sigma.y",
+    parnames <- c("mu.ct", "loglike.ci", "yrep.ci", "beta", "sigma", "rho", "sigma.y",
                   "mu.beta", "sigma.beta", "mu.beta.global", "sigma.beta.global")
 
     if(time.trend){
@@ -105,7 +105,7 @@ runMCMCGlobal <- function(method,
                      file.name = model.save.file.path)
     }
 
-    parnames <- c("mu.ct", "beta", "eta", "rho", "theta", "sigma.y",
+    parnames <- c("mu.ct", "loglike.ci", "yrep.ci", "beta", "eta", "rho", "theta", "sigma.y",
                   "mu.beta", "sigma.beta", "mu.beta.global", "sigma.beta.global")
 
     if(time.trend){
@@ -137,7 +137,7 @@ runMCMCGlobal <- function(method,
     if(order==2){
       jags.data <- c(jags.data, Z.tkc = Z.tkc, BG.tdc = BG.tdc, H.c = H.c, H = H, D = 2)
     }
-    parnames <- c("mu.ct", "beta.d", "sigma.delta", "sigma.y",
+    parnames <- c("mu.ct",  "loglike.ci", "yrep.ci", "beta.d", "sigma.delta", "sigma.y",
                   "mu.beta", "sigma.beta", "chi.delta", "psi.delta",
                   "mu.beta.global", "sigma.beta.global")
     if(cs.smoothing){
@@ -165,7 +165,7 @@ runMCMCGlobal <- function(method,
       jags.data$kappa <- 2
     }
 
-    parnames <- c("G", "beta", "sigma.g", "sigma.y",
+    parnames <- c("G", "loglike.ci", "yrep.ci", "beta", "sigma.g", "sigma.y",
                   "mu.beta", "sigma.beta", "mu.beta.global", "sigma.beta.global")
 
     if(time.trend){
@@ -195,7 +195,11 @@ runMCMCGlobal <- function(method,
               n.iter = niter,
               n.thin =nthin,
               model.file = model.path.to.run)
-  if(max(mod$BUGSoutput$summary[, c("Rhat")])>1.1) cat("Something hasn't converged.\n")
+  if(max(mod$BUGSoutput$summary[, c("Rhat")])>1.1){
+    cat("Something hasn't converged.\n")
+    cat(paste("Max Rhat is", max(mod$BUGSoutput$summary[, c("Rhat")]), "\n"))
+
+  }
   return(mod)
 }
 

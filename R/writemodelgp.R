@@ -30,7 +30,9 @@ writeModelGP <- function( # Write JAGS model out as a .txt file
       for(c in 1:niso){
       # data
       for (i in 1:n.c[c]){
-      y.ci[c,i] ~ dmnorm(G[gett.ci[c,i],c],nu.ci[c,i])
+      y.ci[c,i] ~ dnorm(G[gett.ci[c,i],c],nu.ci[c,i])
+      yrep.ci[c,i] ~ dnorm(G[gett.ci[c,i],c],nu.ci[c,i]) #for validation
+      loglike.ci[c,i] <- logdensity.norm(y.ci[c,i], G[gett.ci[c,i],c], nu.ci[c,i]) #for WAIC
       nu.ci[c,i] <- pow((se.ci[c,i]^2+sigma.y[source.ci[c,i]]^2), -1)
       }
       G[1:nyears.c[c],c] ~ dmnorm(mu.g[1:nyears.c[c],c],Sigma.inv[1:nyears.c[c],1:nyears.c[c],c]) ## gaussian process

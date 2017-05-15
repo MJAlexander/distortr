@@ -26,25 +26,24 @@ writeModelARMA <- function( # Write JAGS model out as a .txt file
 {
   # start txt-file:
   cat("model{  ", file = file.path(file.name), fill = T, append = FALSE)
+  cat("
+        for(c in 1:niso){
+      # data
+      for (i in 1:n.c[c]){
+      y.ci[c,i] ~ dnorm(yhat.ci[c,i], nu.ci[c,i])
+      yrep.ci[c,i] ~ dnorm(yhat.ci[c,i], nu.ci[c,i]) #for validation
+      loglike.ci[c,i] <- logdensity.norm(y.ci[c,i], yhat.ci[c,i], nu.ci[c,i]) #for WAIC
+      nu.ci[c,i] <- pow((se.ci[c,i]^2+sigma.y[source.ci[c,i]]^2), -1)
+      ", file = file.path(file.name), fill = T, append = T)
   if(time.trend){
     cat("
-        for(c in 1:niso){
-        # data
-        for (i in 1:n.c[c]){
-        y.ci[c,i] ~ dnorm(yhat.ci[c,i], nu.ci[c,i])
         yhat.ci[c,i] <- mu.ct[c,gett.ci[c,i]] + gett.ci[c,i]*gamma[c]
-        nu.ci[c,i] <- pow((se.ci[c,i]^2+sigma.y[source.ci[c,i]]^2), -1)
         }
         ", file = file.path(file.name), fill = T, append = T)
         }
   if(!time.trend){
     cat("
-        for(c in 1:niso){
-        # data
-        for (i in 1:n.c[c]){
-        y.ci[c,i] ~ dnorm(yhat.ci[c,i], nu.ci[c,i])
         yhat.ci[c,i] <- mu.ct[c,gett.ci[c,i]]
-        nu.ci[c,i] <- pow((se.ci[c,i]^2+sigma.y[source.ci[c,i]]^2), -1)
         }
         ", file = file.path(file.name), fill = T, append = T)
         }

@@ -71,8 +71,8 @@ runMCMC <- function(input.data,
                          model.file.path = model.file.path,
                          model.save.file.path = model.save.file.path)
   }
-  if(length(dim(df.mu))==2){
-    mod <- runMCMCCountry(df = df,
+  if(length(dim(input.data))==2){
+    mod <- runMCMCCountry(df = input.data,
                           nyears = nyears,
                           method = method,
                           order = order,

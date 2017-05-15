@@ -80,13 +80,13 @@ writeModelSplines <- function(
 }
     cat("
         for(r in 1:nregions){
-          mu.beta[r] ~ dnorm(mu.beta.global, tau.mu.global)
+          mu.beta[r] ~ dnorm(mu.beta.global, tau.beta.global)
           tau.beta[r] <- pow(sigma.beta[r], -2)
           sigma.beta[r] ~ dunif(0, 40)
         }
         mu.beta.global ~ dnorm(0, 0.01)
-        tau.mu.global <- pow(sigma.mu.global, -2)
-        sigma.mu.global ~ dunif(0, 40)
+        tau.beta.global <- pow(sigma.beta.global, -2)
+        sigma.beta.global ~ dunif(0, 40)
         ", file = file.path(file.name), fill = T, append = T)
   }
   if(order==2){
@@ -146,13 +146,13 @@ writeModelSplines <- function(
     cat("
         for(d in 1:D){
           for(r in 1:nregions){
-            mu.beta[d, r] ~ dnorm(mu.beta.global[d], tau.mu.global[d])
+            mu.beta[d, r] ~ dnorm(mu.beta.global[d], tau.beta.global[d])
             tau.beta[d,r] <- pow(sigma.beta[d,r], -2)
             sigma.beta[d,r] ~ dunif(0, 40)
               }
           mu.beta.global[d] ~ dnorm(0, 0.01)
-          tau.mu.global[d] <- pow(sigma.mu.global[d], -2)
-          sigma.mu.global[d] ~ dunif(0, 40)
+          tau.beta.global[d] <- pow(sigma.beta.global[d], -2)
+          sigma.beta.global[d] ~ dunif(0, 40)
           }
   ", file = file.path(file.name), fill = T, append = T)
   }

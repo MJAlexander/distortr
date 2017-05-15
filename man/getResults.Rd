@@ -4,12 +4,19 @@
 \alias{getResults}
 \title{Get results from MCMC estimation}
 \usage{
-getResults(mod, method, alpha.level = 0.05)
+getResults(mod, method, iso.number = NULL, nyears = NULL,
+  startyear = NULL, alpha.level = 0.05)
 }
 \arguments{
 \item{mod}{A JAGS model object}
 
 \item{method}{The method of smoothing to implement (choices: ar, arma, splines, gp)}
+
+\item{iso.number}{The index number for country of interest, if model is global.}
+
+\item{nyears}{The number of observation years for country of interest, if model is global.}
+
+\item{startyear}{The year of first observation for country of interest, if model is global.}
 
 \item{alpha.level}{Significance level. Default is 5\%.}
 }

@@ -6,14 +6,14 @@
 \usage{
 plotResults(data.df, res.df, res2.df = NULL, method, order = NULL,
   maintitle = NULL, plot.se = T, save.plot = T,
-  save.file.name = "output/plots/myplot.pdf")
+  save.file.name = "output/plots/myplot.pdf", ...)
 }
 \arguments{
-\item{data.df}{A data frame of x values and data values, with standard errors}
+\item{data.df}{A data frame of t values and data values, with standard errors}
 
-\item{res.df}{A data frame of x values, estimates and uncertainty intervals}
+\item{res.df}{A data frame of t values, estimates and uncertainty intervals}
 
-\item{res2.df}{A data frame of x values, estimates and uncertainty intervals. Default is NULL}
+\item{res2.df}{A data frame of t values, estimates and uncertainty intervals. Default is NULL}
 
 \item{maintitle}{Title of plot}
 

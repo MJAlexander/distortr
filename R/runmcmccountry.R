@@ -1,6 +1,6 @@
-#' Run MCMC estimation
+#' Run MCMC estimation (single time series)
 #'
-#' Run MCMC estimation of time series using JAGS.
+#' Run MCMC estimation of a single time series using JAGS.
 #'
 #' @param df A dataframe of x and y observations, and standard errors around ys
 #' @param nyears number of years of observations
@@ -27,10 +27,10 @@
 #' params <- list(sigma.alpha = 1, order = 1)
 #' df <- simulateFluctuations(nyears, prop.sample, method, params, obs.err, sigma.y)
 #' df$se <- 1
-#' mod <- runMCMC(df = df, nyears = 100, method = "splines", order = 1,
+#' mod <- runMCMCCountry(df = df, nyears = 100, method = "splines", order = 1,
 #' nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
 
-runMCMC <- function(df,
+runMCMCCountry <- function(df,
                     nyears,
                     method,
                     order = NULL,

@@ -4,7 +4,10 @@
 
 # 0. Load packages --------------------------------------------------------
 
+# if not already installed, to install distortr:
+# devtools::install_github("MJAlexander/distortr")
 library(distortr)
+# these packages will need to be installed using install.packages if not already installed.
 library(rjags)
 library(R2jags)
 library(fields)

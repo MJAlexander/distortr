@@ -18,8 +18,8 @@ library(tidyverse)
 
 # 1. Read and process data ------------------------------------------------
 
-# Example data is related to the measure ANC4, which is the percentage of women aged 15–49 years attended at least four times during pregnancy by any provider.
-# Data are available for 150 countries.
+# Example data is related to the measure ANC4,
+# which is the percentage of women aged 15–49 years attended at least four times during pregnancy by any provider.
 
 d <- anc4
 

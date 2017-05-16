@@ -12,6 +12,9 @@ cleanANCData(file.path = "data/who_rhr_anc4_detailed_2017.csv",
 
 \item{save.file}{whether or not to save cleaned data. Default is \code{TRUE}.}
 }
+\value{
+cleaned data set
+}
 \description{
 Clean the example dataset used to illustrate code functionality.
 The dataset is from WHO and contains observations for the percentage of women aged 15–49 years attended at least four times during pregnancy by any provider.

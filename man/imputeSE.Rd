@@ -4,8 +4,8 @@
 \alias{imputeSE}
 \title{Impute missing standard errors}
 \usage{
-imputeSE(d, iso.column, data.column, se.column, mult.factor = 1.5,
-  impute.value = 0.1)
+imputeSE(d, iso.column, data.column, se.column, transform.se.column = NULL,
+  mult.factor = 1.5, impute.value = 0.025, transform.impute.value = 0.1)
 }
 \arguments{
 \item{d}{a dataframe that contains country codes/names, data column and standard error column}

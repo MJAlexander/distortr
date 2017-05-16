@@ -265,7 +265,7 @@ print(pf)
 pdf("spline1_results.pdf")
 for(i in 1:niso){
   # calculate results
-  df.res <- getResults(mod_ar, method = "splines", iso.number = i,
+  df.res <- getResults(mod_splines1, method = "splines", iso.number = i,
                        nyears = nyears.c[i],
                        startyear = startyear.c[i])
   df.res$lower <- inv.logit(df.res$lower)

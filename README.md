@@ -1,10 +1,16 @@
 # distortr
-This package aims to aid in the exploration and fitting of temporal smoothing methods. It was designed to be particularly useful in the context of exploring models to estimate demographic indicators. Given data are often sparse or unreliable, especially in the case of developing countries, models that estimate demographic indicators for multiple areas / countries are often hierarchical, incorporating pooling of information across geographies. `distortr` allows for Bayesian hirearchical models to be fit with a variety of different temporal smoothers. 
+This package aims to aid in the exploration and fitting of temporal smoothing methods. It was designed to be particularly useful in the context of exploring models to estimate demographic indicators. Given data are often sparse or unreliable, especially in the case of developing countries, models that estimate demographic indicators for multiple areas/countries are often hierarchical, incorporating pooling of information across geographies. `distortr` allows for these types of Bayesian hirearchical models to be fit with a variety of different temporal smoothers. 
 
 The package consists of two main parts:
 
-1. Functions to simulate time series of distortions and fit and validate models on simulated data. Both the simulation and model fits can be based on one or a combination of ARMA, P-splines and Gaussian processes. 
+1. Functions to simulate time series of distortions and fit and validate models on simulated data.  
 2. Functions to fit Bayesian hierarchical models to datasets with observations from multiple countries. The user can specify whether or not to include a linear trend, and the type of temporal smoother to fit to the data. 
+
+Temporal smoothing methods available for simulation and model fitting are:
+* AR(1)
+* ARMA(1,1)
+* Splines regression (unpenalized, first-order penalized, second-order penalized)
+* Gaussian process regression (squared exponential or Matern covariance functions)
 
 ## How to install
 In R:
@@ -18,14 +24,7 @@ library(distortr)
 
 ## Generating simulated data
 
-Simulated time series of data can be created following one of these processes:
-
-* AR(1)
-* ARMA(1,1)
-* Splines regression (unpenalized, first-order penalized, second-order penalized)
-* Gaussian process regression (squared exponential or Matern covariance functions)
-
-The various parameters associated with each function can be specified, and then the time series are simulated using the `simulateFluctuations` function. The user can also specify This returns a dataframe with `x` and `y` values. The sample autocorrelation function of the `y` values can be plotted using `plotACF`.
+Simulated time series of data can be created from any of the processes listed above (AR(1), ARMA(1,1), Splines or Gaussian Process). The various parameters associated with each function can be specified, and then the time series are simulated using the `simulateFluctuations` function. The user can also specify This returns a dataframe with `x` and `y` values. The sample autocorrelation function of the `y` values can be plotted using `plotACF`.
 
 ## Using real data
 
@@ -61,7 +60,7 @@ For real data, WAIC can be calculated using the `waic` function.
 
 ## Examples
 
-For an example using real data, please refer to the file [real_data_anc4_example.R](./real_data_anc4_example.R). The raw data used in this example can be found in the [data folder](./data/)
+For an example using real data, please refer to the file [real_data_anc4_example.R](./real_data_anc4_example.R). The raw data used in this example can be found in the [data folder](./data/).
 
 An example workflow using simulated data:
 
@@ -99,12 +98,8 @@ df.mu <- getResults(mod, method = "splines")
 plotResults(df, df.mu, method = "splines", order = 1, 
             maintitle = "AR(1) data with splines fit", save.plot = F)
 
-# plot shape of covariance of fitted values 
-mod.params <- list(sigma.alpha = mod$BUGSoutput$summary[c("sigma.alpha"),1], sigma = 1, order = 1)
-plotCovariance(method = "splines", params = mod.params)
-
 # Run a validation, leaving out most recent 20% of data
-rs <- runModelValidation(df = df, nyears = 100, method = "splines", order = 1,
+rs <- runModelValidation(input.data = df, nyears = 100, method = "splines", order = 1,
                          nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3, 
                          leave.out.method = "recent", leave.out.percent = 20)
 

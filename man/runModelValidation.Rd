@@ -4,13 +4,14 @@
 \alias{runModelValidation}
 \title{Run validation of MCMC model}
 \usage{
-runModelValidation(df, nyears, method, order = NULL, nchains = 4,
+runModelValidation(input.data, nyears, method, order = NULL, nchains = 4,
   nburnin = 1000, niter = 1000 + 30000, nthin = 30,
   model.file.path = NULL, leave.out.method, leave.out.percent = 20,
   nreps = 10, alpha.level = 0.05, alpha.n = 0.1, seed = 123)
 }
 \arguments{
-\item{df}{A dataframe of x and y observations}
+\item{input.data}{Input data to JAGS.
+If single country, this is a dataframe of x and y observations, and standard errors around ys.}
 
 \item{nyears}{number of years of observations}
 

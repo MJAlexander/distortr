@@ -2,7 +2,8 @@
 #'
 #' Calculate some model validation measures for MCMC models. These are calculated by leaving out some of the available sample. The function returns values for root-meean-squared-error, coverage and interval score.
 #'
-#' @param df A dataframe of x and y observations
+#' @param input.data Input data to JAGS.
+#' If single country, this is a dataframe of x and y observations, and standard errors around ys.
 #' @param nyears number of years of observations
 #' @param method The method of smoothing to implement (choices: ar, arma, splines, gp)
 #' @param order The order of splines penalization (either 1 or 2)
@@ -33,7 +34,7 @@
 #' nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3,
 #' leave.out.method = "recent", leave.out.percent = 20)
 
-runModelValidation <- function(df,
+runModelValidation <- function(input.data,
                                nyears,
                                method,
                                order = NULL,
@@ -70,21 +71,21 @@ runModelValidation <- function(df,
     list.lo[[1]] <- df[((nobs.to.keep+1):nrow(df)),]
   }
 
-  mod.full <- runMCMC(df = df, nyears = nyears,
+  mod.full <- runMCMC(input.data = df, nyears = nyears,
                       method = method, order = order,
                       nchains = nchains, nburnin = nburnin,
                       niter = niter, nthin = nthin)
-  df.mu.full <- getResults(mod.full, method = method, alpha.level = alpha.level)
+  df.mu.full <- getResults(mod.full, method = method, alpha.level = alpha.level, nyears = nyears)
 
   rmse.s <- c()
   coverage.s <- c()
   intscores.s <- c()
   for(i in 1:nreps){
-    mod.lo <- runMCMC(df = list.sampled[[i]], nyears = nyears,
+    mod.lo <- runMCMC(input.data = list.sampled[[i]], nyears = nyears,
                       method = method, order = order,
                       nchains = nchains, nburnin = nburnin,
                       niter = niter, nthin = nthin)
-    df.mu.lo <- getResults(mod.lo, method = method, alpha.level = alpha.level)
+    df.mu.lo <- getResults(mod.lo, method = method, alpha.level = alpha.level, nyears = nyears)
 
     # root mean squared error
     rmse <- sum(sqrt((df.mu.full$median - df.mu.lo$median)^2))

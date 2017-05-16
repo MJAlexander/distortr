@@ -36,7 +36,7 @@ plotData <- function(data.df,
     theme_bw()
   if(length(levels(data.df$source))>1){
     myColors <- brewer.pal(length(levels(data.df$source)),"Set2")
-    names(myColors) <- levels(df.data$source)
+    names(myColors) <- levels(data.df$source)
     colScale <- scale_colour_manual(name = "source", values = myColors)
     p <- p+  colScale + guides(color=guide_legend("Data source"))
   }

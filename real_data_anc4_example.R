@@ -4,9 +4,7 @@
 
 # 0. Load packages --------------------------------------------------------
 
-
-# load other packages
-
+library(distortr)
 library(rjags)
 library(R2jags)
 library(fields)
@@ -14,9 +12,6 @@ library(splines)
 library(boot)
 library(RColorBrewer)
 library(tidyverse)
-
-
-
 
 # 1. Read and process data ------------------------------------------------
 
@@ -30,9 +25,9 @@ d_orig <- d
 d <- d[d$no_data==FALSE,]
 
 # impute missing standard errors.
-d <- imputeSE(d = d, iso.column = "iso", data.column = "anc_prop", se.column = "logit_se")
+d <- imputeSE(d = d, iso.column = "iso", data.column = "anc_prop", se.column = "se", transform.se.column = "logit_se")
 # this adds columns 'se_final' and 'se_imputed'
-# d %>% dplyr::select(iso, anc_prop, logit_se, se_final, se_imputed)
+# d %>% dplyr::select(iso, anc_prop, logit_se, se_final, tr_se_final, se_imputed)
 
 # list of country codes
 isos <- unique(d[["iso"]])
@@ -47,7 +42,7 @@ isos <- unique(d[["iso"]])
 
 input.data <- processData(d = d, iso.column = "iso",
                          data.column = "logit_prop",
-                         se.column = "se_final",
+                         se.column = "tr_se_final",
                          obsyear.column = "obs_year",
                          region.column = "who_region",
                          source.column = "source_type",
@@ -61,6 +56,7 @@ for(i in 1:length(input.data)){
 
 
 
+
 # 2. Plot data ------------------------------------------------------------
 
 # example, plot data for Brazil
@@ -68,6 +64,7 @@ iso <- "BRA"
 
 p <- plotData(data.df = d[d$iso==iso,c("obs_year", "logit_prop", "se_final", "source")] , plot.se = T)
 p + ylab("ANC4 proportion") + xlab("Year") + ggtitle(paste("Data for", iso))
+
 
 
 
@@ -184,6 +181,8 @@ mod_splines2 <- runMCMC(method = "splines",
 ## 1) whether to include time trend (linear)
 ## 2) covariance function (squared exponential or matern)
 
+time.trend <- FALSE
+
 # need extra data related to correlation matrix for GP model
 Dist.c <- getGPData(nyear.c, niso, cov.method = "sqexp")
 input.data$Dist.c <- Dist.c
@@ -205,6 +204,8 @@ mod_gpex <- runMCMC(method = "gp",
 ## For GP method, need to decide
 ## 1) whether to include time trend (linear)
 ## 2) covariance function (squared exponential or matern)
+
+time.trend <- FALSE
 
 ## for Matern, need to decide
 ## 1) range (affects how fast decay of correlation structure is - smaller numbers have faster decay)
@@ -230,3 +231,64 @@ mod_gpmatern <- runMCMC(method = "gp",
                     model.save.file.path = "model_gpmatern.txt")
 
 
+
+
+
+
+# 4. Calculate and plot results -------------------------------------------
+
+## for example, for Brazil and AR(1)
+iso <- "BRA"
+iso.number <- which(isos==iso)
+
+# calculate results
+df.res <- getResults(mod_ar, method = "ar", iso.number = iso.number,
+                    nyears = nyears.c[iso.number],
+                    startyear = startyear.c[iso.number])
+# need to transform back from logit scale
+df.res$lower <- inv.logit(df.res$lower)
+df.res$median <- inv.logit(df.res$median)
+df.res$upper <- inv.logit(df.res$upper)
+
+# plot results
+p <- plotResults(data.df = d[d$iso==iso,c("obs_year", "anc_prop", "se_final", "source")],
+                 res.df = df.res, plot.se=T,
+                 save.plot = F, maintitle = isos[iso.number])
+pf <- p+ ylim(c(0,1))+ ylab("ANC4 Proportion") + xlab("Year")
+print(pf)
+
+# could do this for all countries and save via a loop
+# eg. for first order splines
+pdf("spline1_results.pdf")
+for(i in 1:niso){
+  # calculate results
+  df.res <- getResults(mod_ar, method = "splines", iso.number = i,
+                       nyears = nyears.c[i],
+                       startyear = startyear.c[i])
+  df.res$lower <- inv.logit(df.res$lower)
+  df.res$median <- inv.logit(df.res$median)
+  df.res$upper <- inv.logit(df.res$upper)
+
+  # plot results
+  p <- plotResults(data.df = d[d$iso==isos[i],c("obs_year", "anc_prop", "se_final", "source")],
+                   res.df = df.res, plot.se=T,
+                   save.plot = F, maintitle = isos[i])
+  pf <- p+ ylim(c(0,1))+ ylab("ANC4 Proportion") + xlab("Year")
+  print(pf)
+
+}
+dev.off()
+
+# 5. Calculate WAIC -------------------------------------------------------
+
+# WAIC to compare fit of different models
+ll.ar.ts <- t(do.call("cbind", lapply(1:dim(mod_ar$BUGSoutput$sims.list[["loglike.ci"]])[2],
+                                   function(i) mod_ar$BUGSoutput$sims.list[["loglike.ci"]][,i,])))
+ll.arma.ts <- t(do.call("cbind", lapply(1:dim(mod_arma$BUGSoutput$sims.list[["loglike.ci"]])[2],
+                                      function(i) mod_arma$BUGSoutput$sims.list[["loglike.ci"]][,i,])))
+ll.spline1.ts <- t(do.call("cbind", lapply(1:dim(mod_splines1$BUGSoutput$sims.list[["loglike.ci"]])[2],
+                                        function(i) mod_splines1$BUGSoutput$sims.list[["loglike.ci"]][,i,])))
+
+waic_ar <- waic(log_lik = ll.ar.ts)$total['waic']; waic_ar
+waic_arma <- waic(log_lik = ll.arma.ts)$total['waic']; waic_arma
+waic_splines1 <- waic(log_lik = ll.spline1.ts)$total['waic']; waic_splines1

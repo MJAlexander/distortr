@@ -31,14 +31,18 @@ plotResults <- function(data.df, res.df, res2.df = NULL,
                         plot.se = T,
                         save.plot = T,
                         save.file.name = "output/plots/myplot.pdf", ...){
+
+  data.df <- as.data.frame(data.df)
   # plot results
   p <- plotData(data.df = data.df, maintitle = maintitle, plot.se = plot.se)
   p <- p +
     geom_line(data = res.df, aes(x = time, y = median), color = "red")+
-    geom_ribbon(data=res.df,aes(x=time,y=NULL,ymin=lower, ymax=upper), alpha = 0.2, fill = "red")
+    geom_ribbon(data = res.df, aes(x=time, y=NULL, ymin=lower, ymax=upper),
+                alpha = 0.2, fill = "red", inherit.aes=FALSE)
   if(!is.null(res2.df)){
     p <- p + geom_line(data = res2.df, aes(x = time, y = median), color = "blue")+
-      geom_ribbon(data=res2.df,aes(x=time,y=NULL,ymin=lower, ymax=upper), alpha = 0.2, fill = "blue")
+      geom_ribbon(data=res2.df,aes(x=time,y=NULL,ymin=lower, ymax=upper),
+                  alpha = 0.2, fill = "blue", inherit.aes=FALSE)
   }
   if(save.plot==T){
     cat("Saving plot.\n ")

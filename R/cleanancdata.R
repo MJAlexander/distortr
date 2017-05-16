@@ -6,6 +6,7 @@
 #'
 #' @param file.path file path to raw data file
 #' @param save.file whether or not to save cleaned data. Default is \code{TRUE}.
+#' @export
 
 cleanANCData <- function(file.path = "data/who_rhr_anc4_detailed_2017.csv",
                           save.file = TRUE){

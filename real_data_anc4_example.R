@@ -18,8 +18,10 @@ library(tidyverse)
 
 # 1. Read and process data ------------------------------------------------
 
-# read and clean raw data. NOTE: One observation (Brazil, 1999) is removed.
-d <- cleanANCData(file.path = "data/who_rhr_anc4_detailed_2017.csv", save.file = TRUE)
+# Example data is related to the measure ANC4, which is the percentage of women aged 15–49 years attended at least four times during pregnancy by any provider.
+# Data are available for 150 countries.
+
+d <- anc4
 
 # remove countries with no data
 d <- d %>% group_by(iso) %>% mutate(n_obs = n(), n_na = sum(is.na(anc_prop)))

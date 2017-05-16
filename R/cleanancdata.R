@@ -45,8 +45,9 @@ cleanANCData <- function(file.path = "data/who_rhr_anc4_detailed_2017.csv",
   d <- d[!(d$iso=="BRA"&d$obs_year==1999),]
 
   if(save.file){
+    anc4 <- d
     dir.create(file.path("data/"), showWarnings = FALSE)
-    write_csv(d, "data/anc4_clean.csv")
+    save(anc4, file = "./data/anc4.RData")
   }
   return(d)
 }

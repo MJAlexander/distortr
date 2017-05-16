@@ -5,7 +5,7 @@
 \title{Run MCMC estimation}
 \usage{
 runMCMC(input.data, method, nyears = NULL, obs.err = FALSE,
-  measurement.err = FALSE, cs.arma = NULL, cs.smoothing = TRUE,
+  measurement.err = TRUE, cs.arma = NULL, cs.smoothing = TRUE,
   time.trend = FALSE, nserror.estimated = TRUE, order = NULL,
   matern.cov = TRUE, nchains = 3, nburnin = 1000, niter = 2000,
   nthin = 1, model.file.path = NULL, model.save.file.path = "R/model.txt")

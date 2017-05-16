@@ -1,5 +1,10 @@
 # distortr
-This package contains functions to simulate time series of distortions, and fit and validate models. Both the simulation and model fits can be based on one or a combination of ARMA, P-splines and Gaussian processes. 
+This package aims to aid in the exploration and fitting of temporal smoothing methods. It was designed to be particularly useful in the context of exploring models to estimate demographic indicators. Given data are often sparse or unreliable, especially in the case of developing countries, models that estimate demographic indicators for multiple areas / countries are often hierarchical, incorporating pooling of information across geographies. `distortr` allows for Bayesian hirearchical models to be fit with a variety of different temporal smoothers. 
+
+The package consists of two main parts:
+
+1. Functions to simulate time series of distortions and fit and validate models on simulated data. Both the simulation and model fits can be based on one or a combination of ARMA, P-splines and Gaussian processes. 
+2. Functions to fit Bayesian hierarchical models to datasets with observations from multiple countries. The user can specify whether or not to include a linear trend, and the type of temporal smoother to fit to the data. 
 
 ## How to install
 In R:
@@ -11,24 +16,38 @@ library(distortr)
 ```
 
 
-## Simulation
+## Generating simulated data
 
 Simulated time series of data can be created following one of these processes:
 
 * AR(1)
 * ARMA(1,1)
 * Splines regression (unpenalized, first-order penalized, second-order penalized)
-* Gaussian process regression
+* Gaussian process regression (squared exponential or Matern covariance functions)
 
-The various parameters associated with each function can be specified, and then the time series are simulated using the `simulateFluctuations` function. This returns a dataframe with `x` and `y` values. The sample autocorrelation function of the `y` values can be plotted using `plotACF`.
+The various parameters associated with each function can be specified, and then the time series are simulated using the `simulateFluctuations` function. The user can also specify This returns a dataframe with `x` and `y` values. The sample autocorrelation function of the `y` values can be plotted using `plotACF`.
+
+## Using real data
+
+Datasets with observations from multiple countries/areas can be used, with the following colummns requred:
+
+- country/area name or code (e.g. country iso code)
+- value of observation
+- year of observation
+- sampling error of observation
+- data source (e.g. survey, administrative)
+
+In addition, a region column may also be included (e.g. World Bank region). By default the builtin models include a region heirarchy (i.e. a country within a region within the world). However, models can also be run without the region level. 
+
+Data can be visualized using the `plotData` function.
 
 ## Model fitting
 
-Bayesian hierarchical models can be fitted to time series of fluctuations using the JAGS software. Any model from the above list of processes can be chosen. Models are fitted using the `runMCMC` function. Results are obtained and plotted using the `getResults` and `plotResults` functions. 
+Bayesian hierarchical models can be fitted to both simulated and real data using the JAGS software. Any model from the above list of processes can be chosen. Models are fitted using the `runMCMC` function. Results are obtained and plotted using the `getResults` and `plotResults` functions. 
 
 ## Validation
 
-Model performance can be validated using the `runModelValidation` function. This function leaves out a certain number of observations (default is 20%), either at random or the most recent observations. Once the observations are removed, the desired model is rerun and several validation measures are calculated:
+For simulated data, model performance can be validated using the `runModelValidation` function. This function leaves out a certain number of observations (default is 20%), either at random or the most recent observations. Once the observations are removed, the desired model is rerun and several validation measures are calculated:
 
 * root-mean-squared error
 * coverage of uncertainty intervals
@@ -36,9 +55,15 @@ Model performance can be validated using the `runModelValidation` function. This
 
 If the most recent observations are left-out, the results are also returned, which can be plotted.
 
+## Model Selection
+
+For real data, WAIC can be calculated using the `waic` function. 
+
 ## Examples
 
-An example workflow:
+For an example using real data, please refer to the file [real_data_anc4_example.R](./real_data_anc4_example.R). The raw data used in this example can be found in the [data folder](./data/)
+
+An example workflow using simulated data:
 
 ```R
 # check out help files
@@ -87,6 +112,3 @@ plotResults(df, rs$df.res, rs$df.res.full, method = "splines", order = 1,
             maintitle = "Splines validation", save.plot = F)
 
 ```
-## Next steps
-
-The model fitting and validation functions in this package will be modified in order to be fitted on real data. 

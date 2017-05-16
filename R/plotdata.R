@@ -26,8 +26,13 @@ plotData <- function(data.df,
     colnames(data.df) <- c("t", "y", "se", "source")
   }
 
+  if(length(levels(data.df$source))>1){
+    p <- ggplot(data = data.df, aes(x = t, y = y, color = source))
+  }
+  else{
+    p <- ggplot(data = data.df, aes(x = t, y = y))
+  }
   # plot results
-  p <- ggplot(data = data.df, aes(x = t, y = y, color = source))
   if(plot.se==T){
     p <- p+ geom_errorbar(data=data.df,aes(x=t,y=NULL,ymin=y-2*se, ymax=y+2*se), width=0.2, color = "grey")
   }
@@ -40,6 +45,5 @@ plotData <- function(data.df,
     colScale <- scale_colour_manual(name = "source", values = myColors)
     p <- p+  colScale + guides(color=guide_legend("Data source"))
   }
-
   return(p)
 }

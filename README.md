@@ -24,7 +24,7 @@ library(distortr)
 
 ## Generating simulated data
 
-Simulated time series of data can be created from any of the processes listed above (AR(1), ARMA(1,1), Splines or Gaussian Process). The various parameters associated with each function can be specified, and then the time series are simulated using the `simulateFluctuations` function. The user can also specify This returns a dataframe with `x` and `y` values. The sample autocorrelation function of the `y` values can be plotted using `plotACF`.
+Simulated time series of data can be created from any of the processes listed above (AR(1), ARMA(1,1), Splines or Gaussian Process). The various parameters associated with each function can be specified, and then the time series are simulated using the `simulateFluctuations` function. This returns a dataframe with `x` and `y` values. The user can also specify how much of the time series is missing. The sample autocorrelation function of the `y` values can be plotted using `plotACF`.
 
 ## Using real data
 

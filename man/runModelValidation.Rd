@@ -4,10 +4,11 @@
 \alias{runModelValidation}
 \title{Run validation of MCMC model}
 \usage{
-runModelValidation(input.data, nyears, method, order = NULL, nchains = 4,
-  nburnin = 1000, niter = 1000 + 30000, nthin = 30,
-  model.file.path = NULL, leave.out.method, leave.out.percent = 20,
-  nreps = 10, alpha.level = 0.05, alpha.n = 0.1, seed = 123)
+runModelValidation(input.data, nyears, method, order = NULL,
+  matern.cov = TRUE, nchains = 4, nburnin = 1000, niter = 1000 + 30000,
+  nthin = 30, model.file.path = NULL, leave.out.method,
+  leave.out.percent = 20, nreps = 10, alpha.level = 0.05, alpha.n = 0.1,
+  seed = 123)
 }
 \arguments{
 \item{input.data}{Input data to JAGS.
@@ -18,6 +19,8 @@ If single country, this is a dataframe of x and y observations, and standard err
 \item{method}{The method of smoothing to implement (choices: ar, arma, splines, gp)}
 
 \item{order}{The order of splines penalization (either 1 or 2)}
+
+\item{matern.cov}{Whether or not to use Matern covariance function if \code{method=="gp"}. Default is \code{TRUE}.}
 
 \item{nchains}{Number of MCMC chains}
 
@@ -45,7 +48,7 @@ If single country, this is a dataframe of x and y observations, and standard err
 A list containing values of RMSE, a vector of coverage values for each repetition, and a vector of interval scores for each repetition.
 }
 \description{
-Calculate some model validation measures for MCMC models. These are calculated by leaving out some of the available sample. The function returns values for root-meean-squared-error, coverage and interval score.
+Calculate some model validation measures for MCMC models on simulated data. These are calculated by leaving out some of the available sample. The function returns values for root-meean-squared-error, coverage and interval score.
 }
 \examples{
 nyears <- 100

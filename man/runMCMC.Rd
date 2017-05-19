@@ -33,7 +33,7 @@ If a global run, this is a list of required input data. See \code{processData}, 
 
 \item{order}{The order of splines penalization (either 1 or 2)}
 
-\item{matern.cov}{Whether or not to use Matern covariance function. Default is \code{TRUE}.}
+\item{matern.cov}{Whether or not to use Matern covariance function if \code{method=="gp"}. Default is \code{TRUE}.}
 
 \item{nchains}{Number of MCMC chains}
 

@@ -1,12 +1,13 @@
 #' Run validation of MCMC model
 #'
-#' Calculate some model validation measures for MCMC models. These are calculated by leaving out some of the available sample. The function returns values for root-meean-squared-error, coverage and interval score.
+#' Calculate some model validation measures for MCMC models on simulated data. These are calculated by leaving out some of the available sample. The function returns values for root-meean-squared-error, coverage and interval score.
 #'
 #' @param input.data Input data to JAGS.
 #' If single country, this is a dataframe of x and y observations, and standard errors around ys.
 #' @param nyears number of years of observations
 #' @param method The method of smoothing to implement (choices: ar, arma, splines, gp)
 #' @param order The order of splines penalization (either 1 or 2)
+#' @param matern.cov Whether or not to use Matern covariance function if \code{method=="gp"}. Default is \code{TRUE}.
 #' @param nchains Number of MCMC chains
 #' @param nburnin Number of iterations to throw away as burn in.
 #' @param niter Number of total iterations.
@@ -38,6 +39,7 @@ runModelValidation <- function(input.data,
                                nyears,
                                method,
                                order = NULL,
+                               matern.cov = TRUE,
                                nchains = 4,
                                nburnin = 1000,
                                niter = 1000+30000,
@@ -72,7 +74,7 @@ runModelValidation <- function(input.data,
   }
 
   mod.full <- runMCMC(input.data = df, nyears = nyears,
-                      method = method, order = order,
+                      method = method, order = order, matern.cov = matern.cov,
                       nchains = nchains, nburnin = nburnin,
                       niter = niter, nthin = nthin)
   df.mu.full <- getResults(mod.full, method = method, alpha.level = alpha.level, nyears = nyears)
@@ -82,7 +84,7 @@ runModelValidation <- function(input.data,
   intscores.s <- c()
   for(i in 1:nreps){
     mod.lo <- runMCMC(input.data = list.sampled[[i]], nyears = nyears,
-                      method = method, order = order,
+                      method = method, order = order, matern.cov = matern.cov,
                       nchains = nchains, nburnin = nburnin,
                       niter = niter, nthin = nthin)
     df.mu.lo <- getResults(mod.lo, method = method, alpha.level = alpha.level, nyears = nyears)

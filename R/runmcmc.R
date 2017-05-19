@@ -14,7 +14,7 @@
 #' @param time.trend For global runs: if `TRUE` a linear time trend is estimated.
 #' @param nserror.estimated For global runs: whether to estimate non-sampling error. IF `FALSE`, fixed sampling error is inputted.
 #' @param order The order of splines penalization (either 1 or 2)
-#' @param matern.cov Whether or not to use Matern covariance function. Default is \code{TRUE}.
+#' @param matern.cov Whether or not to use Matern covariance function if \code{method=="gp"}. Default is \code{TRUE}.
 #' @param nchains Number of MCMC chains
 #' @param nburnin Number of iterations to throw away as burn in.
 #' @param niter Number of total iterations.

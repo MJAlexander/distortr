@@ -51,6 +51,7 @@ runModelValidation <- function(input.data,
                                alpha.level = 0.05,
                                alpha.n = 0.1,
                                seed = 123){
+  df <- input.data
   if(leave.out.method=="random"){
     list.sampled <- list()
     list.lo <- list()

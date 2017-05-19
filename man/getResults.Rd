@@ -4,13 +4,15 @@
 \alias{getResults}
 \title{Get results from MCMC estimation}
 \usage{
-getResults(mod, method, iso.number = NULL, nyears = NULL,
-  startyear = NULL, alpha.level = 0.05)
+getResults(mod, method, time.trend = NULL, iso.number = NULL,
+  nyears = NULL, startyear = NULL, alpha.level = 0.05)
 }
 \arguments{
 \item{mod}{A JAGS model object}
 
 \item{method}{The method of smoothing to implement (choices: ar, arma, splines, gp)}
+
+\item{time.trend}{For global models, whether a time.trend is included.}
 
 \item{iso.number}{The index number for country of interest, if model is global.}
 

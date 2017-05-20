@@ -7,7 +7,7 @@
 #' \item{AR: specify nyears, rho, sigma}
 #' \item{ARMA: specify nyears, phi, theta, sigma.ar}
 #' \item{Splines: specify x.i, order}
-#' \item{GP: specify nyears, tau, l}
+#' \item{GP: specify cov.method (sqexp or matern), nyears, tau, l}
 #' }
 #' @param nyears length of period to visualize covariance structure
 #' @param return.values return values instead of plot; default is set to F
@@ -30,7 +30,8 @@ plotCovariance <- function(method, params, nyears = 10, return.values = F){
   if(method == "arma"){
     cov.fn <- function(t){
       if(t == 0){
-        out <- (sigma.ar^2*(1 + 2*phi*theta + theta^2))/(1-phi^2)
+        #out <- (sigma.ar^2*(1 + 2*phi*theta + theta^2))/(1-phi^2)
+        out <- (sigma.ar^2*(1 + phi*theta)*(phi + theta))/(1-phi^2)*phi^(abs(t))
       }
       else{
         out <- (sigma.ar^2*(1 + phi*theta)*(phi + theta))/(1-phi^2)*phi^(abs(t))
@@ -40,9 +41,18 @@ plotCovariance <- function(method, params, nyears = 10, return.values = F){
   }
 
   if(method == "gp"){
-    cov.fn <- function(t){
-      out <- sigma.g^2 * p^(abs(t)^2)
-      return(out)
+    if(cov.method == "sqexp"){
+      cov.fn <- function(t){
+        out <- sigma.g^2 * p^(abs(t)^2)
+        return(out)
+      }
+    }
+
+    if(cov.method == "matern"){
+      cov.fn <- function(t){
+        out <- sigma.g^2*Matern(abs(t),smoothness=smoothness,range=range)
+        return(out)
+      }
     }
   }
 

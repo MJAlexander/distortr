@@ -16,9 +16,13 @@ imputeSE(d, iso.column, data.column, se.column, transform.se.column = NULL,
 
 \item{se.column}{string specifying name of column which contains standard errors}
 
+\item{transform.se.column}{string specifying name of column which contains standard errors of transformed variable, if using}
+
 \item{mult.factor}{multiplication factor to multiply the maximum observed standard error}
 
 \item{impute.value}{value of standard error to impute if no information available in country.}
+
+\item{transform.impute.value}{value of transformed standard error to impute if no information available in country.}
 }
 \value{
 A data frame of final standard error values and a column indicating whether the standard error value was imputed.

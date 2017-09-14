@@ -2,7 +2,7 @@
 #'
 #' Function to get Gaussian Process variance-covariance data to run JAGS country model
 #'
-#' @param nyears.c vector with number of years of observations for each country
+#' @param nyear.c vector with number of years of observations for each country
 #' @param niso number of countries
 #' @param cov.method either \code{sqexp} (squared exponential) or \code{matern}
 #' @param range parameter for Matern function. Default is 10.

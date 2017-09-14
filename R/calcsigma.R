@@ -13,7 +13,7 @@
 #' @return A data frame of observation points (x) and y-values
 #' @seealso \code{\link{GetGP}}
 #' @examples
-#' calcSigma(1:5, 1:5, method = "sqexp", l = 1, tau = 1)
+#' calcSigma(1:5, 1:5, cov.method = "sqexp", l = 1, tau = 1)
 
 calcSigma <- function(X1,X2,
                       cov.method,

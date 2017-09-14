@@ -8,8 +8,10 @@
 #' @param iso.column string specifying name of column which contains country codes/names
 #' @param data.column string specifying name of column which contains observations
 #' @param se.column string specifying name of column which contains standard errors
+#' @param transform.se.column string specifying name of column which contains standard errors of transformed variable, if using
 #' @param mult.factor multiplication factor to multiply the maximum observed standard error
 #' @param impute.value value of standard error to impute if no information available in country.
+#' @param transform.impute.value value of transformed standard error to impute if no information available in country.
 #' @export
 #' @return A data frame of final standard error values and a column indicating whether the standard error value was imputed.
 

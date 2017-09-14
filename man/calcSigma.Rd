@@ -29,7 +29,7 @@ A data frame of observation points (x) and y-values
 Calculate variance-covariance matrix between two vectors, based on squared exponential kernal.
 }
 \examples{
-calcSigma(1:5, 1:5, method = "sqexp", l = 1, tau = 1)
+calcSigma(1:5, 1:5, cov.method = "sqexp", l = 1, tau = 1)
 }
 \seealso{
 \code{\link{GetGP}}

@@ -13,7 +13,7 @@
 #' @return A data frame of observation points (x) and y-values
 #' @seealso \code{\link{calcSigma}}
 #' @examples
-#' res <- GetGP(50, method = "sqexp",tau = 1, l = 1)
+#' res <- GetGP(50, cov.method = "sqexp",tau = 1, l = 1)
 #' ggplot(data = res, aes (x = x, y = y)) + geom_line() + geom_point() + theme_bw()
 
 GetGP <- function(nyears,

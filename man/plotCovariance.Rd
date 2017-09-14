@@ -14,7 +14,7 @@ plotCovariance(method, params, nyears = 10, return.values = F)
 \item{AR: specify nyears, rho, sigma}
 \item{ARMA: specify nyears, phi, theta, sigma.ar}
 \item{Splines: specify x.i, order}
-\item{GP: specify nyears, tau, l}
+\item{GP: specify cov.method (sqexp or matern), nyears, tau, l}
 }}
 
 \item{nyears}{length of period to visualize covariance structure}

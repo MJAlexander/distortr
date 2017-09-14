@@ -20,7 +20,7 @@ Plot sample ACF. The function is different to standard R function as it allows f
 \examples{
 nyears <- 50
 prop.sample <- .8
-obs.err <- F
+obs.err <- FALSE
 sigma.y <- 1
 seed <- 1234
 method <- "ar"

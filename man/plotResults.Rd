@@ -39,9 +39,9 @@ method <- 'splines'
 params <- list(sigma.alpha = 1, order = 1)
 res <- simulateFluctuations(nyears, prop.sample, method, params, obs.err, sigma.y)
 res$se <- 0.1
-mod <- runMCMC(df = res, nyears = 100, method = "splines", order = 1, nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
+mod <- runMCMC(input.data = res, nyears = 100, method = "splines", order = 2, nchains = 2, nburnin = 100, niter = 100+3000, nthin = 3)
 df.mu <- getResults(mod, method = "splines", nyears = nyears)
-plotResults(res, df.mu, method = "splines", order = 1)
+plotResults(res, df.mu, method = "splines", order = 1, save.file.name = "test.pdf")
 }
 \seealso{
 \code{\link{runMCMC}, \link{getResults}}

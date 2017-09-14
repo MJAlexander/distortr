@@ -63,7 +63,7 @@ method <- 'splines'
 params <- list(sigma.alpha = 1, order = 1)
 df <- simulateFluctuations(nyears, prop.sample, method, params, obs.err, sigma.y)
 df$se <- 1
-mod <- runMCMCCountry(df = df, nyears = 100, method = "splines", order = 1,nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
+mod <- runMCMCCountry(input.data = df, nyears = 100, method = "splines", order = 1,nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
 }
 \seealso{
 \code{\link{getResults}, \link{plotResults}}

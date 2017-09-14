@@ -29,7 +29,7 @@ A data frame of observation points (x) and y-values
 Simulate time series of fluctuations based on a Gaussian Process, using a squared exponential covariance function.
 }
 \examples{
-res <- GetGP(50, method = "sqexp",tau = 1, l = 1)
+res <- GetGP(50, cov.method = "sqexp",tau = 1, l = 1)
 ggplot(data = res, aes (x = x, y = y)) + geom_line() + geom_point() + theme_bw()
 }
 \seealso{

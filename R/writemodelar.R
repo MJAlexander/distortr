@@ -217,6 +217,7 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
   }
   # close model file
   cat("} # end model ", file = file.path(file.name), fill = T, append = T)
+  cat(paste0("Model file written to ", getwd(),"/",file.name, "\n"))
   return(invisible())
     }
 

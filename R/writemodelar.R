@@ -50,7 +50,7 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
   }
   if(cs.arma&cs.smoothing){
     cat("
-      mu.ct[c,1] ~ dnorm(beta[c], tau.stat[c])
+      mu.ct[c,1] ~ dnorm(0, tau.stat[c])
       tau.stat[c] <- (1-pow(rho[c],2))/pow(sigma[c],2)
       for (t in 2:nyears.c[c]){
         mu.ct[c,t] ~ dnorm(muhat.ct[c,t], tau[c])
@@ -97,7 +97,7 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
   }
   if(cs.arma&!cs.smoothing){
     cat("
-      mu.ct[c,1] ~ dnorm(beta[c], tau.stat[c])
+      mu.ct[c,1] ~ dnorm(0, tau.stat[c])
       tau.stat[c] <- (1-pow(rho[c],2))/pow(sigma,2)
       for (t in 2:nyears.c[c]){
         mu.ct[c,t] ~ dnorm(muhat.ct[c,t], tau)
@@ -132,7 +132,7 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
   }
   if(!cs.arma&cs.smoothing){
     cat("
-        mu.ct[c,1] ~ dnorm(beta[c], tau.stat[c])
+        mu.ct[c,1] ~ dnorm(0, tau.stat[c])
         tau.stat[c] <- (1-pow(rho,2))/pow(sigma[c],2)
         for (t in 2:nyears.c[c]){
         mu.ct[c,t] ~ dnorm(muhat.ct[c,t], tau[c])
@@ -168,7 +168,7 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
   }
   if(!cs.arma&!cs.smoothing){
     cat("
-      mu.ct[c,1] ~ dnorm(beta[c], tau.stat)
+      mu.ct[c,1] ~ dnorm(0, tau.stat)
         for (t in 2:nyears.c[c]){
         mu.ct[c,t] ~ dnorm(muhat.ct[c,t], tau)
         muhat.ct[c,t] <- rho*mu.ct[c,t-1]
@@ -177,7 +177,7 @@ writeModelAR <- function( # Write JAGS model out as a .txt file
       } # end c
       for(r in 1:nregions){
           # hierarchy for betas
-            mu.beta[r] ~ dnorm(mu.beta.global[], tau.beta.global)
+            mu.beta[r] ~ dnorm(mu.beta.global, tau.beta.global)
             tau.beta[r] <- pow(sigma.beta[r], -2)
             sigma.beta[r] ~ dunif(0, 40)
 

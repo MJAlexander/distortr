@@ -62,9 +62,12 @@ runMCMCGlobal <- function(method,
   # base data. will be added to.
   jags.data <- list(y.ci = y.ci, gett.ci = (gett.ci - startyear.c+1), niso = niso, n.c =n.c,
                     nyears.c= nyears.c, se.ci = se.ci, sigma.y = sigma.y,
-                    source.ci = source.ci, nsources = nsources,
+                    source.ci = source.ci,
                     region.c = region.c, nregions = nregions)
 
+  if(nserror.estimated){
+    jags.data$nsources <- nsources
+  }
   if(method=="ar"){
     if(is.null(cs.arma)){
       stop("Need to specify cs.arma.")
@@ -144,10 +147,10 @@ runMCMCGlobal <- function(method,
       jags.data$D <- 2
     }
     parnames <- c("mu.ct",  "loglike.ci", "yrep.ci", "beta.d", "sigma.delta", "sigma.y",
-                  "mu.beta", "sigma.beta", "chi.delta", "psi.delta",
+                  "mu.beta", "sigma.beta",
                   "mu.beta.global", "sigma.beta.global")
     if(cs.smoothing){
-      parnames <- c(parnames, "mu.chi.delta", "sigma.chi.delta")
+      parnames <- c(parnames, "chi.delta", "psi.delta", "mu.chi.delta", "sigma.chi.delta")
     }
   }
 

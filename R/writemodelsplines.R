@@ -134,11 +134,6 @@ writeModelSplines <- function(
             beta.d[d,c] ~ dnorm(mu.beta[d, region.c[c]], tau.beta[d, region.c[c]])
           }
     }
-          for(d in 1:D){
-            mu.beta[d] ~ dnorm(0, 0.01)
-            tau.beta[d] <- pow(sigma.beta[d], -2)
-            sigma.beta[d] ~ dunif(0, 40)
-          }
           tau.delta <- pow(sigma.delta, -2)
           sigma.delta ~ dunif(0, 40)
           ", file = file.path(file.name), fill = T, append = T)

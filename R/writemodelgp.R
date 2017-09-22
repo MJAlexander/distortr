@@ -120,7 +120,7 @@ writeModelGP <- function( # Write JAGS model out as a .txt file
     } #End t loop
         } #end c
         tau.g <- pow(sigma.g, -2)
-        sigma.g ~ dunif(1,40)
+        sigma.g ~ dunif(0,40)
         p ~ dunif(0, 1)
         ", file = file.path(file.name), fill = T, append = T)
   }

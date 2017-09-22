@@ -10,7 +10,7 @@
 #' @export
 #' @return An array which contains either the distance matrix for each country (squared exponential) or the covariance matrix for each country (matern).
 
-getGPData <- function(nyear.c,
+getGPData <- function(nyears.c,
                       niso,
                       cov.method = "matern",
                       range = 10, smoothness = 2){

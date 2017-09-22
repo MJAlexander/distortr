@@ -37,7 +37,8 @@ writeModelGP <- function( # Write JAGS model out as a .txt file
       }
       G[1:nyears.c[c],c] ~ dmnorm(mu.g[1:nyears.c[c],c],Sigma.inv[1:nyears.c[c],1:nyears.c[c],c]) ## gaussian process
       Sigma.inv[1:nyears.c[c],1:nyears.c[c],c] <- inverse(Sigma[1:nyears.c[c],1:nyears.c[c],c]) ##Var-Covar Matrix
-      beta[c] ~ dnorm(mu.beta[region.c[c]], tau.beta[region.c[c]])
+      #beta[c] ~ dnorm(mu.beta[region.c[c]], tau.beta[region.c[c]])
+      beta[c] ~ dnorm(0, 0.01)
       ", file = file.path(file.name), fill = T, append = T)
   if(cs.smoothing){
     cat("

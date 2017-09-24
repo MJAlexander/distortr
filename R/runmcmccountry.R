@@ -6,6 +6,7 @@
 #' @param nyears number of years of observations
 #' @param method The method of smoothing to implement (choices: ar, arma, splines, gp)
 #' @param order The order of splines penalization (either 1 or 2)
+#' @param I Knot spacing for splines
 #' @param matern.cov Whether or not to use Matern covariance function. Default is \code{TRUE}.
 #' @param obs.err is TRUE if standard errors are observed
 #' @param measurement.err is TRUE if there is assumed to be measurement error
@@ -34,6 +35,7 @@ runMCMCCountry <- function(df,
                     nyears,
                     method,
                     order = NULL,
+                    I = 2.5,
                     matern.cov=TRUE,
                     obs.err = FALSE,
                     measurement.err = FALSE,
@@ -89,7 +91,7 @@ runMCMCCountry <- function(df,
              model.file.path <- model.file.path <- paste0("R/models/model_splines_", order,"_nme.txt"))
     }
     x.t <- 1:nyears
-    sp <- GetSplines(x.t)
+    sp <- GetSplines(x.t, I = I)
     K <- length(sp$knots.k)
     B.tk <- sp$B.ik
     df.full <- data.frame(t = 1:nyears, y = NA)

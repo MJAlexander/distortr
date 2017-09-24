@@ -6,7 +6,7 @@
 \usage{
 runMCMC(input.data, method, nyears = NULL, obs.err = FALSE,
   measurement.err = TRUE, cs.arma = NULL, cs.smoothing = TRUE,
-  time.trend = FALSE, nserror.estimated = TRUE, order = NULL,
+  time.trend = FALSE, nserror.estimated = TRUE, order = NULL, I = 2.5,
   matern.cov = TRUE, nchains = 3, nburnin = 1000, niter = 2000,
   nthin = 1, model.file.path = NULL, model.save.file.path = "R/model.txt")
 }
@@ -32,6 +32,8 @@ If a global run, this is a list of required input data. See \code{processData}, 
 \item{nserror.estimated}{For global runs: whether to estimate non-sampling error. IF `FALSE`, fixed sampling error is inputted.}
 
 \item{order}{The order of splines penalization (either 1 or 2)}
+
+\item{I}{Knot spacing for splines}
 
 \item{matern.cov}{Whether or not to use Matern covariance function if \code{method=="gp"}. Default is \code{TRUE}.}
 

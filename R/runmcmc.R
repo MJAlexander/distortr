@@ -14,6 +14,7 @@
 #' @param time.trend For global runs: if `TRUE` a linear time trend is estimated.
 #' @param nserror.estimated For global runs: whether to estimate non-sampling error. IF `FALSE`, fixed sampling error is inputted.
 #' @param order The order of splines penalization (either 1 or 2)
+#' @param I Knot spacing for splines
 #' @param matern.cov Whether or not to use Matern covariance function if \code{method=="gp"}. Default is \code{TRUE}.
 #' @param nchains Number of MCMC chains
 #' @param nburnin Number of iterations to throw away as burn in.
@@ -47,6 +48,7 @@ runMCMC <- function(input.data,
                     time.trend = FALSE,
                     nserror.estimated = TRUE,
                     order = NULL,
+                    I = 2.5,
                     matern.cov=TRUE,
                     nchains = 3,
                     nburnin = 1000,
@@ -76,6 +78,7 @@ runMCMC <- function(input.data,
                           nyears = nyears,
                           method = method,
                           order = order,
+                          I = I,
                           matern.cov=matern.cov,
                           obs.err = obs.err,
                           measurement.err = measurement.err,

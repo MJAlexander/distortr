@@ -4,9 +4,10 @@
 \alias{runMCMCCountry}
 \title{Run MCMC estimation (single time series)}
 \usage{
-runMCMCCountry(df, nyears, method, order = NULL, matern.cov = TRUE,
-  obs.err = FALSE, measurement.err = FALSE, nchains = 4, nburnin = 1000,
-  niter = 1000 + 30000, nthin = 30, model.file.path = NULL)
+runMCMCCountry(df, nyears, method, order = NULL, I = 2.5,
+  matern.cov = TRUE, obs.err = FALSE, measurement.err = FALSE,
+  nchains = 4, nburnin = 1000, niter = 1000 + 30000, nthin = 30,
+  model.file.path = NULL)
 }
 \arguments{
 \item{df}{A dataframe of x and y observations, and standard errors around ys}
@@ -16,6 +17,8 @@ runMCMCCountry(df, nyears, method, order = NULL, matern.cov = TRUE,
 \item{method}{The method of smoothing to implement (choices: ar, arma, splines, gp)}
 
 \item{order}{The order of splines penalization (either 1 or 2)}
+
+\item{I}{Knot spacing for splines}
 
 \item{matern.cov}{Whether or not to use Matern covariance function. Default is \code{TRUE}.}
 

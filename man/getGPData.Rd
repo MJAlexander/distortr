@@ -4,12 +4,10 @@
 \alias{getGPData}
 \title{Get Gaussian Process covariance data to run JAGS country model}
 \usage{
-getGPData(nyear.c, niso, cov.method = "matern", range = 10,
+getGPData(nyears.c, niso, cov.method = "matern", range = 10,
   smoothness = 2)
 }
 \arguments{
-\item{nyear.c}{vector with number of years of observations for each country}
-
 \item{niso}{number of countries}
 
 \item{cov.method}{either \code{sqexp} (squared exponential) or \code{matern}}
@@ -17,6 +15,8 @@ getGPData(nyear.c, niso, cov.method = "matern", range = 10,
 \item{range}{parameter for Matern function. Default is 10.}
 
 \item{smoothness}{parameter for Matern function. Default is 2.}
+
+\item{nyear.c}{vector with number of years of observations for each country}
 }
 \value{
 An array which contains either the distance matrix for each country (squared exponential) or the covariance matrix for each country (matern).

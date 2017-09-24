@@ -19,7 +19,7 @@ simulateFluctuations(nyears, prop.sample = 1, method, params, obs.err = T,
 \item{AR: specify nyears, rho, sigma}
 \item{ARMA: specify nyears, phi, theta, sigma.ar}
 \item{Splines: specify x.i, degree}
-\item{GP: specify nyears, tau, l}
+\item{GP: specify covariance function (sqexp or matern). For sqexp specify nyears, tau, l. For matern specify nyears, tau, smoothness and range.}
 }}
 
 \item{obs.err}{whether or not to include observational error. Default is TRUE.}

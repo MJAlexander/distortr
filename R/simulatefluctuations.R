@@ -10,7 +10,7 @@
 #' \item{AR: specify nyears, rho, sigma}
 #' \item{ARMA: specify nyears, phi, theta, sigma.ar}
 #' \item{Splines: specify x.i, degree}
-#' \item{GP: specify nyears, tau, l}
+#' \item{GP: specify covariance function (sqexp or matern). For sqexp specify nyears, tau, l. For matern specify nyears, tau, smoothness and range.}
 #' }
 #' @param obs.err whether or not to include observational error. Default is TRUE.
 #' @param sigma.y value of sd of observational error, if included

@@ -15,7 +15,7 @@ Sigma[j,t] <- Sigma[t,j]
 for(i in 1:n)
 {
 y.i[i] ~ dmnorm(beta0+G[gett.i[i]],eps.i[i])  ##
-eps.i[i] <- nu.i[i] + tau.y
+eps.i[i] <- nu.i[i] # + tau.y
 } #End i loop
 
 ##Priors

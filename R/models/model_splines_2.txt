@@ -7,7 +7,7 @@ mu.t[t] <- inprod(alpha.k, B.tk[t,])
 # data
 for (i in 1:n){
  y.i[i]~dnorm(mu.t[gett.i[i]],eps.i[i])
- eps.i[i] <- nu.i[i] + tau.y
+ eps.i[i] <- nu.i[i] # + tau.y
 }
 
 alpha.k[1] ~ dnorm(0, 0.01)

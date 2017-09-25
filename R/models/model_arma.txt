@@ -14,10 +14,10 @@ for (t in 2:nyears){
 #--
 for (i in 1:n){
   y.i[i] ~ dnorm(mu.t[gett.i[i]], eps.i[i])
-  eps.i[i] <- nu.i[i] + tau.y
+  eps.i[i] <- nu.i[i] # + tau.y
 }
 #---
-theta ~ dunif(0,1) # ma
+theta ~ dunif(-1,0) # ma
 phi ~ dunif(-1,1) # ar
 gamma0 <- pow(sqrtgamma0,2) # stat variance
 sqrtgamma0 ~ dunif(0,40)

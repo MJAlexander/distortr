@@ -186,6 +186,8 @@ writeModelARMA <- function( # Write JAGS model out as a .txt file
         mu.eta.global ~ dnorm(0, 0.01)
         tau.eta.global <- pow(sigma.eta.global, -2)
         sigma.eta.global ~ dunif(0, 40)
+        rho ~ dunif(0, 1)
+        theta ~ dunif(-1, 0)
 
         ", file = file.path(file.name), fill = T, append = T)
 }

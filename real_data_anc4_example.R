@@ -68,7 +68,7 @@ for(i in 1:length(input.data)){
 iso <- "BRA"
 
 p <- plotData(data.df = d[d$iso==iso,c("obs_year", "logit_prop", "se_final", "source")] , plot.se = T)
-p + ylab("ANC4 proportion") + xlab("Year") + ggtitle(paste("Data for", iso))
+p + ylab("logit ANC4 proportion") + xlab("Year") + ggtitle(paste("Data for", iso))
 
 
 

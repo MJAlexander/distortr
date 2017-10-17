@@ -67,8 +67,8 @@ for(i in 1:length(input.data)){
 # example, plot data for Brazil
 iso <- "BRA"
 
-p <- plotData(data.df = d[d$iso==iso,c("obs_year", "logit_prop", "se_final", "source")] , plot.se = T)
-p + ylab("logit ANC4 proportion") + xlab("Year") + ggtitle(paste("Data for", iso))
+p <- plotData(data.df = d[d$iso==iso,c("obs_year", "anc_prop", "se_final", "source")] , plot.se = T)
+p + ylab("ANC4 proportion") + xlab("Year") + ggtitle(paste("Data for", iso))
 
 
 

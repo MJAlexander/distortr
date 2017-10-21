@@ -91,7 +91,7 @@ ggplot(data = df, aes(x = t, y = y)) + geom_point() + theme_bw()+
 plotACF(df, nyears)
 
 # Fit first-order penalized splines 
-mod <- runMCMC(df = df, nyears = 100, method = "splines", order = 1, 
+mod <- runMCMC(input.data = df, nyears = 100, method = "splines", order = 1, obs.err = T,
               nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
 
 df.mu <- getResults(mod, method = "splines")

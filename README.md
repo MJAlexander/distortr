@@ -94,7 +94,7 @@ plotACF(df, nyears)
 mod <- runMCMC(input.data = df, nyears = 100, method = "splines", order = 1, obs.err = T,
               nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
 
-df.mu <- getResults(mod, method = "splines")
+df.mu <- getResults(mod, method = "splines", nyears=100)
 plotResults(df, df.mu, method = "splines", order = 1, 
             maintitle = "AR(1) data with splines fit", save.plot = F)
 

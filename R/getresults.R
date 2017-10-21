@@ -4,7 +4,7 @@
 #' @param method The method of smoothing to implement (choices: ar, arma, splines, gp)
 #' @param time.trend For global models, whether a time.trend is included.
 #' @param iso.number The index number for country of interest, if model is global.
-#' @param nyears The number of observation years for country of interest, if model is global.
+#' @param nyears The number of observation years for country of interest
 #' @param startyear The year of first observation for country of interest, if model is global.
 #' @param alpha.level Significance level. Default is 5\%.
 #' @export

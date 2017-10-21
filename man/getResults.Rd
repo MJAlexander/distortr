@@ -16,7 +16,7 @@ getResults(mod, method, time.trend = NULL, iso.number = NULL,
 
 \item{iso.number}{The index number for country of interest, if model is global.}
 
-\item{nyears}{The number of observation years for country of interest, if model is global.}
+\item{nyears}{The number of observation years for country of interest}
 
 \item{startyear}{The year of first observation for country of interest, if model is global.}
 

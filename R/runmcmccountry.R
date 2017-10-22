@@ -58,8 +58,8 @@ runMCMCCountry <- function(df,
 
   if(method=="ar"){
     if(is.null(model.file.path)){
-      ifelse(measurement.err, model.file.path <- "R/models/model_ar.txt",
-             model.file.path <- "R/models/model_ar_nme.txt")
+      ifelse(measurement.err, model.file.path <- "inst/models/model_ar.txt",
+             model.file.path <- "inst/models/model_ar_nme.txt")
     }
     jags.data <- list(mu.t = df.full$y, nyears=nyears)
     parnames <- c("sigma", "rho", "mu.t")
@@ -71,8 +71,8 @@ runMCMCCountry <- function(df,
 
   if(method=="arma"){
     if(is.null(model.file.path)){
-      ifelse(measurement.err, model.file.path <- "R/models/model_arma.txt",
-             model.file.path <- "R/models/model_arma_nme.txt")
+      ifelse(measurement.err, model.file.path <- "inst/models/model_arma.txt",
+             model.file.path <- "inst/models/model_arma_nme.txt")
     }
     jags.data <- list(mu.t = df.full$y, nyears=nyears)
     parnames <- c("sigma.ar", "phi", "theta", "mu.t")
@@ -87,8 +87,8 @@ runMCMCCountry <- function(df,
       stop("Order of penalization must be specified.")
     }
     if(is.null(model.file.path)){
-      ifelse(measurement.err, model.file.path <- paste0("R/models/model_splines_", order,".txt"),
-             model.file.path <- model.file.path <- paste0("R/models/model_splines_", order,"_nme.txt"))
+      ifelse(measurement.err, model.file.path <- paste0("inst/models/model_splines_", order,".txt"),
+             model.file.path <- model.file.path <- paste0("inst/models/model_splines_", order,"_nme.txt"))
     }
     x.t <- 1:nyears
     sp <- GetSplines(x.t, I = I)
@@ -107,8 +107,8 @@ runMCMCCountry <- function(df,
   if(method=="gp"){
     if(matern.cov==TRUE){
       if(is.null(model.file.path)){
-        ifelse(measurement.err, model.file.path <- "R/models/model_gp_matern.txt",
-               model.file.path <- "R/models/model_gp_matern_nme.txt")
+        ifelse(measurement.err, model.file.path <- "inst/models/model_gp_matern.txt",
+               model.file.path <- "inst/models/model_gp_matern_nme.txt")
       }
       ## can just calculate Sigma up to the amplitude here because in CODEm the parameters are set
       Sigma.corr <- calcSigma(1:nyears, 1:nyears, cov.method = "matern")
@@ -123,8 +123,8 @@ runMCMCCountry <- function(df,
     }
     if(matern.cov==FALSE){
       if(is.null(model.file.path)){
-        ifelse(measurement.err, model.file.path <- "R/models/model_gp.txt",
-               model.file.path <- "R/models/model_gp_nme.txt")
+        ifelse(measurement.err, model.file.path <- "inst/models/model_gp.txt",
+               model.file.path <- "inst/models/model_gp_nme.txt")
       }
       ## need to calculate distance matrix
       Dist <- rdist(1:nyears)

@@ -3,6 +3,8 @@
 #' @param data.df A data frame of t values and data values, with standard errors
 #' @param res.df A data frame of t values, estimates and uncertainty intervals
 #' @param res2.df A data frame of t values, estimates and uncertainty intervals. Default is NULL
+#' @param method Method used to fit model
+#' @param order Order of splines
 #' @param maintitle Title of plot
 #' @param plot.se Whether or not to plot standard errors
 #' @param save.plot Whether or not to save plot. Default is \code{FALSE}
@@ -20,7 +22,7 @@
 #' params <- list(sigma.alpha = 1, order = 1)
 #' res <- simulateFluctuations(nyears, prop.sample, method, params, obs.err, sigma.y)
 #' res$se <- 0.1
-#' mod <- runMCMC(input.data = res, nyears = 100, method = "splines", order = 2, nchains = 2, nburnin = 100, niter = 100+3000, nthin = 3)
+#' mod <- runMCMC(input.data = res, nyears = 100, method = "splines", order = 2, nchains = 2, nburnin = 100, niter = 100+3000, nthin = 3, obs.err = TRUE)
 #' df.mu <- getResults(mod, method = "splines", nyears = nyears)
 #' plotResults(res, df.mu, method = "splines", order = 1, save.file.name = "test.pdf")
 

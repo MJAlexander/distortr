@@ -45,7 +45,7 @@ Run MCMC estimation of a single time series using JAGS.
 \examples{
 nyears <- 100
 prop.sample <- 0.7
-obs.err <- T
+obs.err <- TRUE
 sigma.y <- 0.5
 seed <- 123
 method <- 'splines'

@@ -53,13 +53,14 @@ Calculate some model validation measures for MCMC models on simulated data. Thes
 \examples{
 nyears <- 100
 prop.sample <- 0.7
-obs.err <- T
+obs.err <- TRUE
 sigma.y <- 0.5
 seed <- 123
 method <- 'splines'
 params <- list(sigma.alpha = 1, order = 1)
 df <- simulateFluctuations(nyears, prop.sample, method, params, obs.err, sigma.y)
-validation.results <- runModelValidation(df = res, nyears = 100, method = "splines", order = 1,
+df$se <- 1
+validation.results <- runModelValidation(input.data = df, nyears = 100, method = "splines", order = 1,
 nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3,
 leave.out.method = "recent", leave.out.percent = 20)
 }

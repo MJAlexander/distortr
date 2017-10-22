@@ -25,9 +25,9 @@ A text file that contains a JAGS model
 Write a JAGS model to fit ARMA(1,1) model, with or without time trend
 }
 \examples{
-cs.arma <- T
-cs.smoothing <- T
-time.trend <- T
-nserror.estimated <- T
+cs.arma <- TRUE
+cs.smoothing <- TRUE
+time.trend <- TRUE
+nserror.estimated <- TRUE
 writeModelARMA(cs.arma = cs.arma, cs.smoothing = cs.smoothing, time.trend = time.trend, nserror.estimated = nserror.estimated)
 }

@@ -19,8 +19,7 @@
 
 plotData <- function(data.df,
                         maintitle = NULL,
-                        plot.se = T,
-                        ...){
+                        plot.se = T){
   if(!("t" %in% colnames(data.df))){
     # assume column order is t, y, se, source
     colnames(data.df) <- c("t", "y", "se", "source")

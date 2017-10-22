@@ -10,10 +10,10 @@
 #' @export
 #' @return A text file that contains a JAGS model
 #' @examples
-#' cs.arma <- T
-#' cs.smoothing <- T
-#' time.trend <- T
-#' nserror.estimated <- T
+#' cs.arma <- TRUE
+#' cs.smoothing <- TRUE
+#' time.trend <- TRUE
+#' nserror.estimated <- TRUE
 #' writeModelAR(cs.arma = cs.arma, cs.smoothing = cs.smoothing, time.trend = time.trend, nserror.estimated = nserror.estimated)
 
 writeModelAR <- function( # Write JAGS model out as a .txt file

@@ -4,7 +4,7 @@
 \alias{runMCMC}
 \title{Run MCMC estimation}
 \usage{
-runMCMC(input.data, method, nyears = NULL, obs.err = FALSE,
+runMCMC(input.data, method, nyears = NULL, obs.err = TRUE,
   measurement.err = TRUE, cs.arma = NULL, cs.smoothing = TRUE,
   time.trend = FALSE, nserror.estimated = TRUE, order = NULL, I = 2.5,
   matern.cov = TRUE, nchains = 3, nburnin = 1000, niter = 2000,
@@ -58,14 +58,14 @@ Run MCMC estimation for time series using JAGS. Can either be run on a single ti
 \examples{
 nyears <- 100
 prop.sample <- 0.7
-obs.err <- T
+obs.err <- TRUE
 sigma.y <- 0.5
 seed <- 123
 method <- 'splines'
 params <- list(sigma.alpha = 1, order = 1)
 df <- simulateFluctuations(nyears, prop.sample, method, params, obs.err, sigma.y)
 df$se <- 1
-mod <- runMCMCCountry(input.data = df, nyears = 100, method = "splines", order = 1,nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
+mod <- runMCMC(input.data = df, nyears = 100, method = "splines", order = 1,nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
 }
 \seealso{
 \code{\link{getResults}, \link{plotResults}}

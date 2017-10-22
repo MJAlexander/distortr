@@ -11,9 +11,9 @@
 #' @return A text file that contains a JAGS model
 #' @examples
 #' cov.fun <- "sqexp"
-#' cs.smoothing <- T
-#' time.trend <- T
-#' nserror.estimated <- T
+#' cs.smoothing <- TRUE
+#' time.trend <- TRUE
+#' nserror.estimated <- TRUE
 #' writeModelGP(cov.fun = cov.fun, cs.smoothing = cs.smoothing, time.trend = time.trend, nserror.estimated = nserror.estimated)
 
 writeModelGP <- function( # Write JAGS model out as a .txt file

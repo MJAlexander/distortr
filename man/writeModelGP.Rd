@@ -26,8 +26,8 @@ Write a JAGS model to fit Gaussian Process model, with either exponential or Mat
 }
 \examples{
 cov.fun <- "sqexp"
-cs.smoothing <- T
-time.trend <- T
-nserror.estimated <- T
+cs.smoothing <- TRUE
+time.trend <- TRUE
+nserror.estimated <- TRUE
 writeModelGP(cov.fun = cov.fun, cs.smoothing = cs.smoothing, time.trend = time.trend, nserror.estimated = nserror.estimated)
 }

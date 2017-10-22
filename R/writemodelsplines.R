@@ -10,8 +10,8 @@
 #' @return A text file that contains a JAGS model
 #' @examples
 #' order <- 1
-#' cs.smoothing <- T
-#' nserror.estimated <- T
+#' cs.smoothing <- TRUE
+#' nserror.estimated <- TRUE
 #' writeModelSplines(order = order, nserror.estimated = nserror.estimated, cs.smoothing = cs.smoothing)
 
 

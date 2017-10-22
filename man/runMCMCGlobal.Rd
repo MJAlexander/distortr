@@ -47,14 +47,14 @@ Run MCMC estimation of time series data for multiple countries using JAGS.
 \examples{
 nyears <- 100
 prop.sample <- 0.7
-obs.err <- T
+obs.err <- TRUE
 sigma.y <- 0.5
 seed <- 123
 method <- 'splines'
 params <- list(sigma.alpha = 1, order = 1)
 df <- simulateFluctuations(nyears, prop.sample, method, params, obs.err, sigma.y)
 df$se <- 1
-mod <- runMCMC(df = df, nyears = 100, method = "splines", order = 1,
+mod <- runMCMC(input.data = df, nyears = 100, method = "splines", order = 1,
 nchains = 4, nburnin = 100, niter = 100+3000, nthin = 3)
 }
 \seealso{

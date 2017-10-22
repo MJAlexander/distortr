@@ -15,6 +15,10 @@ plotResults(data.df, res.df, res2.df = NULL, method, order = NULL,
 
 \item{res2.df}{A data frame of t values, estimates and uncertainty intervals. Default is NULL}
 
+\item{method}{Method used to fit model}
+
+\item{order}{Order of splines}
+
 \item{maintitle}{Title of plot}
 
 \item{plot.se}{Whether or not to plot standard errors}
@@ -39,7 +43,7 @@ method <- 'splines'
 params <- list(sigma.alpha = 1, order = 1)
 res <- simulateFluctuations(nyears, prop.sample, method, params, obs.err, sigma.y)
 res$se <- 0.1
-mod <- runMCMC(input.data = res, nyears = 100, method = "splines", order = 2, nchains = 2, nburnin = 100, niter = 100+3000, nthin = 3)
+mod <- runMCMC(input.data = res, nyears = 100, method = "splines", order = 2, nchains = 2, nburnin = 100, niter = 100+3000, nthin = 3, obs.err = TRUE)
 df.mu <- getResults(mod, method = "splines", nyears = nyears)
 plotResults(res, df.mu, method = "splines", order = 1, save.file.name = "test.pdf")
 }

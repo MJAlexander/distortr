@@ -24,7 +24,7 @@ Write a JAGS model to fit first- and second-order penalized splines regression
 }
 \examples{
 order <- 1
-cs.smoothing <- T
-nserror.estimated <- T
+cs.smoothing <- TRUE
+nserror.estimated <- TRUE
 writeModelSplines(order = order, nserror.estimated = nserror.estimated, cs.smoothing = cs.smoothing)
 }

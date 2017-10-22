@@ -4,7 +4,7 @@
 \alias{plotData}
 \title{Plot time series of data}
 \usage{
-plotData(data.df, maintitle = NULL, plot.se = T, ...)
+plotData(data.df, maintitle = NULL, plot.se = T)
 }
 \arguments{
 \item{data.df}{A data frame of t values and data values, with standard errors}

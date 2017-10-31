@@ -28,7 +28,7 @@ Simulated time series of data can be created from any of the processes listed ab
 
 ## Using real data
 
-Datasets with observations from multiple countries/areas can be used, with the following colummns requred:
+Datasets with observations from multiple countries/areas can be used, with the following columns requred:
 
 - country/area name or code (e.g. country iso code)
 - value of observation

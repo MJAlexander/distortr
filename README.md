@@ -1,5 +1,5 @@
 # distortr
-This package aims to aid in the exploration and fitting of temporal smoothing methods. It was designed to be particularly useful in the context of exploring models to estimate demographic indicators. Given data are often sparse or unreliable, especially in the case of developing countries, models that estimate demographic indicators for multiple areas/countries are often hierarchical, incorporating pooling of information across geographies. `distortr` allows for these types of Bayesian hirearchical models to be fit with a variety of different temporal smoothers. 
+This package aims to aid in the exploration and fitting of temporal smoothing methods. It was designed to be particularly useful in the context of exploring models to estimate demographic indicators. Given data are often sparse or unreliable, especially in the case of developing countries, models that estimate demographic indicators for multiple areas/countries are often hierarchical, incorporating pooling of information across geographies. `distortr` allows for these types of Bayesian hierarchical models to be fit with a variety of different temporal smoothers. 
 
 The package consists of two main parts:
 
@@ -28,7 +28,7 @@ Simulated time series of data can be created from any of the processes listed ab
 
 ## Using real data
 
-Datasets with observations from multiple countries/areas can be used, with the following columns requred:
+Datasets with observations from multiple countries/areas can be used, with the following columns required:
 
 - country/area name or code (e.g. country iso code)
 - value of observation
@@ -36,7 +36,7 @@ Datasets with observations from multiple countries/areas can be used, with the f
 - sampling error of observation
 - data source (e.g. survey, administrative)
 
-In addition, a region column may also be included (e.g. World Bank region). By default the builtin models include a region heirarchy (i.e. a country within a region within the world). However, models can also be run without the region level. 
+In addition, a region column may also be included (e.g. World Bank region). By default the built-in models include a region hierarchy (i.e. a country within a region within the world). However, models can also be run without the region level. 
 
 Data can be visualized using the `plotData` function.
 

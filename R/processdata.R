@@ -75,7 +75,7 @@ processData <- function(d,
       source.ci[i,1:d$n_obs[d[,iso.column] == isos[i]][1]] <- 1
     }
     else{
-      source.ci[i,1:d$n_obs[d[,iso.column] == isos[i]][1]] <- d[d$iso==isos[i], source.column][[1]]
+      source.ci[i,1:d$n_obs[d[,iso.column] == isos[i]][1]] <- d[d[,iso.column]==isos[i], source.column][[1]]
     }
   }
 

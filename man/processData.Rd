@@ -5,7 +5,8 @@
 \title{Process country data to run JAGS model}
 \usage{
 processData(d, iso.column, data.column, se.column, obsyear.column,
-  region.column = NULL, source.column = NULL, end.year = 2015)
+  region.column = NULL, source.column = NULL, start.year = NULL,
+  end.year = 2015)
 }
 \arguments{
 \item{d}{a dataframe that contains country codes/names, region codes/names, data column, observation years and standard error column}
@@ -21,6 +22,8 @@ processData(d, iso.column, data.column, se.column, obsyear.column,
 \item{region.column}{string specifying name of column which contains region codes/names. If \code{NULL}, the number of regions is 1 i.e. region is assumed to be the World.}
 
 \item{source.column}{string specifying name of column which contains data source. If \code{NULL}, the number of sources is assumed to be 1.}
+
+\item{start.year}{furst year for which estimates are required. If \code{NULL}, taken to be the minimum observation year.}
 
 \item{end.year}{final year for which estimates are required. Default is 2015.}
 }

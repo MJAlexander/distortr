@@ -11,6 +11,7 @@
 #' @param obsyear.column string specifying name of column which contains observation years
 #' @param region.column string specifying name of column which contains region codes/names. If \code{NULL}, the number of regions is 1 i.e. region is assumed to be the World.
 #' @param source.column string specifying name of column which contains data source. If \code{NULL}, the number of sources is assumed to be 1.
+#' @param start.year furst year for which estimates are required. If \code{NULL}, taken to be the minimum observation year.
 #' @param end.year final year for which estimates are required. Default is 2015.
 #' @export
 #' @return A list which includes matrices of data, observation years, source type and standard errors of dimensions \code{c x i}
@@ -25,6 +26,7 @@ processData <- function(d,
                         obsyear.column,
                         region.column = NULL, # if NULL, add a column of 1s
                         source.column = NULL, # if NULL, add a column of 1s
+                        start.year = NULL,
                         end.year = 2015
                         ){
 
@@ -80,7 +82,12 @@ processData <- function(d,
   }
 
   # start year by country, nyears of observations by country
-  startyear.c <- apply(gett.ci, 1, min, na.rm=T)
+  if(is.null(start.year)){
+    startyear.c <- apply(gett.ci, 1, min, na.rm=T)
+  }
+  else{
+    start.year.c <- rep(start.year, niso)
+  }
   nyears.c <- sapply(1:length(startyear.c), function (i) length(startyear.c[i]:end.year))
 
   return(list(y.ci = y.ci,

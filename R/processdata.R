@@ -86,7 +86,7 @@ processData <- function(d,
     startyear.c <- apply(gett.ci, 1, min, na.rm=T)
   }
   else{
-    start.year.c <- rep(start.year, niso)
+    startyear.c <- rep(start.year, niso)
   }
   nyears.c <- sapply(1:length(startyear.c), function (i) length(startyear.c[i]:end.year))
 

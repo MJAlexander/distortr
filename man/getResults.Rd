@@ -5,7 +5,8 @@
 \title{Get results from MCMC estimation}
 \usage{
 getResults(mod, method, time.trend = NULL, iso.number = NULL,
-  nyears = NULL, startyear = NULL, alpha.level = 0.05)
+  nyears = NULL, startyear = NULL, return.sims = FALSE,
+  alpha.level = 0.05)
 }
 \arguments{
 \item{mod}{A JAGS model object}
@@ -19,6 +20,8 @@ getResults(mod, method, time.trend = NULL, iso.number = NULL,
 \item{nyears}{The number of observation years for country of interest}
 
 \item{startyear}{The year of first observation for country of interest, if model is global.}
+
+\item{return.sims}{Whether or not to return draws from posterior.}
 
 \item{alpha.level}{Significance level. Default is 5\%.}
 }

@@ -6,6 +6,7 @@
 #' @param iso.number The index number for country of interest, if model is global.
 #' @param nyears The number of observation years for country of interest
 #' @param startyear The year of first observation for country of interest, if model is global.
+#' @param return.sims Whether or not to return draws from posterior.
 #' @param alpha.level Significance level. Default is 5\%.
 #' @export
 #' @return A data frame of x values, estimates and uncertainty intervals.
@@ -15,8 +16,9 @@ getResults <- function(mod,
                        method,
                        time.trend = NULL,
                        iso.number = NULL,
-                       nyears = NULL,
+                       nyears,
                        startyear = NULL,
+                       return.sims = FALSE,
                        alpha.level = 0.05){
   # get out the mu estimates
   if(method %in% c("ar", "arma", "splines")){
@@ -78,5 +80,10 @@ getResults <- function(mod,
     df.mu <- data.frame(time = (1:nyears)+(startyear-1), t(mu.qt))
   }
   colnames(df.mu) <- c("time", "lower", "median", "upper")
-  return(df.mu)
+  if(return.sims==TRUE){
+    return(mu.st)
+  }
+  else{
+    return(df.mu)
+  }
 }
